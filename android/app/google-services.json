@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "782998054438",
+    "project_id": "antim-f6291",
+    "storage_bucket": "antim-f6291.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:782998054438:android:660b166c4a9b277dd828e7",
+        "android_client_info": {
+          "package_name": "com.example.way_to_heaven"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "782998054438-b24sq6a0mvo42l0gvcn34sickegohq5t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmIVg4HhNzM97dIu49pidnbBIcUWef-_M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "782998054438-b24sq6a0mvo42l0gvcn34sickegohq5t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
