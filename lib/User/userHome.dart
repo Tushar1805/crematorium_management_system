@@ -28,7 +28,7 @@ class _UserHomePageState extends State<UserHomePage> {
                     Icon(Icons.verified_user),
                     SizedBox(width: 10),
                     Text(
-                      "Tushar",
+                      "Shubham",
                       style: lightBlackTextStyle(),
                     )
                   ],
