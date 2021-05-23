@@ -1,8 +1,8 @@
 class User {
-  String name, role, address;
+  String name, role, address, mobile;
   DateTime createdTime;
 
-  User({this.name, this.createdTime, this.role, this.address});
+  User({this.name, this.createdTime, this.role, this.address, this.mobile});
 
   Map<String, dynamic> toJson() => {
         'name': name,
