@@ -129,7 +129,7 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
                             Text(' Dead Person\'s Name' , style: lightBlackTextStyle().copyWith(color: Colors.black)),
                             SizedBox(height: 10.0,),
                             TextField(
-                              decoration: loginInputDecoration().copyWith(hintText: 'Applicant Name'),
+                              decoration: loginInputDecoration().copyWith(hintText: 'Dead Person\'s Name'),
                             ),
 
                             SizedBox(height: 20.0,),

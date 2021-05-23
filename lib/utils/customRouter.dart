@@ -28,7 +28,7 @@ class _CustomRouterState extends State<CustomRouter> {
     User user = Provider.of<User>(context);
 
     Widget Selector(BuildContext context, provider) {
-      switch (provider.state) {
+      switch (States.selectRole) {// Changes to be made
         case States.loginScreen:
           return LoginPage(context, provider);
           break;
