@@ -61,7 +61,7 @@ class _UserHomePageState extends State<UserHomePage>
                   Material(
                     child: InkWell(
                       onTap: () {
-                        Navigator.pushReplacement(
+                        Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => UserProfile()));
