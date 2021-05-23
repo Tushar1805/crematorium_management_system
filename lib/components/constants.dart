@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 Color orangeColor() {
-  return Color(0XFFfb902d);
+  return Color(0XFFf59629);
 }
 
 Color redOrangeColor() {
-  return Color(0XFFeb8345);
+  return Color(0XFFe76a4b);
 }
 
 Color lightBlack() {
@@ -45,6 +45,14 @@ TextStyle whiteTextStyle() {
       letterSpacing: 1.0);
 }
 
+TextStyle titleBarWhiteTextStyle() {
+  return TextStyle(
+      color: Colors.white,
+      fontSize: 17,
+      fontWeight: FontWeight.w700,
+      letterSpacing: 1.0);
+}
+
 BoxDecoration bottomBorder() {
   return BoxDecoration(
       border: Border(
@@ -77,7 +85,10 @@ InputDecoration loginInputDecoration() {
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(3.0)),
-      borderSide: BorderSide(color: lightGray(), width: 1),
+      borderSide: BorderSide(
+        color: lightGray(), 
+        width: 1,
+      ),
     ),
   );
 }

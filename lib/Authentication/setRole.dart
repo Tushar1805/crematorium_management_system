@@ -3,10 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:way_to_heaven/Admin/adminHomePageBase.dart';
 import 'package:way_to_heaven/Admin/completeProfile.dart';
 import 'package:way_to_heaven/Authentication/loginProvider.dart';
 import 'package:way_to_heaven/User/completeProfile.dart';
 import 'package:way_to_heaven/User/userHome.dart';
+import 'package:way_to_heaven/User/userHomePageBase.dart';
 import 'package:way_to_heaven/components/constants.dart';
 
 Widget SetRole(BuildContext context, LoginProvider provider) {
@@ -63,7 +65,7 @@ Widget SetRole(BuildContext context, LoginProvider provider) {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => CompleteAdminProfile()));
+                          builder: (context) => AdminHomePageBase()));
                 },
               ),
               SizedBox(
@@ -83,7 +85,7 @@ Widget SetRole(BuildContext context, LoginProvider provider) {
                 ),
                 onTap: () {
                   Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => UserHomePage()));
+                      MaterialPageRoute(builder: (context) => UserHomePageBase()));
                 },
               ),
             ],
