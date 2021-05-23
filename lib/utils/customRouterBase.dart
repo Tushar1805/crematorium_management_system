@@ -8,7 +8,7 @@ class CustomRouterBase extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(providers: [
-      ChangeNotifierProvider(create: (_) => LoginProvider()),
+      ChangeNotifierProvider<LoginProvider>(create: (_) => LoginProvider()),
       StreamProvider<User>(
           create: (_) => LoginProvider().getUsers(), initialData: null)
     ], child: CustomRouter());

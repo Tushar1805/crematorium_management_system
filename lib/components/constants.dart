@@ -12,6 +12,10 @@ Color lightBlack() {
   return Color(0XFF555555);
 }
 
+Color darkBlack() {
+  return Color(0XFF000000);
+}
+
 Color gray() {
   return Color(0XFF999999);
 }
@@ -27,6 +31,24 @@ TextStyle lightBlackTextStyle() {
       color: lightBlack(),
       decoration: TextDecoration.none,
       fontWeight: FontWeight.w600);
+}
+
+TextStyle darkBlackTextStyle() {
+  return TextStyle(
+      fontFamily: 'Source Sans Pro',
+      fontSize: 15,
+      color: darkBlack(),
+      decoration: TextDecoration.none,
+      fontWeight: FontWeight.w900);
+}
+
+TextStyle orangeTextStyle() {
+  return TextStyle(
+      fontFamily: 'Source Sans Pro',
+      fontSize: 15,
+      color: orangeColor(),
+      decoration: TextDecoration.none,
+      fontWeight: FontWeight.w900);
 }
 
 TextStyle normalTextStyle() {
@@ -86,7 +108,7 @@ InputDecoration loginInputDecoration() {
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(3.0)),
       borderSide: BorderSide(
-        color: lightGray(), 
+        color: lightGray(),
         width: 1,
       ),
     ),

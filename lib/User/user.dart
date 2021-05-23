@@ -1,3 +1,5 @@
+import 'package:way_to_heaven/utils/utils.dart';
+
 class User {
   String name, role, address, mobile;
   DateTime createdTime;
@@ -12,7 +14,7 @@ class User {
       };
 
   static User fromJson(Map<String, dynamic> json) => User(
-        // createdTime: Utils.toDateTime(json['createdTime']),
+        createdTime: Utils.toDateTime(json['createdTime']),
         name: json['name'],
         role: json['role'],
         address: json['address'],

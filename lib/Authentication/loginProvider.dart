@@ -10,7 +10,7 @@ class LoginProvider extends ChangeNotifier {
   String status = ' ';
   String uid;
 
-  LoginRepository loginRepository = new LoginRepository();
+  // LoginRepository loginRepository = new LoginRepository();
 
   Stream<User> getUsers() {
     return FirebaseAuth.instance.authStateChanges();
@@ -18,7 +18,7 @@ class LoginProvider extends ChangeNotifier {
 
   LoginProvider() {
     state = States.loginScreen;
-    uid = loginRepository.getUid();
+    uid = LoginRepository().getUid();
     print("state enabled");
   }
 
@@ -29,7 +29,7 @@ class LoginProvider extends ChangeNotifier {
 
   Future<void> otpVerified() async {
     state = States.selectRole;
-    uid = await loginRepository.getUid();
+    uid = await LoginRepository().getUid();
     notifyListeners();
   }
 
