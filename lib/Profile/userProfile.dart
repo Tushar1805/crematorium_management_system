@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:way_to_heaven/Authentication/loginPage.dart';
+import 'package:way_to_heaven/Authentication/loginProvider.dart';
 import 'package:way_to_heaven/Profile/about.dart';
 import 'package:way_to_heaven/Profile/editProfile.dart';
 import 'package:way_to_heaven/Profile/settings.dart';
@@ -13,30 +16,98 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
-  FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseAuth _auth = FirebaseAuth.instance;
 
   String name, email, phone, role;
 
   @override
   void initState() {
     super.initState();
-    getUserInfo();
+    //getUserInfo();
   }
 
-  Future<void> getUserInfo() async {
-    final User user = auth.currentUser;
-    FirebaseFirestore.instance.collection("Users").doc(user.uid).get().then(
-      (value) {
-        setState(() {
-          role = (value["role"].toString());
-          print(role);
-        });
-      },
-    );
-  }
+  // Future<void> getUserInfo() async {
+  //   final String uid = _auth.currentUser.uid.toString();
+  //   FirebaseFirestore.instance.collection("Users").doc(uid).get().then(
+  //     (value) {
+  //       setState(() {
+  //         role = (value["role"].toString());
+  //         print(role);
+  //       });
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
+    final loginPro = Provider.of<LoginProvider>(context);
+
+    Row buildRow(String image, String label) {
+      return Row(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width * 0.1,
+            alignment: Alignment.centerLeft,
+            child: Image.asset(
+              "$image",
+              height: 15,
+              width: 15,
+              color: Colors.grey,
+            ),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.63,
+            // decoration: BoxDecoration(color: Colors.yellow),
+            child: Text("$label",
+                style: lightBlackTextStyle().copyWith(fontSize: 15)),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.1,
+            // decoration: BoxDecoration(color: Colors.blue),
+            child: SvgPicture.asset(
+              "Icons/greater.svg",
+              height: 20,
+              width: 20,
+              color: Colors.grey.shade400,
+            ),
+          ),
+        ],
+      );
+    }
+
+    Row buildRowForSvg(String image, String label) {
+      return Row(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width * 0.1,
+            alignment: Alignment.centerLeft,
+            child: SvgPicture.asset(
+              "$image",
+              height: 15,
+              width: 15,
+              color: Colors.grey,
+            ),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.63,
+            // decoration: BoxDecoration(color: Colors.yellow),
+            child: Text("$label",
+                style: lightBlackTextStyle().copyWith(fontSize: 15)),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.1,
+            // decoration: BoxDecoration(color: Colors.blue),
+            child: SvgPicture.asset(
+              "Icons/greater.svg",
+              height: 20,
+              width: 20,
+              color: Colors.grey.shade400,
+            ),
+          ),
+        ],
+      );
+    }
+
     return Scaffold(
       backgroundColor: Color(0xfff5f5f5),
       body: SingleChildScrollView(
@@ -145,7 +216,8 @@ class _UserProfileState extends State<UserProfile> {
                   borderRadius: BorderRadius.circular(15.0),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.all(10),
+                  padding:
+                      EdgeInsets.only(left: 15, right: 10, top: 10, bottom: 10),
                   child: Column(
                     children: [
                       SizedBox(
@@ -159,31 +231,7 @@ class _UserProfileState extends State<UserProfile> {
                                   builder: (context) => SettingsPage()));
                         },
                         splashColor: Colors.transparent,
-                        child: Row(
-                          children: [
-                            Image.asset(
-                              "Icons/gear.png",
-                              height: 15,
-                              width: 15,
-                              color: Colors.grey,
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Text("Settings",
-                                style: lightBlackTextStyle()
-                                    .copyWith(fontSize: 15)),
-                            SizedBox(
-                              width: 200,
-                            ),
-                            SvgPicture.asset(
-                              "Icons/greater.svg",
-                              height: 15,
-                              width: 15,
-                              color: Colors.grey,
-                            ),
-                          ],
-                        ),
+                        child: buildRow("Icons/gear.png", "Settings"),
                       ),
                       SizedBox(
                         height: 25,
@@ -195,31 +243,8 @@ class _UserProfileState extends State<UserProfile> {
                       InkWell(
                         onTap: () {},
                         splashColor: Colors.transparent,
-                        child: Row(
-                          children: [
-                            Image.asset(
-                              "Icons/cremation.png",
-                              height: 15,
-                              width: 15,
-                              color: Colors.grey,
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Text("Crematoriums Available",
-                                style: lightBlackTextStyle()
-                                    .copyWith(fontSize: 15)),
-                            SizedBox(
-                              width: 105,
-                            ),
-                            SvgPicture.asset(
-                              "Icons/greater.svg",
-                              height: 15,
-                              width: 15,
-                              color: Colors.grey,
-                            ),
-                          ],
-                        ),
+                        child: buildRow(
+                            "Icons/cremation.png", "Crematoriums Available"),
                       ),
                       SizedBox(
                         height: 25,
@@ -231,32 +256,20 @@ class _UserProfileState extends State<UserProfile> {
                       InkWell(
                         onTap: () {},
                         splashColor: Colors.transparent,
-                        child: Row(
-                          children: [
-                            Image.asset(
-                              'Icons/report.png',
-                              height: 15,
-                              width: 15,
-                              color: Colors.grey,
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Text("History",
-                                style: lightBlackTextStyle()
-                                    .copyWith(fontSize: 15)),
-                            SizedBox(
-                              width: 205,
-                            ),
-                            SvgPicture.asset(
-                              "Icons/greater.svg",
-                              height: 15,
-                              width: 15,
-                              color: Colors.grey,
-                            ),
-                          ],
-                        ),
+                        child: buildRow("Icons/report.png", "History"),
                       ),
+                      SizedBox(
+                        height: 25,
+                      ),
+                      Divider(height: 1),
+                      SizedBox(
+                        height: 25,
+                      ),
+                      InkWell(
+                          onTap: () {},
+                          splashColor: Colors.transparent,
+                          child: buildRow("Icons/download.png",
+                              "Download Acknowledgement")),
                       SizedBox(
                         height: 25,
                       ),
@@ -267,31 +280,7 @@ class _UserProfileState extends State<UserProfile> {
                       InkWell(
                         onTap: () {},
                         splashColor: Colors.transparent,
-                        child: Row(
-                          children: [
-                            Image.asset(
-                              'Icons/download.png',
-                              height: 15,
-                              width: 15,
-                              color: Colors.grey,
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Text("Download Acknowledgement",
-                                style: lightBlackTextStyle()
-                                    .copyWith(fontSize: 15)),
-                            SizedBox(
-                              width: 70,
-                            ),
-                            SvgPicture.asset(
-                              "Icons/greater.svg",
-                              height: 15,
-                              width: 15,
-                              color: Colors.grey,
-                            ),
-                          ],
-                        ),
+                        child: buildRow("Icons/aboutUs.png", "Example"),
                       ),
                       SizedBox(
                         height: 25,
@@ -311,7 +300,8 @@ class _UserProfileState extends State<UserProfile> {
                   borderRadius: BorderRadius.circular(15.0),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.all(10),
+                  padding:
+                      EdgeInsets.only(left: 15, right: 10, top: 10, bottom: 10),
                   child: Column(
                     children: [
                       SizedBox(
@@ -325,31 +315,7 @@ class _UserProfileState extends State<UserProfile> {
                                   builder: (context) => AboutUs()));
                         },
                         splashColor: Colors.transparent,
-                        child: Row(
-                          children: [
-                            Image.asset(
-                              'Icons/aboutUs.png',
-                              height: 15,
-                              width: 15,
-                              color: Colors.grey,
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Text("About Us",
-                                style: lightBlackTextStyle()
-                                    .copyWith(fontSize: 15)),
-                            SizedBox(
-                              width: 195,
-                            ),
-                            SvgPicture.asset(
-                              "Icons/greater.svg",
-                              height: 15,
-                              width: 15,
-                              color: Colors.grey,
-                            ),
-                          ],
-                        ),
+                        child: buildRow("Icons/aboutUs.png", "About Us"),
                       ),
                       SizedBox(
                         height: 25,
@@ -361,31 +327,7 @@ class _UserProfileState extends State<UserProfile> {
                       InkWell(
                         onTap: () {},
                         splashColor: Colors.transparent,
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(
-                              'Icons/help.svg',
-                              height: 15,
-                              width: 15,
-                              color: Colors.grey,
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Text("Help",
-                                style: lightBlackTextStyle()
-                                    .copyWith(fontSize: 15)),
-                            SizedBox(
-                              width: 222,
-                            ),
-                            SvgPicture.asset(
-                              "Icons/greater.svg",
-                              height: 15,
-                              width: 15,
-                              color: Colors.grey,
-                            ),
-                          ],
-                        ),
+                        child: buildRowForSvg("Icons/help.svg", "Help"),
                       ),
                       SizedBox(
                         height: 25,
@@ -397,31 +339,8 @@ class _UserProfileState extends State<UserProfile> {
                       InkWell(
                         onTap: () {},
                         splashColor: Colors.transparent,
-                        child: Row(
-                          children: [
-                            Image.asset(
-                              'Icons/aboutUs.png',
-                              height: 15,
-                              width: 15,
-                              color: Colors.grey,
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Text("Terms And Services",
-                                style: lightBlackTextStyle()
-                                    .copyWith(fontSize: 15)),
-                            SizedBox(
-                              width: 133,
-                            ),
-                            SvgPicture.asset(
-                              "Icons/greater.svg",
-                              height: 15,
-                              width: 15,
-                              color: Colors.grey,
-                            ),
-                          ],
-                        ),
+                        child:
+                            buildRow("Icons/aboutUs.png", "Terms And Services"),
                       ),
                       SizedBox(
                         height: 25,
@@ -431,7 +350,14 @@ class _UserProfileState extends State<UserProfile> {
                         height: 25,
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          _auth.signOut();
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      LoginPage(context, loginPro)));
+                        },
                         splashColor: Colors.transparent,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -456,6 +382,14 @@ class _UserProfileState extends State<UserProfile> {
                     ],
                   ),
                 ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              child: Center(
+                child: Text("App Version 1.0"),
               ),
             ),
             SizedBox(

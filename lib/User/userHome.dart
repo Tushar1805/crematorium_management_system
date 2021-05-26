@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
+import 'package:way_to_heaven/Profile/profileBase.dart';
 import 'package:way_to_heaven/User/application.dart';
 import 'package:way_to_heaven/User/userProvider.dart';
 import 'package:way_to_heaven/components/constants.dart';
@@ -64,7 +65,7 @@ class _UserHomePageState extends State<UserHomePage>
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => UserProfile()));
+                                builder: (context) => ProfileBase()));
                       },
                       child: Image.asset(
                         'assets/icons/user.png',
