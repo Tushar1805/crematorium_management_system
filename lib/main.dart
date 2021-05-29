@@ -43,7 +43,7 @@ class Initialize extends StatelessWidget {
         }
 
         // Otherwise, show something whilst waiting for initialization to complete
-        return Text("Loading...");
+        return Center(child: CircularProgressIndicator());
       },
     );
   }
