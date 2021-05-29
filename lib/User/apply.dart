@@ -15,9 +15,17 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
   @override
   Widget build(BuildContext context) {
     final provider = widget.provider;
+    TextEditingController applicant_name = TextEditingController();
+    applicant_name.text = provider.applicant_name;
+    TextEditingController dead_persons_name = TextEditingController();
+    dead_persons_name.text = provider.dead_persons_name;
+    TextEditingController age = TextEditingController();
+    age.text = provider.dead_persons_age;
+    TextEditingController cause_of_death = TextEditingController();
+    cause_of_death.text = provider.cause_of_death;
 
     Future<void> selectImage(String source) async {
-      if (provider.image.length < 2) {
+      if (provider.image = null) {
         if (source == 'camera') {
           final pickedImage =
               await ImagePicker().getImage(source: ImageSource.camera);
@@ -46,6 +54,145 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
       print(provider.image.length);
+    }
+
+    void showSubmitDialog(bool isSuccess) {
+      showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Center(
+                  child: Text(
+                isSuccess ? 'Success' : 'Warning',
+                style: lightBlackTextStyle().copyWith(fontSize: 18),
+              )),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Text(
+                        isSuccess
+                            ? 'Application Submited Successfully!'
+                            : 'All Fields Are Necesary!',
+                        style: normalTextStyle()
+                            .copyWith(color: redOrangeColor())),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Center(
+                  child: FlatButton(
+                    onPressed: () {
+                      if (isSuccess) {
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      } else {
+                        Navigator.pop(context);
+                      }
+                    },
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                      width: MediaQuery.of(context).size.width / 3,
+                      decoration: new BoxDecoration(
+                        gradient: new LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: [
+                              redOrangeColor(),
+                              redOrangeColor(),
+                              orangeColor()
+                            ]),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(40.0),
+                        ),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'OK',
+                          style: whiteTextStyle().copyWith(
+                              fontSize: 15.0, fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            );
+          });
+    }
+
+    void uploadProofOfDeathClicked(context) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Center(
+                  child: Text(
+                'Select Image From',
+                style: darkBlackTextStyle()
+                    .copyWith(fontSize: 18.0, fontWeight: FontWeight.w600),
+              )),
+              actions: [
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Row(
+                    children: [
+                      Card(
+                          elevation: 0.0,
+                          color: Color(0xFFf0f0fa),
+                          child: InkWell(
+                            onTap: () async {
+                              await selectImage('camera');
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 25, vertical: 8.0),
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    Icons.add_a_photo_outlined,
+                                    color: redOrangeColor(),
+                                  ),
+                                  SizedBox(
+                                    height: 5.0,
+                                  ),
+                                  Text('Use Camera')
+                                ],
+                              ),
+                            ),
+                          )),
+                      Card(
+                          elevation: 0.0,
+                          color: Color(0xFFf0f0fa),
+                          child: InkWell(
+                            onTap: () async {
+                              await selectImage('gallery');
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    Icons.photo_library_outlined,
+                                    color: redOrangeColor(),
+                                  ),
+                                  SizedBox(
+                                    height: 5.0,
+                                  ),
+                                  Text('Upload from Gallery')
+                                ],
+                              ),
+                            ),
+                          )),
+                    ],
+                  ),
+                )
+              ],
+            );
+          });
     }
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -97,8 +244,8 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height -
-                  MediaQuery.of(context).padding.top +
-                  10,
+                  MediaQuery.of(context).padding.top -
+                  60,
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 8.0, vertical: 15.0),
@@ -117,6 +264,8 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
                               height: 10.0,
                             ),
                             TextField(
+                              readOnly: true,
+                              controller: applicant_name,
                               decoration: loginInputDecoration()
                                   .copyWith(hintText: 'Applicant Name'),
                             ),
@@ -130,8 +279,13 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
                               height: 10.0,
                             ),
                             TextField(
-                              decoration: loginInputDecoration()
-                                  .copyWith(hintText: 'Applicant Name'),
+                              controller: dead_persons_name,
+                              decoration: loginInputDecoration().copyWith(
+                                  hintText: 'Dead Person\'sColumn Name'),
+                              maxLength: 50,
+                              onChanged: (value) {
+                                provider.dead_persons_name = value;
+                              },
                             ),
                             SizedBox(
                               height: 20.0,
@@ -143,8 +297,17 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
                               height: 10.0,
                             ),
                             TextField(
+                              autocorrect: true,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
                               decoration: loginInputDecoration()
                                   .copyWith(hintText: 'Age'),
+                              maxLength: 3,
+                              onChanged: (value) {
+                                provider.dead_persons_age = value;
+                              },
                             ),
                             SizedBox(
                               height: 20.0,
@@ -155,12 +318,35 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
                             SizedBox(
                               height: 10.0,
                             ),
-                            TextField(
-                              decoration: loginInputDecoration()
-                                  .copyWith(hintText: 'Gender'),
+                            Row(
+                              children: [
+                                Radio(
+                                    value: 'Male',
+                                    activeColor: orangeColor(),
+                                    groupValue: provider.selectedGender,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        provider.selectGenderClicked(value);
+                                      });
+                                    }),
+                                Text('Male'),
+                                SizedBox(
+                                  width: 20.0,
+                                ),
+                                Radio(
+                                    value: 'Female',
+                                    activeColor: orangeColor(),
+                                    groupValue: provider.selectedGender,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        provider.selectGenderClicked(value);
+                                      });
+                                    }),
+                                Text('Female'),
+                              ],
                             ),
                             SizedBox(
-                              height: 20.0,
+                              height: 15.0,
                             ),
                             Text(' Cause Of Death',
                                 style: lightBlackTextStyle()
@@ -171,11 +357,18 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
                             TextField(
                               decoration: loginInputDecoration()
                                   .copyWith(hintText: 'Cause Of Death'),
+                              maxLength: 50,
+                              onChanged: (value) {
+                                provider.cause_of_death = value;
+                              },
                             ),
                             SizedBox(
                               height: 30.0,
                             ),
                             InkWell(
+                              onTap: () {
+                                uploadProofOfDeathClicked(context);
+                              },
                               child: Container(
                                 decoration: new BoxDecoration(
                                   color: Color(0xFF00cc66),
@@ -199,31 +392,19 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
                                 ),
                               ),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                TextButton.icon(
-                                  onPressed: () async {
-                                    await selectImage('camera');
-                                  },
-                                  icon: Icon(Icons.add_a_photo_outlined),
-                                  label: Text('Use Camera'),
-                                ),
-                                TextButton.icon(
-                                    onPressed: () async {
-                                      await selectImage('gallery');
-                                    },
-                                    icon: Icon(Icons.photo_library_outlined),
-                                    label: Text('Upload from Gallery')),
-                              ],
-                            ),
                           ],
                         ),
                       ),
                     ),
                     Spacer(),
                     FlatButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if (provider.submitApplicationToCrematorium()) {
+                          showSubmitDialog(true);
+                        } else {
+                          showSubmitDialog(false);
+                        }
+                      },
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         height: 50.0,

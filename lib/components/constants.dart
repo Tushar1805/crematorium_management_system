@@ -27,7 +27,7 @@ Color lightGray() {
 TextStyle lightBlackTextStyle() {
   return TextStyle(
       fontFamily: 'Source Sans Pro',
-      fontSize: 15,
+      fontSize: 14,
       color: lightBlack(),
       decoration: TextDecoration.none,
       fontWeight: FontWeight.w600);
@@ -45,10 +45,10 @@ TextStyle darkBlackTextStyle() {
 TextStyle orangeTextStyle() {
   return TextStyle(
       fontFamily: 'Source Sans Pro',
-      fontSize: 15,
-      color: orangeColor(),
+      fontSize: 13,
+      color: redOrangeColor(),
       decoration: TextDecoration.none,
-      fontWeight: FontWeight.w900);
+      fontWeight: FontWeight.w600);
 }
 
 TextStyle normalTextStyle() {

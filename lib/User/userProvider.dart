@@ -3,10 +3,20 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:way_to_heaven/repositories/userRepository.dart';
 
-class UserProvider extends ChangeNotifier{
+class UserProvider extends ChangeNotifier {
+  String selectedZone;
 
-  String selectedZone ;
-  int selectedCrematorium ;
+  // Application
+
+  String applicant_name = 'Rajesh Thakur';
+  String dead_persons_name;
+  String dead_persons_age;
+  String selectedGender;
+  String cause_of_death;
+  File image;
+  bool isGenderSelected = false;
+
+  int selectedCrematorium;
   List<String> zonesStringList = [
     'Laxminagar',
     'Dharampeth',
@@ -20,52 +30,73 @@ class UserProvider extends ChangeNotifier{
     'Mangalwari'
   ];
   List<DropdownMenuItem> zonesDropDownList = [];
-  List<Map> crematoriumList = [] ;
-  List<Map> crematoriumSearchList = [] ;
-
-  List<File> image = [];
+  List<Map> crematoriumList = [];
+  List<Map> crematoriumSearchList = [];
 
   UserRepository userRepository = new UserRepository();
 
-  UserProvider(){
+  UserProvider() {
     setZones();
     getCrematoriums();
   }
 
   void getCrematoriums() async {
     crematoriumList = await userRepository.getCrematoriums();
-    crematoriumSearchList = crematoriumList ;
+    crematoriumSearchList = crematoriumList;
     notifyListeners();
     // print(crematoriumList);
   }
 
-  void setZones(){
+  void setZones() {
     zonesDropDownList = [];
-    zonesStringList.forEach((element) { 
-      DropdownMenuItem item = DropdownMenuItem( value: element.toString(), child: Text(element.toString()));
+    zonesStringList.forEach((element) {
+      DropdownMenuItem item = DropdownMenuItem(
+          value: element.toString(), child: Text(element.toString()));
       zonesDropDownList.add(item);
       notifyListeners();
     });
   }
 
-  void selectZone(String val){
+  void selectZone(String val) {
     selectedZone = val;
     crematoriumSearchList = [];
     crematoriumList.forEach((element) {
-      if(element['zone'] == selectedZone){
+      if (element['zone'] == selectedZone) {
         crematoriumSearchList.add(element);
       }
     });
     notifyListeners();
   }
-  
-  void selectCrematorium(int index){
+
+  // Application For Crematorium
+
+  void selectCrematorium(int index) {
     selectedCrematorium = index;
     notifyListeners();
   }
 
-  void addImage(String path) {
-    image.add(File(path));
+  void selectGenderClicked(String gender) {
+    selectedGender = gender;
+    isGenderSelected = true;
+    print(gender);
     notifyListeners();
+  }
+
+  void addImage(String path) {
+    image = File(path);
+    notifyListeners();
+  }
+
+  bool submitApplicationToCrematorium() {
+    if ((dead_persons_name != null && dead_persons_name != '') &&
+        (dead_persons_age != null && dead_persons_age != '') &&
+        (cause_of_death != null && cause_of_death != '') &&
+        isGenderSelected) {
+      userRepository.submitApplication(applicant_name, dead_persons_name,
+          dead_persons_age, selectedGender, cause_of_death);
+      return true;
+    } else {
+      return false;
+    }
   }
 }
