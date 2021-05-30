@@ -280,8 +280,8 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
                             ),
                             TextField(
                               controller: dead_persons_name,
-                              decoration: loginInputDecoration().copyWith(
-                                  hintText: 'Dead Person\'sColumn Name'),
+                              decoration: loginInputDecoration()
+                                  .copyWith(hintText: 'Dead Person\'s Name'),
                               maxLength: 50,
                               onChanged: (value) {
                                 provider.dead_persons_name = value;
@@ -398,8 +398,8 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
                     ),
                     Spacer(),
                     FlatButton(
-                      onPressed: () {
-                        if (provider.submitApplicationToCrematorium()) {
+                      onPressed: () async {
+                        if (await provider.submitApplicationToCrematorium()) {
                           showSubmitDialog(true);
                         } else {
                           showSubmitDialog(false);

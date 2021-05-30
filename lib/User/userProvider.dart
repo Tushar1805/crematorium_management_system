@@ -87,13 +87,22 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool submitApplicationToCrematorium() {
+  Future<bool> submitApplicationToCrematorium() async {
+    print(dead_persons_name);
+    print(dead_persons_age);
+    print(cause_of_death);
+    print(isGenderSelected);
     if ((dead_persons_name != null && dead_persons_name != '') &&
         (dead_persons_age != null && dead_persons_age != '') &&
         (cause_of_death != null && cause_of_death != '') &&
         isGenderSelected) {
-      userRepository.submitApplication(applicant_name, dead_persons_name,
-          dead_persons_age, selectedGender, cause_of_death);
+      Map crematoriumMap = crematoriumSearchList[selectedCrematorium];
+      await userRepository.submitApplication(applicant_name, dead_persons_name,
+          dead_persons_age, selectedGender, cause_of_death, crematoriumMap);
+      dead_persons_name = '';
+      dead_persons_age = '';
+      cause_of_death = '';
+      selectedGender = '';
       return true;
     } else {
       return false;

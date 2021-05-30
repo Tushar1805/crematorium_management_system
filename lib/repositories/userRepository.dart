@@ -27,13 +27,17 @@ class UserRepository {
       String dead_persons_name,
       String dead_persons_age,
       String selectedGender,
-      String cause_of_death) async {
-    Map<dynamic, dynamic> map = {};
+      String cause_of_death,
+      Map crematoriumMap) async {
+    Map<String, dynamic> map = {};
     map['applicant_name'] = applicant_name;
     map['dead_persons_name'] = dead_persons_name;
     map['dead_persons_age'] = dead_persons_age;
     map['selectedGender'] = selectedGender;
     map['cause_of_death'] = cause_of_death;
+    map['application_time'] = FieldValue.serverTimestamp();
+    map['crematoriumId'] = crematoriumMap['crematoriumId'];
+    map['crematoriumName'] = crematoriumMap['crematoriumName'];
 
     await ref.collection('Applications').add(map);
   }
