@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:way_to_heaven/Admin/completeProfile.dart';
+import 'package:way_to_heaven/Authentication/loginProvider.dart';
 import 'package:way_to_heaven/Profile/about.dart';
 import 'package:way_to_heaven/Profile/editProfile.dart';
 import 'package:way_to_heaven/Profile/settings.dart';
@@ -31,7 +33,11 @@ class _UserProfileState extends State<UserProfile> {
     // final User user = auth.currentUser;
     // await user?.reload();
     // final uid = user.uid;
-    FirebaseFirestore.instance.collection("Users").doc(uid).get().then(
+    FirebaseFirestore.instance
+        .collection("Users")
+        .doc("SctfxC3ITbPPGrHLHhuh5HqjWwD2")
+        .get()
+        .then(
       (value) {
         setState(() {
           role = (value["role"].toString());
@@ -45,6 +51,7 @@ class _UserProfileState extends State<UserProfile> {
 
   @override
   Widget build(BuildContext context) {
+    LoginProvider provider = Provider.of<LoginProvider>(context);
     return Scaffold(
       backgroundColor: Color(0xfff5f5f9),
       body: SingleChildScrollView(
@@ -85,7 +92,8 @@ class _UserProfileState extends State<UserProfile> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => EditProfile()));
+                                          builder: (context) =>
+                                              EditProfile(provider)));
                                 },
                                 splashColor: Colors.transparent,
                                 child: Text("EDIT PROFILE",
@@ -316,6 +324,7 @@ class _UserProfileState extends State<UserProfile> {
                       ),
                       InkWell(
                         onTap: () {
+                          role = "Admin";
                           if (role == "Admin") {
                             Navigator.push(
                                 context,

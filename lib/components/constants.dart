@@ -115,6 +115,29 @@ InputDecoration loginInputDecoration() {
   );
 }
 
+InputDecoration formInputDecoration(hint) {
+  return InputDecoration(
+    hintText: hint,
+    contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
+    focusColor: lightBlack(),
+    hintStyle: normalTextStyle().copyWith(fontSize: 14, color: gray()),
+    counterText: "",
+    filled: true,
+    fillColor: Colors.white54,
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(3.0)),
+      borderSide: BorderSide(color: lightGray(), width: 1),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(3.0)),
+      borderSide: BorderSide(
+        color: lightGray(),
+        width: 1,
+      ),
+    ),
+  );
+}
+
 ScaffoldMessengerState _showSnackBar(context, value) {
   final snackBar = SnackBar(
     duration: const Duration(seconds: 3),

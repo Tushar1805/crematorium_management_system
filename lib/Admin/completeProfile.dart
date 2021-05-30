@@ -10,7 +10,9 @@ class CompleteAdminProfile extends StatefulWidget {
 }
 
 class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
-  String name, email, address, phone, age, role;
+  String name, email, address, phone, age, role, crematoriumName, capacity;
+  TimeOfDay from;
+  TimeOfDay till;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -34,22 +36,12 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
 
   Widget _buildName() {
     return TextFormField(
-        decoration: new InputDecoration(
-          border: OutlineInputBorder(),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: redOrangeColor(), width: 1.0),
-              borderRadius: BorderRadius.circular(10)),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: gray(), width: 1.0),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          labelText: "Name",
-          hintText: 'Enter Name',
-        ),
+        decoration: formInputDecoration("Enter Name"),
         validator: (String value) {
           if (value.isEmpty) {
             return 'Name is Required';
           }
+          return null;
         },
         onSaved: (String value) {
           name = value;
@@ -58,18 +50,7 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
 
   Widget _buildEmail() {
     return TextFormField(
-        decoration: new InputDecoration(
-          border: OutlineInputBorder(),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: redOrangeColor(), width: 1.0),
-              borderRadius: BorderRadius.circular(10)),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: gray(), width: 1.0),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          labelText: "Email",
-          hintText: 'Enter Email Address',
-        ),
+        decoration: formInputDecoration("Enter Email Address"),
         validator: (String value) {
           if (value.isEmpty) {
             return 'Email is Required';
@@ -86,24 +67,13 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
         });
   }
 
-  Widget _buildPhone() {
+  Widget _buildCoontact() {
     return TextFormField(
         keyboardType: TextInputType.phone,
-        decoration: new InputDecoration(
-          border: OutlineInputBorder(),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: redOrangeColor(), width: 1.0),
-              borderRadius: BorderRadius.circular(10)),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: gray(), width: 1.0),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          labelText: "Phone number",
-          hintText: 'Enter Phone Number',
-        ),
+        decoration: formInputDecoration("Enter Contact Number"),
         validator: (String value) {
           if (value.isEmpty) {
-            return 'Phone Number is Required';
+            return 'Contact Number is Required';
           }
         },
         onSaved: (String value) {
@@ -113,18 +83,7 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
 
   Widget _buildAddress() {
     return TextFormField(
-        decoration: new InputDecoration(
-          border: OutlineInputBorder(),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: redOrangeColor(), width: 1.0),
-              borderRadius: BorderRadius.circular(10)),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: gray(), width: 1.0),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          labelText: "Address",
-          hintText: 'Enter Address',
-        ),
+        decoration: formInputDecoration("Enter Address of Crematorium"),
         validator: (String value) {
           if (value.isEmpty) {
             return 'Address is Required';
@@ -138,26 +97,46 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
   Widget _buildAge() {
     return TextFormField(
         keyboardType: TextInputType.number,
-        decoration: new InputDecoration(
-          border: OutlineInputBorder(),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: redOrangeColor(), width: 1.0),
-              borderRadius: BorderRadius.circular(10)),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: gray(), width: 1.0),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          labelText: "Age",
-          hintText: 'Enter Age',
-        ),
+        decoration: formInputDecoration("Enter Age"),
         validator: (String value) {
           int age = int.tryParse(value);
           if (age == null || age <= 0) {
             return 'Age is Required';
           }
+          return null;
         },
         onSaved: (String value) {
           age = value;
+        });
+  }
+
+  Widget _buildCrematoriumName() {
+    return TextFormField(
+        decoration: formInputDecoration("Enter Crematorium Name"),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return 'Crematorium Name is Required';
+          }
+          return null;
+        },
+        onSaved: (String value) {
+          crematoriumName = value;
+        });
+  }
+
+  Widget _buildCrematoriumCapacity() {
+    return TextFormField(
+        keyboardType: TextInputType.number,
+        decoration: formInputDecoration("Enter Capacity of Crematorium"),
+        validator: (String value) {
+          int capacity = int.tryParse(value);
+          if (capacity == null || capacity <= 0) {
+            return 'Capacity is Required';
+          }
+          return null;
+        },
+        onSaved: (String value) {
+          capacity = value;
         });
   }
 
@@ -210,7 +189,7 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
                 SizedBox(
                   width: 10.0,
                 ),
-                Text('Application', style: titleBarWhiteTextStyle()),
+                Text('Complete Profile', style: titleBarWhiteTextStyle()),
               ],
             ),
           ),
@@ -238,15 +217,26 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
                     SizedBox(
                       height: 15,
                     ),
-                    _buildPhone(),
-                    SizedBox(
-                      height: 15,
-                    ),
+                    // _buildPhone(),
+                    // SizedBox(
+                    //   height: 15,
+                    // ),
                     _buildAddress(),
                     SizedBox(
                       height: 15,
                     ),
                     _buildAge(),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    _buildCrematoriumName(),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    _buildCrematoriumCapacity(),
+                    SizedBox(
+                      height: 15,
+                    ),
                     SizedBox(
                       height: 60,
                     ),

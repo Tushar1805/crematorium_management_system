@@ -8,27 +8,17 @@ class CompleteUserProfile extends StatefulWidget {
 }
 
 class _CompleteUserProfileState extends State<CompleteUserProfile> {
-  String name, email, address, phone, age;
+  String name, email, address, phone, age, gender;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Widget _buildName() {
     return TextFormField(
-        decoration: new InputDecoration(
-          border: OutlineInputBorder(),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: redOrangeColor(), width: 1.0),
-              borderRadius: BorderRadius.circular(10)),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: gray(), width: 1.0),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          labelText: "Name",
-          hintText: 'Enter Name',
-        ),
+        decoration: formInputDecoration("Enter Name"),
         validator: (String value) {
           if (value.isEmpty) {
             return 'Name is Required';
           }
+          return null;
         },
         onSaved: (String value) {
           name = value;
@@ -37,18 +27,7 @@ class _CompleteUserProfileState extends State<CompleteUserProfile> {
 
   Widget _buildEmail() {
     return TextFormField(
-        decoration: new InputDecoration(
-          border: OutlineInputBorder(),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: redOrangeColor(), width: 1.0),
-              borderRadius: BorderRadius.circular(10)),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: gray(), width: 1.0),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          labelText: "Email",
-          hintText: 'Enter Email Address',
-        ),
+        decoration: formInputDecoration("Enter Email Address"),
         validator: (String value) {
           if (value.isEmpty) {
             return 'Email is Required';
@@ -65,49 +44,29 @@ class _CompleteUserProfileState extends State<CompleteUserProfile> {
         });
   }
 
-  Widget _buildPhone() {
-    return TextFormField(
-        keyboardType: TextInputType.phone,
-        decoration: new InputDecoration(
-          border: OutlineInputBorder(),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: redOrangeColor(), width: 1.0),
-              borderRadius: BorderRadius.circular(10)),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: gray(), width: 1.0),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          labelText: "Phone number",
-          hintText: 'Enter Phone Number',
-        ),
-        validator: (String value) {
-          if (value.isEmpty) {
-            return 'Phone Number is Required';
-          }
-        },
-        onSaved: (String value) {
-          phone = value;
-        });
-  }
+  // Widget _buildPhone() {
+  //   return TextFormField(
+  //       keyboardType: TextInputType.phone,
+  //       decoration: formInputDecoration("Enter Mobile Number"),
+  //       validator: (String value) {
+  //         if (value.isEmpty) {
+  //           return 'Phone Number is Required';
+  //         }
+  //         return null;
+  //       },
+  //       onSaved: (String value) {
+  //         phone = value;
+  //       });
+  // }
 
   Widget _buildAddress() {
     return TextFormField(
-        decoration: new InputDecoration(
-          border: OutlineInputBorder(),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: redOrangeColor(), width: 1.0),
-              borderRadius: BorderRadius.circular(10)),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: gray(), width: 1.0),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          labelText: "Address",
-          hintText: 'Enter Address',
-        ),
+        decoration: formInputDecoration("Enter Residential Address"),
         validator: (String value) {
           if (value.isEmpty) {
             return 'Address is Required';
           }
+          return null;
         },
         onSaved: (String value) {
           address = value;
@@ -117,18 +76,7 @@ class _CompleteUserProfileState extends State<CompleteUserProfile> {
   Widget _buildAge() {
     return TextFormField(
         keyboardType: TextInputType.number,
-        decoration: new InputDecoration(
-          border: OutlineInputBorder(),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: redOrangeColor(), width: 1.0),
-              borderRadius: BorderRadius.circular(10)),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: gray(), width: 1.0),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          labelText: "Age",
-          hintText: 'Enter Age',
-        ),
+        decoration: formInputDecoration("Enter Age"),
         validator: (String value) {
           int age = int.tryParse(value);
           if (age == null || age <= 0) {
@@ -137,6 +85,20 @@ class _CompleteUserProfileState extends State<CompleteUserProfile> {
         },
         onSaved: (String value) {
           age = value;
+        });
+  }
+
+  Widget _buildGender() {
+    return TextFormField(
+        decoration: formInputDecoration("Enter Gender"),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return 'Gender is Required';
+          }
+          return null;
+        },
+        onSaved: (String value) {
+          gender = value;
         });
   }
 
@@ -189,7 +151,7 @@ class _CompleteUserProfileState extends State<CompleteUserProfile> {
                 SizedBox(
                   width: 10.0,
                 ),
-                Text('Application', style: titleBarWhiteTextStyle()),
+                Text('Complete Profile', style: titleBarWhiteTextStyle()),
               ],
             ),
           ),
@@ -217,15 +179,19 @@ class _CompleteUserProfileState extends State<CompleteUserProfile> {
                     SizedBox(
                       height: 15,
                     ),
-                    _buildPhone(),
-                    SizedBox(
-                      height: 15,
-                    ),
+                    // _buildPhone(),
+                    // SizedBox(
+                    //   height: 15,
+                    // ),
                     _buildAddress(),
                     SizedBox(
                       height: 15,
                     ),
                     _buildAge(),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    _buildGender(),
                     SizedBox(
                       height: 60,
                     ),
