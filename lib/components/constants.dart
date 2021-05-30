@@ -114,3 +114,23 @@ InputDecoration loginInputDecoration() {
     ),
   );
 }
+
+ScaffoldMessengerState _showSnackBar(context, value) {
+  final snackBar = SnackBar(
+    duration: const Duration(seconds: 3),
+    content: Container(
+      height: 30.0,
+      child: Center(
+        child: Text(
+          '$value',
+          style: TextStyle(fontSize: 14.0, color: Colors.white),
+        ),
+      ),
+    ),
+    backgroundColor: lightBlack(),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+  );
+  return ScaffoldMessenger.of(context)
+    ..hideCurrentSnackBar()
+    ..showSnackBar(snackBar);
+}

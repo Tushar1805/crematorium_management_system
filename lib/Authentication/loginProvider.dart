@@ -9,6 +9,7 @@ class LoginProvider extends ChangeNotifier {
   String number;
   String status = ' ';
   String uid;
+  bool isNewUser = true;
 
   // LoginRepository loginRepository = new LoginRepository();
 

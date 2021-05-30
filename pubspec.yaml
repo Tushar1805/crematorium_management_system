@@ -66,6 +66,8 @@ flutter:
     - Icons/Checked.svg
     - Icons/help.svg
     - Icons/logout.png
+    - Icons/completeProfile.png
+
   fonts:
     - family: Source Sans Pro
       fonts:
