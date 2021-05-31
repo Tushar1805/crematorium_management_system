@@ -11,27 +11,54 @@ class CompleteAdminProfile extends StatefulWidget {
 
 class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
   String name, email, address, phone, age, role, crematoriumName, capacity;
-  TimeOfDay from;
-  TimeOfDay till;
+  TimeOfDay from, till;
+  TimeOfDay time1;
+  TimeOfDay time2;
+  TimeOfDay picked1;
+  TimeOfDay picked2;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   void initState() {
     super.initState();
-    getUserInfo();
+    time1 = TimeOfDay.now();
+    time2 = TimeOfDay.now();
+    // getUserInfo();
   }
 
-  Future<void> getUserInfo() async {
-    final User user = auth.currentUser;
-    FirebaseFirestore.instance.collection("Users").doc(user.uid).get().then(
-      (value) {
-        setState(() {
-          role = (value["role"].toString());
-          print(role);
-        });
-      },
-    );
+  // Future<void> getUserInfo() async {
+  //   final User user = auth.currentUser;
+  //   FirebaseFirestore.instance.collection("Users").doc(user.uid).get().then(
+  //     (value) {
+  //       setState(() {
+  //         role = (value["role"].toString());
+  //         print(role);
+  //       });
+  //     },
+  //   );
+  // }
+
+  Future<Null> selectTime1(BuildContext context) async {
+    picked1 = await showTimePicker(context: context, initialTime: time1);
+
+    if (picked1 != null) {
+      setState(() {
+        time1 = picked1;
+        from = time1;
+      });
+    }
+  }
+
+  Future<Null> selectTime2(BuildContext context) async {
+    picked2 = await showTimePicker(context: context, initialTime: time2);
+
+    if (picked2 != null) {
+      setState(() {
+        time2 = picked2;
+        till = time2;
+      });
+    }
   }
 
   Widget _buildName() {
@@ -140,6 +167,115 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
         });
   }
 
+  Widget _buildTiming() {
+    return Container(
+      child: Row(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width * .41,
+            child: Row(
+              children: [
+                Text(
+                  'From:',
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(3, 0, 0, 0),
+                  width: MediaQuery.of(context).size.width * 0.3,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(1)),
+                      shape: BoxShape.rectangle,
+                      border: Border.all(
+                        color: lightGray(),
+                        width: 1,
+                      )),
+                  child: Row(children: [
+                    Container(
+                      // color: Colors.red,
+                      width: 35,
+                      child: IconButton(
+                        icon: Icon(Icons.alarm),
+                        onPressed: () {
+                          selectTime1(context);
+                        },
+                        color: gray(),
+                      ),
+                    ),
+                    Text(
+                      '${time1.hour}:${time1.minute}',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                  ]),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(width: 10),
+          Container(
+            width: MediaQuery.of(context).size.width * .4,
+            child: Row(
+              children: [
+                Text(
+                  'Till:',
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(3, 0, 0, 0),
+                  width: MediaQuery.of(context).size.width * 0.3,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(1)),
+                      shape: BoxShape.rectangle,
+                      border: Border.all(
+                        color: lightGray(),
+                        width: 1,
+                      )),
+                  child: Row(children: [
+                    Container(
+                        // color: Colors.red,
+                        width: 35,
+                        child: IconButton(
+                          icon: Icon(Icons.alarm),
+                          onPressed: () {
+                            selectTime2(context);
+                            print(time2);
+                          },
+                          color: gray(),
+                        )),
+                    Text(
+                      '${time2.hour}:${time2.minute}',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                  ]),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTitle(string) {
+    return Container(
+      padding: EdgeInsets.only(bottom: 5),
+      alignment: Alignment.centerLeft,
+      child: Text(
+        "$string :",
+        style: lightBlackTextStyle(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     void showSnackBar(context, value) {
@@ -202,71 +338,84 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
         ),
       ),
       body: Container(
-          margin: EdgeInsets.all(24),
-          child: Form(
+        margin: EdgeInsets.all(24),
+        child: Form(
             key: _formKey,
-            child: SingleChildScrollView(
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _buildName(),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    _buildEmail(),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    // _buildPhone(),
-                    // SizedBox(
-                    //   height: 15,
-                    // ),
-                    _buildAddress(),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    _buildAge(),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    _buildCrematoriumName(),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    _buildCrematoriumCapacity(),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    SizedBox(
-                      height: 60,
-                    ),
-                    RaisedButton(
-                      color: redOrangeColor(),
-                      onPressed: () {
-                        if (!_formKey.currentState.validate()) {
-                          return;
-                        }
-                        _formKey.currentState.save();
-                        print(name);
-                        print(email);
-                        print(address);
-                        print(phone);
-                        print(age);
-                        showSnackBar(context, "Profile Updated Successfully");
-                      },
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        child: Center(
-                          child: Text(
-                            "Submit",
-                            style: whiteTextStyle(),
+            child: NotificationListener<OverscrollIndicatorNotification>(
+              onNotification: (overscroll) {
+                overscroll.disallowGlow();
+              },
+              child: SingleChildScrollView(
+                child: Column(
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _buildTitle("Name"),
+                      _buildName(),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      _buildTitle("Email"),
+                      _buildEmail(),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      // _buildPhone(),
+                      // SizedBox(
+                      //   height: 15,
+                      // ),
+                      _buildTitle("Address"),
+                      _buildAddress(),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      _buildTitle("Age"),
+                      _buildAge(),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      _buildTitle("Crematorium Name"),
+                      _buildCrematoriumName(),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      _buildTitle("Capacity"),
+                      _buildCrematoriumCapacity(),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      _buildTitle("Timing"),
+                      _buildTiming(),
+                      SizedBox(
+                        height: 60,
+                      ),
+                      RaisedButton(
+                        color: redOrangeColor(),
+                        onPressed: () {
+                          if (!_formKey.currentState.validate()) {
+                            return;
+                          }
+                          _formKey.currentState.save();
+                          print(name);
+                          print(email);
+                          print(address);
+                          print(phone);
+                          print(age);
+                          showSnackBar(context, "Profile Updated Successfully");
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          child: Center(
+                            child: Text(
+                              "Submit",
+                              style: whiteTextStyle(),
+                            ),
                           ),
                         ),
-                      ),
-                    )
-                  ]),
-            ),
-          )),
+                      )
+                    ]),
+              ),
+            )),
+      ),
     );
   }
 }

@@ -51,6 +51,15 @@ TextStyle orangeTextStyle() {
       fontWeight: FontWeight.w600);
 }
 
+TextStyle orangeTextFormStyle() {
+  return TextStyle(
+      fontFamily: 'Source Sans Pro',
+      fontSize: 14,
+      color: redOrangeColor(),
+      decoration: TextDecoration.none,
+      fontWeight: FontWeight.w600);
+}
+
 TextStyle normalTextStyle() {
   return TextStyle(
       fontFamily: 'Source Sans Pro',
