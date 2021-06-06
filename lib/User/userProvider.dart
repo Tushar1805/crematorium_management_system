@@ -1,6 +1,5 @@
 import 'dart:io';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:path/path.dart';
+
 import 'package:flutter/material.dart';
 import 'package:way_to_heaven/repositories/userRepository.dart';
 
@@ -14,11 +13,9 @@ class UserProvider extends ChangeNotifier {
   String dead_persons_age;
   String selectedGender;
   String cause_of_death;
-  String imageName = '';
-  String imageDownloadUrl;
   File image;
   bool isGenderSelected = false;
-  bool isImageSelected = false;
+
   int selectedCrematorium;
   List<String> zonesStringList = [
     'Laxminagar',
@@ -85,25 +82,9 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addImage(String path) {
+  void addImage(String path) {
     image = File(path);
-    imageName = basename(image.path);
-    isImageSelected = true;
     notifyListeners();
-  }
-
-  void deleteImage() {
-    image = null;
-    imageName = '';
-    isImageSelected = false;
-    notifyListeners();
-  }
-
-  Future<void> uploadImage() async {
-    String name = 'applicationImages/' + DateTime.now().toIso8601String();
-    await FirebaseStorage.instance.ref(name).putFile(image);
-    String url = await FirebaseStorage.instance.ref(name).getDownloadURL();
-    imageDownloadUrl = url;
   }
 
   Future<bool> submitApplicationToCrematorium() async {
@@ -114,18 +95,10 @@ class UserProvider extends ChangeNotifier {
     if ((dead_persons_name != null && dead_persons_name != '') &&
         (dead_persons_age != null && dead_persons_age != '') &&
         (cause_of_death != null && cause_of_death != '') &&
-        isGenderSelected &&
-        isImageSelected) {
+        isGenderSelected) {
       Map crematoriumMap = crematoriumSearchList[selectedCrematorium];
-      await uploadImage();
-      await userRepository.submitApplication(
-          applicant_name,
-          dead_persons_name,
-          dead_persons_age,
-          selectedGender,
-          cause_of_death,
-          crematoriumMap,
-          imageDownloadUrl);
+      await userRepository.submitApplication(applicant_name, dead_persons_name,
+          dead_persons_age, selectedGender, cause_of_death, crematoriumMap);
       dead_persons_name = '';
       dead_persons_age = '';
       cause_of_death = '';

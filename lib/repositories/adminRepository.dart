@@ -16,13 +16,12 @@ class AdminRepository {
     List<Map> list = [];
     await ref
         .collection('Applications')
-        .orderBy('application_time', descending: true)
+        .orderBy('application_time')
         .where('crematoriumId', isEqualTo: adminId)
         .get()
         .then((value) => value.docs.forEach((element) {
               Map map = {};
               map = element.data();
-              map['requestId'] = element.id;
               list.add(map);
             }));
     print(list);

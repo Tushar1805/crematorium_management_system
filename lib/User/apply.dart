@@ -1,5 +1,3 @@
-import 'dart:io';
-import 'package:path/path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -27,39 +25,32 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
     cause_of_death.text = provider.cause_of_death;
 
     Future<void> selectImage(String source) async {
-      if (provider.image == null) {
+      if (provider.image = null) {
         if (source == 'camera') {
           final pickedImage =
               await ImagePicker().getImage(source: ImageSource.camera);
           if (pickedImage != null) {
-            Navigator.pop(context);
             provider.addImage(pickedImage.path);
-            setState(() {});
           } else {
-            Navigator.pop(context);
-            setState(() {});
             final snackBar = SnackBar(content: Text('Image Not Selected!'));
-            provider.notifyListeners();
+
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           }
         } else {
           final pickedImage =
               await ImagePicker().getImage(source: ImageSource.gallery);
           if (pickedImage != null) {
-            Navigator.pop(context);
             provider.addImage(pickedImage.path);
-            setState(() {});
           } else {
-            Navigator.pop(context);
-            setState(() {});
             final snackBar = SnackBar(content: Text('Image Not Selected!'));
-            provider.notifyListeners();
+
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           }
         }
       } else {
         final snackBar =
-            SnackBar(content: Text('Only One Image Can be Uploaded!'));
+            SnackBar(content: Text('Only 2 Images Can be Uploaded!'));
+
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
       print(provider.image.length);
@@ -274,7 +265,6 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
                             ),
                             TextField(
                               readOnly: true,
-                              autofocus: false,
                               controller: applicant_name,
                               decoration: loginInputDecoration()
                                   .copyWith(hintText: 'Applicant Name'),
@@ -290,7 +280,6 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
                             ),
                             TextField(
                               controller: dead_persons_name,
-                              autofocus: false,
                               decoration: loginInputDecoration()
                                   .copyWith(hintText: 'Dead Person\'s Name'),
                               maxLength: 50,
@@ -309,7 +298,6 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
                             ),
                             TextField(
                               autocorrect: true,
-                              autofocus: false,
                               keyboardType: TextInputType.number,
                               inputFormatters: <TextInputFormatter>[
                                 FilteringTextInputFormatter.digitsOnly
@@ -369,7 +357,6 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
                             TextField(
                               decoration: loginInputDecoration()
                                   .copyWith(hintText: 'Cause Of Death'),
-                              autofocus: false,
                               maxLength: 50,
                               onChanged: (value) {
                                 provider.cause_of_death = value;
@@ -405,68 +392,6 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              height: 20.0,
-                            ),
-                            Container(
-                              decoration: new BoxDecoration(
-                                color: Color(0xFFeeeef5),
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(40.0),
-                                ),
-                              ),
-                              width: provider.imageName == ''
-                                  ? 0.0
-                                  : MediaQuery.of(context).size.width - 50,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  SizedBox(
-                                    width: provider.imageName == ''
-                                        ? 0.0
-                                        : MediaQuery.of(context).size.width -
-                                            150,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 15.0, vertical: 15.0),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Flexible(
-                                            child: Text(
-                                              provider.imageName == ''
-                                                  ? ''
-                                                  : provider.imageName,
-                                              style: normalTextStyle()
-                                                  .copyWith(fontSize: 14.0),
-                                              overflow: TextOverflow.fade,
-                                              maxLines: 1,
-                                              softWrap: false,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Spacer(),
-                                  provider.imageName == ''
-                                      ? SizedBox()
-                                      : IconButton(
-                                          onPressed: () {
-                                            provider.deleteImage();
-                                            setState(() {});
-                                          },
-                                          icon: Icon(
-                                            Icons.delete_outline_rounded,
-                                            color: orangeColor(),
-                                          ),
-                                        ),
-                                  SizedBox(
-                                    width: 15.0,
-                                  )
-                                ],
-                              ),
-                            )
                           ],
                         ),
                       ),
