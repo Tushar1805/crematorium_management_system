@@ -1,9 +1,11 @@
+import 'package:badges/badges.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:way_to_heaven/Admin/adminProvider.dart';
+import 'package:way_to_heaven/Admin/request.dart';
 import 'package:way_to_heaven/components/constants.dart';
 
 class AdminHomePage extends StatefulWidget {
@@ -70,10 +72,71 @@ class _AdminHomePageState extends State<AdminHomePage> {
               bottom: TabBar(
                 tabs: [
                   Tab(
-                    text: "Request",
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Request'),
+                        provider.requestCount > 0
+                            ? Badge(
+                                badgeColor: Colors.white,
+                                badgeContent: Padding(
+                                  padding: const EdgeInsets.all(3.0),
+                                  child: Text(
+                                    provider.requestCount.toString(),
+                                    style: whiteTextStyle().copyWith(
+                                        color: redOrangeColor(),
+                                        fontSize: 13.0),
+                                  ),
+                                ),
+                              )
+                            : SizedBox()
+                      ],
+                    ),
                   ),
-                  Tab(text: "Current"),
-                  Tab(text: "Upcoming")
+                  Tab(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Current'),
+                        provider.currentCount > 0
+                            ? Badge(
+                                badgeColor: Colors.white,
+                                badgeContent: Padding(
+                                  padding: const EdgeInsets.all(3.0),
+                                  child: Text(
+                                    provider.currentCount.toString(),
+                                    style: whiteTextStyle().copyWith(
+                                        color: redOrangeColor(),
+                                        fontSize: 13.0),
+                                  ),
+                                ),
+                              )
+                            : SizedBox()
+                      ],
+                    ),
+                  ),
+                  Tab(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Upcoming'),
+                        provider.upcomingCount > 0
+                            ? Badge(
+                                badgeColor: Colors.white,
+                                badgeContent: Padding(
+                                  padding: const EdgeInsets.all(3.0),
+                                  child: Text(
+                                    provider.upcomingCount.toString(),
+                                    style: whiteTextStyle().copyWith(
+                                        color: redOrangeColor(),
+                                        fontSize: 13.0),
+                                  ),
+                                ),
+                              )
+                            : SizedBox()
+                      ],
+                    ),
+                  )
                 ],
                 onTap: (index) {
                   print(index);
@@ -88,7 +151,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       color: Colors.white,
                       width: 2.0,
                     ),
-                    insets: EdgeInsets.symmetric(horizontal: 20.0)),
+                    insets: EdgeInsets.symmetric(horizontal: 5.0)),
               ),
               backgroundColor: orangeColor(),
             ),
@@ -143,7 +206,18 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                                 style: lightBlackTextStyle()),
                                             Spacer(),
                                             FlatButton(
-                                              onPressed: () async {},
+                                              onPressed: () {
+                                                provider.requestSelected(
+                                                    provider.requestList[index]
+                                                        ['requestId'],
+                                                    index);
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            RequestPage(
+                                                                provider)));
+                                              },
                                               child: Container(
                                                 width: MediaQuery.of(context)
                                                         .size
@@ -165,7 +239,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                                         .copyWith(
                                                             color:
                                                                 redOrangeColor(),
-                                                            fontSize: 15.0,
+                                                            fontSize: 13.0,
                                                             fontWeight:
                                                                 FontWeight
                                                                     .w600),
