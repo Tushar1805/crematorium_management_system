@@ -152,6 +152,7 @@ class _UserHomePageState extends State<UserHomePage>
                                 OverscrollIndicatorNotification>(
                               onNotification: (overscroll) {
                                 overscroll.disallowGlow();
+                                return null;
                               },
                               child: SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,

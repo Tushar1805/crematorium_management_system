@@ -1,11 +1,11 @@
 import 'package:way_to_heaven/utils/utils.dart';
 
-class User {
+class UserClass {
   String name, role, address, mobile, email, age;
   bool isNewUser;
   DateTime createdTime;
 
-  User(
+  UserClass(
       {this.name,
       this.createdTime,
       this.role,
@@ -16,14 +16,14 @@ class User {
 
   Map<String, dynamic> toJson() => {
         'name': name,
-        'createdTime': createdTime,
+        'createdTime': DateTime.now(),
         'role': role,
         'address': address,
         'age': age,
         'newUser': isNewUser
       };
 
-  static User fromJson(Map<String, dynamic> json) => User(
+  static UserClass fromJson(Map<String, dynamic> json) => UserClass(
         createdTime: Utils.toDateTime(json['createdTime']),
         name: json['name'],
         role: json['role'],
