@@ -1,5 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:way_to_heaven/User/user.dart';
+import 'package:way_to_heaven/User/userProvider.dart';
 import 'package:way_to_heaven/components/constants.dart';
 
 class CompleteUserProfile extends StatefulWidget {
@@ -8,8 +13,26 @@ class CompleteUserProfile extends StatefulWidget {
 }
 
 class _CompleteUserProfileState extends State<CompleteUserProfile> {
-  String name, email, address, phone, age, gender;
+  String name, email, address, phone, age, gender, uid, role;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  void initState() {
+    super.initState();
+    getUserInfo();
+  }
+
+  getUserInfo() async {
+    User curUser = FirebaseAuth.instance.currentUser;
+
+    await FirebaseFirestore.instance
+        .collection("Users")
+        .doc(curUser.uid)
+        .get()
+        .then((value) => setState(() {
+              role = value["role"];
+              uid = curUser.uid;
+            }));
+  }
 
   Widget _buildName() {
     return TextFormField(
@@ -100,6 +123,26 @@ class _CompleteUserProfileState extends State<CompleteUserProfile> {
         onSaved: (String value) {
           gender = value;
         });
+  }
+
+  void addCompleteProfile() {
+    final isValid = _formKey.currentState.validate();
+    if (!isValid) {
+      return;
+    } else {
+      final user = UserClass(
+        name: name,
+        createdTime: DateTime.now(),
+        role: role,
+        address: address,
+        mobile: phone,
+        age: age,
+      );
+
+      final provider = Provider.of<UserProvider>(context, listen: false);
+      provider.completeUserProfile(user, uid);
+      Navigator.of(context).pop();
+    }
   }
 
   @override
@@ -202,6 +245,7 @@ class _CompleteUserProfileState extends State<CompleteUserProfile> {
                           return;
                         }
                         _formKey.currentState.save();
+                        addCompleteProfile();
                         print(name);
                         print(email);
                         print(address);
