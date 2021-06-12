@@ -2,6 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:way_to_heaven/Admin/admin.dart';
+import 'package:way_to_heaven/Admin/adminProvider.dart';
 import 'package:way_to_heaven/components/constants.dart';
 
 class CompleteAdminProfile extends StatefulWidget {
@@ -10,7 +13,15 @@ class CompleteAdminProfile extends StatefulWidget {
 }
 
 class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
-  String name, email, address, phone, age, role, crematoriumName, capacity;
+  String name,
+      email,
+      address,
+      contact,
+      age,
+      role,
+      crematoriumName,
+      capacity,
+      uid;
   TimeOfDay from, till;
   TimeOfDay time1;
   TimeOfDay time2;
@@ -24,20 +35,21 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
     super.initState();
     time1 = TimeOfDay.now();
     time2 = TimeOfDay.now();
-    // getUserInfo();
+    getUserInfo();
   }
 
-  // Future<void> getUserInfo() async {
-  //   final User user = auth.currentUser;
-  //   FirebaseFirestore.instance.collection("Users").doc(user.uid).get().then(
-  //     (value) {
-  //       setState(() {
-  //         role = (value["role"].toString());
-  //         print(role);
-  //       });
-  //     },
-  //   );
-  // }
+  Future<void> getUserInfo() async {
+    final User user = auth.currentUser;
+    FirebaseFirestore.instance.collection("Users").doc(user.uid).get().then(
+      (value) {
+        setState(() {
+          role = (value["role"].toString());
+          uid = user.uid;
+          print(role);
+        });
+      },
+    );
+  }
 
   Future<Null> selectTime1(BuildContext context) async {
     picked1 = await showTimePicker(context: context, initialTime: time1);
@@ -102,9 +114,10 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
           if (value.isEmpty) {
             return 'Contact Number is Required';
           }
+          return null;
         },
         onSaved: (String value) {
-          phone = value;
+          contact = value;
         });
   }
 
@@ -115,6 +128,7 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
           if (value.isEmpty) {
             return 'Address is Required';
           }
+          return null;
         },
         onSaved: (String value) {
           address = value;
@@ -276,6 +290,29 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
     );
   }
 
+  void addCompleteProfile() {
+    final isValid = _formKey.currentState.validate();
+    if (!isValid) {
+      return;
+    } else {
+      final user = AdminClass(
+          name: name,
+          createdTime: DateTime.now(),
+          email: email,
+          address: address,
+          age: age,
+          contact: contact,
+          role: role,
+          crematoriumName: crematoriumName,
+          capacity: capacity,
+          timing: {'from': from, 'till': till});
+
+      final provider = Provider.of<AdminProvider>(context, listen: false);
+      provider.completeAdminProfile(user, uid);
+      Navigator.of(context).pop();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     void showSnackBar(context, value) {
@@ -342,6 +379,7 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
         child: Form(
             key: _formKey,
             child: NotificationListener<OverscrollIndicatorNotification>(
+              // ignore: missing_return
               onNotification: (overscroll) {
                 overscroll.disallowGlow();
               },
@@ -398,7 +436,7 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
                           print(name);
                           print(email);
                           print(address);
-                          print(phone);
+                          print(contact);
                           print(age);
                           showSnackBar(context, "Profile Updated Successfully");
                         },

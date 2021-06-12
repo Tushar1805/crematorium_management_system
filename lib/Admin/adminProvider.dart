@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:way_to_heaven/Admin/admin.dart';
 import 'package:way_to_heaven/repositories/adminRepository.dart';
 
 enum States { loading, requestInfo, showProofOfDeath }
@@ -40,6 +42,12 @@ class AdminProvider extends ChangeNotifier {
     requestCount = requestList.length;
     loading = false;
     notifyListeners();
+  }
+
+  Future<void> completeAdminProfile(AdminClass admin, String uid) async {
+    final docTodo = FirebaseFirestore.instance.collection('Users').doc(uid);
+
+    await docTodo.set(admin.toJson());
   }
 
   void requestSelected(String requestId, int index) {

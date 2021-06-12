@@ -254,7 +254,8 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height -
                   MediaQuery.of(context).padding.top -
-                  60,
+                  60 +
+                  80,
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 8.0, vertical: 15.0),

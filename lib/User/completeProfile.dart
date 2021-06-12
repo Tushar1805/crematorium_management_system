@@ -100,11 +100,13 @@ class _CompleteUserProfileState extends State<CompleteUserProfile> {
     return TextFormField(
         keyboardType: TextInputType.number,
         decoration: formInputDecoration("Enter Age"),
+        // ignore: missing_return
         validator: (String value) {
           int age = int.tryParse(value);
           if (age == null || age <= 0) {
             return 'Age is Required';
           }
+          return null;
         },
         onSaved: (String value) {
           age = value;
