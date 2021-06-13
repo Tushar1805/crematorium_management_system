@@ -249,6 +249,7 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
             ),
           ),
         ),
+<<<<<<< HEAD
         body: Stack(children: [
           Center(
             child: SingleChildScrollView(
@@ -405,6 +406,105 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
                                       ],
                                     ),
                                   ),
+=======
+        body: Center(
+          child: SingleChildScrollView(
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height -
+                  MediaQuery.of(context).padding.top -
+                  60 +
+                  80,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 15.0),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Form(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(' Applicant Name',
+                                style: lightBlackTextStyle()
+                                    .copyWith(color: Colors.black)),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            TextField(
+                              readOnly: true,
+                              autofocus: false,
+                              controller: applicant_name,
+                              decoration: loginInputDecoration()
+                                  .copyWith(hintText: 'Applicant Name'),
+                            ),
+                            SizedBox(
+                              height: 20.0,
+                            ),
+                            Text(' Dead Person\'s Name',
+                                style: lightBlackTextStyle()
+                                    .copyWith(color: Colors.black)),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            TextField(
+                              controller: dead_persons_name,
+                              autofocus: false,
+                              decoration: loginInputDecoration()
+                                  .copyWith(hintText: 'Dead Person\'s Name'),
+                              maxLength: 50,
+                              onChanged: (value) {
+                                provider.dead_persons_name = value;
+                              },
+                            ),
+                            SizedBox(
+                              height: 20.0,
+                            ),
+                            Text(' Age',
+                                style: lightBlackTextStyle()
+                                    .copyWith(color: Colors.black)),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            TextField(
+                              autocorrect: true,
+                              autofocus: false,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
+                              decoration: loginInputDecoration()
+                                  .copyWith(hintText: 'Age'),
+                              maxLength: 3,
+                              onChanged: (value) {
+                                provider.dead_persons_age = value;
+                              },
+                            ),
+                            SizedBox(
+                              height: 20.0,
+                            ),
+                            Text(' Gender',
+                                style: lightBlackTextStyle()
+                                    .copyWith(color: Colors.black)),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            Row(
+                              children: [
+                                Radio(
+                                    value: 'Male',
+                                    activeColor: orangeColor(),
+                                    groupValue: provider.selectedGender,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        provider.selectGenderClicked(value);
+                                      });
+                                    }),
+                                Text('Male'),
+                                SizedBox(
+                                  width: 20.0,
+>>>>>>> 09ec60c39ef381dddd2c2821beb3dc644be120fc
                                 ),
                               ),
                               SizedBox(
