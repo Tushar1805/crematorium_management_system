@@ -9,6 +9,7 @@ import 'package:way_to_heaven/User/user.dart';
 import 'package:way_to_heaven/repositories/userRepository.dart';
 
 class UserProvider extends ChangeNotifier {
+  bool loading = false;
   String selectedZone;
 
   // Application
@@ -117,6 +118,8 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<bool> submitApplicationToCrematorium() async {
+    loading = true;
+    notifyListeners();
     print(dead_persons_name);
     print(dead_persons_age);
     print(cause_of_death);
@@ -140,8 +143,12 @@ class UserProvider extends ChangeNotifier {
       dead_persons_age = '';
       cause_of_death = '';
       selectedGender = '';
+      loading = false;
+      notifyListeners();
       return true;
     } else {
+      loading = false;
+      notifyListeners();
       return false;
     }
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:way_to_heaven/Admin/adminProvider.dart';
+import 'package:way_to_heaven/Admin/showProofOfDeath.dart';
 import 'package:way_to_heaven/components/constants.dart';
 
 Widget requestInfo(AdminProvider provider, BuildContext context) {
@@ -126,7 +127,10 @@ Widget requestInfo(AdminProvider provider, BuildContext context) {
                 ),
                 InkWell(
                   onTap: () {
-                    provider.showProofOfDeath();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => ViewProofOfDeath(provider)));
                   },
                   child: Container(
                     decoration: new BoxDecoration(
@@ -173,7 +177,7 @@ Widget requestInfo(AdminProvider provider, BuildContext context) {
               //  Navigator.push(context, MaterialPageRoute(builder: (context) => ApplyForCremation(provider) ));
             },
             child: Container(
-              width: MediaQuery.of(context).size.width,
+              width: MediaQuery.of(context).size.width - 24,
               height: 50.0,
               decoration: new BoxDecoration(
                 gradient: new LinearGradient(

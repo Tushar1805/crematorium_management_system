@@ -15,154 +15,239 @@ class _ApplicationState extends State<Application> {
   @override
   Widget build(BuildContext context) {
     final provider = widget.provider;
-     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: redOrangeColor(),
       statusBarIconBrightness: Brightness.light,
       statusBarBrightness: Brightness.light,
     ));
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 60,
-        automaticallyImplyLeading: false,
-        backwardsCompatibility: false,
-        systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: redOrangeColor(), // status bar color
-          statusBarBrightness: Brightness.light, 
-          statusBarIconBrightness: Brightness.light,//status bar brigtness
-        ),
-        flexibleSpace:  Container(   
-          width: MediaQuery.of(context).size.width,      
-          child: new Padding(
-            padding: const EdgeInsets.only(
-              left: 10.0,
-              top: 40,
-              bottom: 10.0
+        appBar: AppBar(
+          toolbarHeight: 60,
+          automaticallyImplyLeading: false,
+          backwardsCompatibility: false,
+          systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: redOrangeColor(), // status bar color
+            statusBarBrightness: Brightness.light,
+            statusBarIconBrightness: Brightness.light, //status bar brigtness
+          ),
+          flexibleSpace: Container(
+            width: MediaQuery.of(context).size.width,
+            child: new Padding(
+              padding: const EdgeInsets.only(left: 10.0, top: 40, bottom: 10.0),
+              child: Row(
+                children: [
+                  IconButton(
+                      icon: Icon(
+                        Icons.arrow_back_rounded,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      }),
+                  SizedBox(
+                    width: 10.0,
+                  ),
+                  Text('Crematorium Details', style: titleBarWhiteTextStyle()),
+                ],
+              ),
             ),
-            child:  Row(
+            decoration: new BoxDecoration(
+              gradient: new LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [redOrangeColor(), redOrangeColor(), orangeColor()]),
+            ),
+          ),
+        ),
+        body: Container(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
               children: [
-                IconButton(
-                  icon: Icon(Icons.arrow_back_rounded ,color: Colors.white,), 
-                  onPressed: (){
-                    Navigator.pop(context);
-                  }
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                              width: MediaQuery.of(context).size.width / 2,
+                              height: MediaQuery.of(context).size.width / 2,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(90.0),
+                                  border: Border.all(color: Color(0xFFeeeeee))),
+                              child: Image.asset(
+                                  'assets/icons/image_placeholder.png'))
+                        ],
+                      ),
+                      SizedBox(height: 20.0),
+                      Row(
+                        children: [
+                          Text(
+                            'Crematorium Name:',
+                            style: lightBlackTextStyle(),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                              provider.crematoriumSearchList[provider
+                                  .selectedCrematorium]['crematoriumName'],
+                              style: normalTextStyle()),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'Zone:',
+                            style: lightBlackTextStyle(),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                              provider.crematoriumSearchList[
+                                  provider.selectedCrematorium]['zone'],
+                              style: normalTextStyle()),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'Address:',
+                            style: lightBlackTextStyle(),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                              provider.crematoriumSearchList[
+                                  provider.selectedCrematorium]['address'],
+                              style: normalTextStyle()),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'Timings:',
+                            style: lightBlackTextStyle(),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                              provider.crematoriumSearchList[
+                                  provider.selectedCrematorium]['timing'],
+                              style: normalTextStyle()),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'Contact No:',
+                            style: lightBlackTextStyle(),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                              provider.crematoriumSearchList[provider
+                                  .selectedCrematorium]['crematoriumContact'],
+                              style: normalTextStyle()),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'Crematorium Capacity:',
+                            style: lightBlackTextStyle(),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                              provider.crematoriumSearchList[
+                                      provider.selectedCrematorium]['capacity']
+                                  .toString(),
+                              style: normalTextStyle()),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'Status:',
+                            style: lightBlackTextStyle(),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                              provider.crematoriumSearchList[
+                                  provider.selectedCrematorium]['status'],
+                              style: normalTextStyle()),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-                SizedBox(width: 10.0,),
-                Text(
-                  'Crematorium Details',
-                  style: titleBarWhiteTextStyle()
-                ),
+                Spacer(),
+                FlatButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ApplyForCremation(provider)));
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 50.0,
+                    decoration: new BoxDecoration(
+                      gradient: new LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [
+                            redOrangeColor(),
+                            redOrangeColor(),
+                            orangeColor()
+                          ]),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(5.0),
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'APPLY',
+                        style: whiteTextStyle().copyWith(
+                            fontSize: 15.0, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ),
+                )
               ],
             ),
           ),
-          decoration: new BoxDecoration(
-            gradient: new LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                redOrangeColor(),
-                redOrangeColor(),
-                orangeColor()
-              ]
-            ),
-          ),
-        ),
-      ),      
-       body: Container(
-         child: Padding(
-           padding: const EdgeInsets.all(8.0),
-           child: Column(
-             children: [
-               Padding(
-                 padding: const EdgeInsets.all(12.0),
-                 child: Column(
-                   children: [
-                     SizedBox(height: 20.0,),
-                     Row(
-                       children: [
-                         Text('Crematorium Name:' , style: lightBlackTextStyle(),),
-                         SizedBox(width: 5,),
-                         Text(provider.crematoriumSearchList[provider.selectedCrematorium]['crematoriumName'] , style: normalTextStyle()),
-                       ],
-                     ),
-                     SizedBox(height: 20.0,),
-                     Row(
-                       children: [
-                         Text('Zone:' , style: lightBlackTextStyle(),),
-                         SizedBox(width: 5,),
-                         Text(provider.crematoriumSearchList[provider.selectedCrematorium]['zone'] , style: normalTextStyle()),
-                       ],
-                     ),
-                     SizedBox(height: 20.0,),
-                     Row(
-                       children: [
-                         Text('Address:' , style: lightBlackTextStyle(),),
-                         SizedBox(width: 5,),
-                         Text(provider.crematoriumSearchList[provider.selectedCrematorium]['address'] , style: normalTextStyle()),
-                       ],
-                     ),
-                     SizedBox(height: 20.0,),
-                     Row(
-                       children: [
-                         Text('Timings:' , style: lightBlackTextStyle(),),
-                         SizedBox(width: 5,),
-                         Text(provider.crematoriumSearchList[provider.selectedCrematorium]['timing'] , style: normalTextStyle()),
-                       ],
-                     ),
-                     SizedBox(height: 20.0,),
-                     Row(
-                       children: [
-                         Text('Contact No:' , style: lightBlackTextStyle(),),
-                         SizedBox(width: 5,),
-                         Text(provider.crematoriumSearchList[provider.selectedCrematorium]['crematoriumContact'] , style: normalTextStyle()),
-                       ],
-                     ),
-                     SizedBox(height: 20.0,),
-                     Row(
-                       children: [
-                         Text('Crematorium Capacity:' , style: lightBlackTextStyle(),),
-                         SizedBox(width: 5,),
-                         Text(provider.crematoriumSearchList[provider.selectedCrematorium]['capacity'].toString() , style: normalTextStyle()),
-                       ],
-                     ),               
-                     SizedBox(height: 20.0,),
-                     Row(
-                       children: [
-                         Text('Status:' , style: lightBlackTextStyle(),),
-                         SizedBox(width: 5,),
-                         Text(provider.crematoriumSearchList[provider.selectedCrematorium]['status'] , style: normalTextStyle()),
-                       ],
-                     ),     
-                          
-                   ],
-                 ),
-               ),
-                Spacer(),
-                     FlatButton(
-                       onPressed: (){
-                         Navigator.push(context, MaterialPageRoute(builder: (context) => ApplyForCremation(provider) ));
-                       }, 
-                       child: Container(
-                            width: MediaQuery.of(context).size.width ,
-                            height: 50.0,
-                            decoration: new BoxDecoration(
-                              gradient: new LinearGradient(
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                                colors: [
-                                  redOrangeColor(),
-                                  redOrangeColor(),
-                                  orangeColor()
-                                ]
-                              ),
-                              borderRadius: BorderRadius.all( Radius.circular(5.0),),
-                            ) ,                           
-                            child: Center(child: Text('APPLY',style: whiteTextStyle().copyWith(fontSize: 15.0, fontWeight: FontWeight.w600),),),                            
-                        ),
-                     )   
-             ],
-           ),
-         ),
-       )
-    );
+        ));
   }
 }

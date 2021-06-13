@@ -25,9 +25,6 @@ class _RequestPageState extends State<RequestPage> {
         case States.requestInfo:
           return requestInfo(provider, context);
           break;
-        case States.showProofOfDeath:
-          return viewProofOfDeath(provider, context);
-          break;
       }
     }
 

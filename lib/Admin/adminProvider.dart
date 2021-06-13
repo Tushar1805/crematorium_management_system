@@ -14,15 +14,21 @@ class AdminProvider extends ChangeNotifier {
   //
   //
   //
+
+  var state = States.requestInfo;
+
   String adminId = 'jCb6F1p3eH4Ft7pxVvfb';
   String selectedRequestId;
-  var state = States.requestInfo;
   String requestTitle = 'Request';
+  String imageUrl;
+
   int selectedRequestIndex;
   int requestCount = 0;
   int currentCount = 0;
   int upcomingCount = 0;
+
   bool loading = true;
+
   List<Map> requestList = [];
   List<Map> currentList = [];
   List<Map> upcomingList = [];
@@ -46,13 +52,8 @@ class AdminProvider extends ChangeNotifier {
     state = States.requestInfo;
     selectedRequestId = requestId;
     selectedRequestIndex = index;
+    imageUrl = requestList[selectedRequestIndex]['imageUrl'];
     print(selectedRequestId);
-    notifyListeners();
-  }
-
-  void showProofOfDeath() {
-    state = States.showProofOfDeath;
-    requestTitle = 'Proof Of Death';
     notifyListeners();
   }
 }

@@ -3,6 +3,7 @@ import 'package:path/path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:way_to_heaven/Admin/loading.dart';
 import 'package:way_to_heaven/User/userProvider.dart';
 import 'package:way_to_heaven/components/constants.dart';
 
@@ -248,268 +249,287 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
             ),
           ),
         ),
-        body: Center(
-          child: SingleChildScrollView(
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height -
-                  MediaQuery.of(context).padding.top -
-                  60,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 15.0),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Form(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(' Applicant Name',
-                                style: lightBlackTextStyle()
-                                    .copyWith(color: Colors.black)),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            TextField(
-                              readOnly: true,
-                              autofocus: false,
-                              controller: applicant_name,
-                              decoration: loginInputDecoration()
-                                  .copyWith(hintText: 'Applicant Name'),
-                            ),
-                            SizedBox(
-                              height: 20.0,
-                            ),
-                            Text(' Dead Person\'s Name',
-                                style: lightBlackTextStyle()
-                                    .copyWith(color: Colors.black)),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            TextField(
-                              controller: dead_persons_name,
-                              autofocus: false,
-                              decoration: loginInputDecoration()
-                                  .copyWith(hintText: 'Dead Person\'s Name'),
-                              maxLength: 50,
-                              onChanged: (value) {
-                                provider.dead_persons_name = value;
-                              },
-                            ),
-                            SizedBox(
-                              height: 20.0,
-                            ),
-                            Text(' Age',
-                                style: lightBlackTextStyle()
-                                    .copyWith(color: Colors.black)),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            TextField(
-                              autocorrect: true,
-                              autofocus: false,
-                              keyboardType: TextInputType.number,
-                              inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.digitsOnly
-                              ],
-                              decoration: loginInputDecoration()
-                                  .copyWith(hintText: 'Age'),
-                              maxLength: 3,
-                              onChanged: (value) {
-                                provider.dead_persons_age = value;
-                              },
-                            ),
-                            SizedBox(
-                              height: 20.0,
-                            ),
-                            Text(' Gender',
-                                style: lightBlackTextStyle()
-                                    .copyWith(color: Colors.black)),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            Row(
-                              children: [
-                                Radio(
-                                    value: 'Male',
-                                    activeColor: orangeColor(),
-                                    groupValue: provider.selectedGender,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        provider.selectGenderClicked(value);
-                                      });
-                                    }),
-                                Text('Male'),
-                                SizedBox(
-                                  width: 20.0,
+        body: Stack(children: [
+          Center(
+            child: SingleChildScrollView(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height -
+                    MediaQuery.of(context).padding.top -
+                    60,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 8.0, vertical: 15.0),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Form(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(' Applicant Name',
+                                  style: lightBlackTextStyle()
+                                      .copyWith(color: Colors.black)),
+                              SizedBox(
+                                height: 10.0,
+                              ),
+                              TextField(
+                                readOnly: true,
+                                autofocus: false,
+                                controller: applicant_name,
+                                decoration: loginInputDecoration()
+                                    .copyWith(hintText: 'Applicant Name'),
+                              ),
+                              SizedBox(
+                                height: 20.0,
+                              ),
+                              Text(' Dead Person\'s Name',
+                                  style: lightBlackTextStyle()
+                                      .copyWith(color: Colors.black)),
+                              SizedBox(
+                                height: 10.0,
+                              ),
+                              TextField(
+                                controller: dead_persons_name,
+                                autofocus: false,
+                                decoration: loginInputDecoration()
+                                    .copyWith(hintText: 'Dead Person\'s Name'),
+                                maxLength: 50,
+                                onChanged: (value) {
+                                  provider.dead_persons_name = value;
+                                },
+                              ),
+                              SizedBox(
+                                height: 20.0,
+                              ),
+                              Text(' Age',
+                                  style: lightBlackTextStyle()
+                                      .copyWith(color: Colors.black)),
+                              SizedBox(
+                                height: 10.0,
+                              ),
+                              TextField(
+                                autocorrect: true,
+                                autofocus: false,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                decoration: loginInputDecoration()
+                                    .copyWith(hintText: 'Age'),
+                                maxLength: 3,
+                                onChanged: (value) {
+                                  provider.dead_persons_age = value;
+                                },
+                              ),
+                              SizedBox(
+                                height: 20.0,
+                              ),
+                              Text(' Gender',
+                                  style: lightBlackTextStyle()
+                                      .copyWith(color: Colors.black)),
+                              SizedBox(
+                                height: 10.0,
+                              ),
+                              Row(
+                                children: [
+                                  Radio(
+                                      value: 'Male',
+                                      activeColor: orangeColor(),
+                                      groupValue: provider.selectedGender,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          provider.selectGenderClicked(value);
+                                        });
+                                      }),
+                                  Text('Male'),
+                                  SizedBox(
+                                    width: 20.0,
+                                  ),
+                                  Radio(
+                                      value: 'Female',
+                                      activeColor: orangeColor(),
+                                      groupValue: provider.selectedGender,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          provider.selectGenderClicked(value);
+                                        });
+                                      }),
+                                  Text('Female'),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 15.0,
+                              ),
+                              Text(' Cause Of Death',
+                                  style: lightBlackTextStyle()
+                                      .copyWith(color: Colors.black)),
+                              SizedBox(
+                                height: 10.0,
+                              ),
+                              TextField(
+                                decoration: loginInputDecoration()
+                                    .copyWith(hintText: 'Cause Of Death'),
+                                autofocus: false,
+                                maxLength: 50,
+                                onChanged: (value) {
+                                  provider.cause_of_death = value;
+                                },
+                              ),
+                              SizedBox(
+                                height: 30.0,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  uploadProofOfDeathClicked(context);
+                                },
+                                child: Container(
+                                  decoration: new BoxDecoration(
+                                    color: Color(0xFF00cc66),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(40.0),
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 30.0, vertical: 15.0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          'Upload Proof Of Death',
+                                          style: whiteTextStyle()
+                                              .copyWith(fontSize: 14.0),
+                                        )
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                                Radio(
-                                    value: 'Female',
-                                    activeColor: orangeColor(),
-                                    groupValue: provider.selectedGender,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        provider.selectGenderClicked(value);
-                                      });
-                                    }),
-                                Text('Female'),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 15.0,
-                            ),
-                            Text(' Cause Of Death',
-                                style: lightBlackTextStyle()
-                                    .copyWith(color: Colors.black)),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            TextField(
-                              decoration: loginInputDecoration()
-                                  .copyWith(hintText: 'Cause Of Death'),
-                              autofocus: false,
-                              maxLength: 50,
-                              onChanged: (value) {
-                                provider.cause_of_death = value;
-                              },
-                            ),
-                            SizedBox(
-                              height: 30.0,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                uploadProofOfDeathClicked(context);
-                              },
-                              child: Container(
+                              ),
+                              SizedBox(
+                                height: 20.0,
+                              ),
+                              Container(
                                 decoration: new BoxDecoration(
-                                  color: Color(0xFF00cc66),
+                                  color: Color(0xFFeeeef5),
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(40.0),
                                   ),
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 30.0, vertical: 15.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        'Upload Proof Of Death',
-                                        style: whiteTextStyle()
-                                            .copyWith(fontSize: 14.0),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20.0,
-                            ),
-                            Container(
-                              decoration: new BoxDecoration(
-                                color: Color(0xFFeeeef5),
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(40.0),
-                                ),
-                              ),
-                              width: provider.imageName == ''
-                                  ? 0.0
-                                  : MediaQuery.of(context).size.width - 50,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  SizedBox(
-                                    width: provider.imageName == ''
-                                        ? 0.0
-                                        : MediaQuery.of(context).size.width -
-                                            150,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 15.0, vertical: 15.0),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Flexible(
-                                            child: Text(
-                                              provider.imageName == ''
-                                                  ? ''
-                                                  : provider.imageName,
-                                              style: normalTextStyle()
-                                                  .copyWith(fontSize: 14.0),
-                                              overflow: TextOverflow.fade,
-                                              maxLines: 1,
-                                              softWrap: false,
-                                            ),
-                                          )
-                                        ],
+                                width: provider.imageName == ''
+                                    ? 0.0
+                                    : MediaQuery.of(context).size.width - 50,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    SizedBox(
+                                      width: provider.imageName == ''
+                                          ? 0.0
+                                          : MediaQuery.of(context).size.width -
+                                              150,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 15.0, vertical: 15.0),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Flexible(
+                                              child: Text(
+                                                provider.imageName == ''
+                                                    ? ''
+                                                    : provider.imageName,
+                                                style: normalTextStyle()
+                                                    .copyWith(fontSize: 14.0),
+                                                overflow: TextOverflow.fade,
+                                                maxLines: 1,
+                                                softWrap: false,
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Spacer(),
-                                  provider.imageName == ''
-                                      ? SizedBox()
-                                      : IconButton(
-                                          onPressed: () {
-                                            provider.deleteImage();
-                                            setState(() {});
-                                          },
-                                          icon: Icon(
-                                            Icons.delete_outline_rounded,
-                                            color: orangeColor(),
+                                    Spacer(),
+                                    provider.imageName == ''
+                                        ? SizedBox()
+                                        : IconButton(
+                                            onPressed: () {
+                                              provider.deleteImage();
+                                              setState(() {});
+                                            },
+                                            icon: Icon(
+                                              Icons.delete_outline_rounded,
+                                              color: orangeColor(),
+                                            ),
                                           ),
-                                        ),
-                                  SizedBox(
-                                    width: 15.0,
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    Spacer(),
-                    FlatButton(
-                      onPressed: () async {
-                        if (await provider.submitApplicationToCrematorium()) {
-                          showSubmitDialog(true);
-                        } else {
-                          showSubmitDialog(false);
-                        }
-                      },
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 50.0,
-                        decoration: new BoxDecoration(
-                          gradient: new LinearGradient(
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                              colors: [
-                                redOrangeColor(),
-                                redOrangeColor(),
-                                orangeColor()
-                              ]),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5.0),
-                          ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'SUBMIT',
-                            style: whiteTextStyle().copyWith(
-                                fontSize: 15.0, fontWeight: FontWeight.w600),
+                                    SizedBox(
+                                      width: 15.0,
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
                           ),
                         ),
                       ),
-                    )
-                  ],
+                      Spacer(),
+                      FlatButton(
+                        onPressed: () async {
+                          setState(() {
+                            provider.loading = true;
+                          });
+                          if (await provider.submitApplicationToCrematorium()) {
+                            setState(() {
+                              provider.loading = false;
+                            });
+                            showSubmitDialog(true);
+                          } else {
+                            setState(() {
+                              provider.loading = false;
+                            });
+                            showSubmitDialog(false);
+                          }
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 50.0,
+                          decoration: new BoxDecoration(
+                            gradient: new LinearGradient(
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                                colors: [
+                                  redOrangeColor(),
+                                  redOrangeColor(),
+                                  orangeColor()
+                                ]),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(5.0),
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'SUBMIT',
+                              style: whiteTextStyle().copyWith(
+                                  fontSize: 15.0, fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-        ));
+          provider.loading
+              ? Container(
+                  color: Color.fromRGBO(0, 0, 0, 0.1),
+                  child: Center(
+                    child: loading(),
+                  ),
+                )
+              : SizedBox()
+        ]));
   }
 }
