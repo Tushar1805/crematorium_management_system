@@ -3,10 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:way_to_heaven/Admin/adminProvider.dart';
 import 'package:way_to_heaven/Admin/loading.dart';
+import 'package:way_to_heaven/User/userProvider.dart';
 import 'package:way_to_heaven/components/constants.dart';
 
 class ViewProofOfDeath extends StatefulWidget {
-  AdminProvider provider;
+  UserProvider provider;
   ViewProofOfDeath(@required this.provider);
   @override
   _ViewProofOfDeathState createState() => _ViewProofOfDeathState();

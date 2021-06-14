@@ -30,8 +30,7 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
     Future<void> selectImage(String source) async {
       if (provider.image == null) {
         if (source == 'camera') {
-          final pickedImage =
-              await ImagePicker().getImage(source: ImageSource.camera);
+          final pickedImage = await ImagePicker().getImage(source: ImageSource.camera);
           if (pickedImage != null) {
             Navigator.pop(context);
             provider.addImage(pickedImage.path);
@@ -44,8 +43,7 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           }
         } else {
-          final pickedImage =
-              await ImagePicker().getImage(source: ImageSource.gallery);
+          final pickedImage = await ImagePicker().getImage(source: ImageSource.gallery);
           if (pickedImage != null) {
             Navigator.pop(context);
             provider.addImage(pickedImage.path);
@@ -59,8 +57,7 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
           }
         }
       } else {
-        final snackBar =
-            SnackBar(content: Text('Only One Image Can be Uploaded!'));
+        final snackBar = SnackBar(content: Text('Only One Image Can be Uploaded!'));
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
       print(provider.image.length);
@@ -81,12 +78,8 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Center(
-                    child: Text(
-                        isSuccess
-                            ? 'Application Submited Successfully!'
-                            : 'All Fields Are Necesary!',
-                        style: normalTextStyle()
-                            .copyWith(color: redOrangeColor())),
+                    child: Text(isSuccess ? 'Application Submited Successfully!' : 'All Fields Are Necesary!',
+                        style: normalTextStyle().copyWith(color: redOrangeColor())),
                   ),
                 ),
                 SizedBox(
@@ -103,18 +96,13 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
                       }
                     },
                     child: Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                       width: MediaQuery.of(context).size.width / 3,
                       decoration: new BoxDecoration(
                         gradient: new LinearGradient(
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,
-                            colors: [
-                              redOrangeColor(),
-                              redOrangeColor(),
-                              orangeColor()
-                            ]),
+                            colors: [redOrangeColor(), redOrangeColor(), orangeColor()]),
                         borderRadius: BorderRadius.all(
                           Radius.circular(40.0),
                         ),
@@ -122,8 +110,7 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
                       child: Center(
                         child: Text(
                           'OK',
-                          style: whiteTextStyle().copyWith(
-                              fontSize: 15.0, fontWeight: FontWeight.w600),
+                          style: whiteTextStyle().copyWith(fontSize: 15.0, fontWeight: FontWeight.w600),
                         ),
                       ),
                     ),
@@ -142,8 +129,7 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
               title: Center(
                   child: Text(
                 'Select Image From',
-                style: darkBlackTextStyle()
-                    .copyWith(fontSize: 18.0, fontWeight: FontWeight.w600),
+                style: darkBlackTextStyle().copyWith(fontSize: 18.0, fontWeight: FontWeight.w600),
               )),
               actions: [
                 Padding(
@@ -158,8 +144,7 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
                               await selectImage('camera');
                             },
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 25, vertical: 8.0),
+                              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 8.0),
                               child: Column(
                                 children: [
                                   Icon(
@@ -249,18 +234,14 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
             ),
           ),
         ),
-<<<<<<< HEAD
         body: Stack(children: [
           Center(
             child: SingleChildScrollView(
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height -
-                    MediaQuery.of(context).padding.top -
-                    60,
+                height: MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top - 60,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 8.0, vertical: 15.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 15.0),
                   child: Column(
                     children: [
                       Padding(
@@ -269,9 +250,7 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(' Applicant Name',
-                                  style: lightBlackTextStyle()
-                                      .copyWith(color: Colors.black)),
+                              Text(' Applicant Name', style: lightBlackTextStyle().copyWith(color: Colors.black)),
                               SizedBox(
                                 height: 10.0,
                               ),
@@ -279,23 +258,19 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
                                 readOnly: true,
                                 autofocus: false,
                                 controller: applicant_name,
-                                decoration: loginInputDecoration()
-                                    .copyWith(hintText: 'Applicant Name'),
+                                decoration: loginInputDecoration().copyWith(hintText: 'Applicant Name'),
                               ),
                               SizedBox(
                                 height: 20.0,
                               ),
-                              Text(' Dead Person\'s Name',
-                                  style: lightBlackTextStyle()
-                                      .copyWith(color: Colors.black)),
+                              Text(' Dead Person\'s Name', style: lightBlackTextStyle().copyWith(color: Colors.black)),
                               SizedBox(
                                 height: 10.0,
                               ),
                               TextField(
                                 controller: dead_persons_name,
                                 autofocus: false,
-                                decoration: loginInputDecoration()
-                                    .copyWith(hintText: 'Dead Person\'s Name'),
+                                decoration: loginInputDecoration().copyWith(hintText: 'Dead Person\'s Name'),
                                 maxLength: 50,
                                 onChanged: (value) {
                                   provider.dead_persons_name = value;
@@ -304,9 +279,7 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
                               SizedBox(
                                 height: 20.0,
                               ),
-                              Text(' Age',
-                                  style: lightBlackTextStyle()
-                                      .copyWith(color: Colors.black)),
+                              Text(' Age', style: lightBlackTextStyle().copyWith(color: Colors.black)),
                               SizedBox(
                                 height: 10.0,
                               ),
@@ -314,11 +287,8 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
                                 autocorrect: true,
                                 autofocus: false,
                                 keyboardType: TextInputType.number,
-                                inputFormatters: <TextInputFormatter>[
-                                  FilteringTextInputFormatter.digitsOnly
-                                ],
-                                decoration: loginInputDecoration()
-                                    .copyWith(hintText: 'Age'),
+                                inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                                decoration: loginInputDecoration().copyWith(hintText: 'Age'),
                                 maxLength: 3,
                                 onChanged: (value) {
                                   provider.dead_persons_age = value;
@@ -327,9 +297,7 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
                               SizedBox(
                                 height: 20.0,
                               ),
-                              Text(' Gender',
-                                  style: lightBlackTextStyle()
-                                      .copyWith(color: Colors.black)),
+                              Text(' Gender', style: lightBlackTextStyle().copyWith(color: Colors.black)),
                               SizedBox(
                                 height: 10.0,
                               ),
@@ -363,15 +331,12 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
                               SizedBox(
                                 height: 15.0,
                               ),
-                              Text(' Cause Of Death',
-                                  style: lightBlackTextStyle()
-                                      .copyWith(color: Colors.black)),
+                              Text(' Cause Of Death', style: lightBlackTextStyle().copyWith(color: Colors.black)),
                               SizedBox(
                                 height: 10.0,
                               ),
                               TextField(
-                                decoration: loginInputDecoration()
-                                    .copyWith(hintText: 'Cause Of Death'),
+                                decoration: loginInputDecoration().copyWith(hintText: 'Cause Of Death'),
                                 autofocus: false,
                                 maxLength: 50,
                                 onChanged: (value) {
@@ -393,118 +358,17 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
                                     ),
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 30.0, vertical: 15.0),
+                                    padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Text(
                                           'Upload Proof Of Death',
-                                          style: whiteTextStyle()
-                                              .copyWith(fontSize: 14.0),
+                                          style: whiteTextStyle().copyWith(fontSize: 14.0),
                                         )
                                       ],
                                     ),
                                   ),
-=======
-        body: Center(
-          child: SingleChildScrollView(
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height -
-                  MediaQuery.of(context).padding.top -
-                  60 +
-                  80,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 15.0),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Form(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(' Applicant Name',
-                                style: lightBlackTextStyle()
-                                    .copyWith(color: Colors.black)),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            TextField(
-                              readOnly: true,
-                              autofocus: false,
-                              controller: applicant_name,
-                              decoration: loginInputDecoration()
-                                  .copyWith(hintText: 'Applicant Name'),
-                            ),
-                            SizedBox(
-                              height: 20.0,
-                            ),
-                            Text(' Dead Person\'s Name',
-                                style: lightBlackTextStyle()
-                                    .copyWith(color: Colors.black)),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            TextField(
-                              controller: dead_persons_name,
-                              autofocus: false,
-                              decoration: loginInputDecoration()
-                                  .copyWith(hintText: 'Dead Person\'s Name'),
-                              maxLength: 50,
-                              onChanged: (value) {
-                                provider.dead_persons_name = value;
-                              },
-                            ),
-                            SizedBox(
-                              height: 20.0,
-                            ),
-                            Text(' Age',
-                                style: lightBlackTextStyle()
-                                    .copyWith(color: Colors.black)),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            TextField(
-                              autocorrect: true,
-                              autofocus: false,
-                              keyboardType: TextInputType.number,
-                              inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.digitsOnly
-                              ],
-                              decoration: loginInputDecoration()
-                                  .copyWith(hintText: 'Age'),
-                              maxLength: 3,
-                              onChanged: (value) {
-                                provider.dead_persons_age = value;
-                              },
-                            ),
-                            SizedBox(
-                              height: 20.0,
-                            ),
-                            Text(' Gender',
-                                style: lightBlackTextStyle()
-                                    .copyWith(color: Colors.black)),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            Row(
-                              children: [
-                                Radio(
-                                    value: 'Male',
-                                    activeColor: orangeColor(),
-                                    groupValue: provider.selectedGender,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        provider.selectGenderClicked(value);
-                                      });
-                                    }),
-                                Text('Male'),
-                                SizedBox(
-                                  width: 20.0,
->>>>>>> 09ec60c39ef381dddd2c2821beb3dc644be120fc
                                 ),
                               ),
                               SizedBox(
@@ -517,30 +381,21 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
                                     Radius.circular(40.0),
                                   ),
                                 ),
-                                width: provider.imageName == ''
-                                    ? 0.0
-                                    : MediaQuery.of(context).size.width - 50,
+                                width: provider.imageName == '' ? 0.0 : MediaQuery.of(context).size.width - 50,
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     SizedBox(
-                                      width: provider.imageName == ''
-                                          ? 0.0
-                                          : MediaQuery.of(context).size.width -
-                                              150,
+                                      width: provider.imageName == '' ? 0.0 : MediaQuery.of(context).size.width - 150,
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 15.0, vertical: 15.0),
+                                        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
                                         child: Row(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             Flexible(
                                               child: Text(
-                                                provider.imageName == ''
-                                                    ? ''
-                                                    : provider.imageName,
-                                                style: normalTextStyle()
-                                                    .copyWith(fontSize: 14.0),
+                                                provider.imageName == '' ? '' : provider.imageName,
+                                                style: normalTextStyle().copyWith(fontSize: 14.0),
                                                 overflow: TextOverflow.fade,
                                                 maxLines: 1,
                                                 softWrap: false,
@@ -598,11 +453,7 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
                             gradient: new LinearGradient(
                                 begin: Alignment.centerLeft,
                                 end: Alignment.centerRight,
-                                colors: [
-                                  redOrangeColor(),
-                                  redOrangeColor(),
-                                  orangeColor()
-                                ]),
+                                colors: [redOrangeColor(), redOrangeColor(), orangeColor()]),
                             borderRadius: BorderRadius.all(
                               Radius.circular(5.0),
                             ),
@@ -610,8 +461,7 @@ class _ApplyForCremationState extends State<ApplyForCremation> {
                           child: Center(
                             child: Text(
                               'SUBMIT',
-                              style: whiteTextStyle().copyWith(
-                                  fontSize: 15.0, fontWeight: FontWeight.w600),
+                              style: whiteTextStyle().copyWith(fontSize: 15.0, fontWeight: FontWeight.w600),
                             ),
                           ),
                         ),

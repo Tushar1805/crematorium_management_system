@@ -21,10 +21,16 @@ class UserProvider extends ChangeNotifier {
   String cause_of_death;
   String imageName = '';
   String imageDownloadUrl;
+  String selectedRequestId;
+  String imageUrl;
   File image;
   bool isGenderSelected = false;
   bool isImageSelected = false;
+
   int selectedCrematorium;
+  int applicationListCount;
+  int selectedRequestIndex;
+
   List<String> zonesStringList = [
     'Laxminagar',
     'Dharampeth',
@@ -40,12 +46,31 @@ class UserProvider extends ChangeNotifier {
   List<DropdownMenuItem> zonesDropDownList = [];
   List<Map> crematoriumList = [];
   List<Map> crematoriumSearchList = [];
+  List<Map> applicationList = [];
 
   UserRepository userRepository = new UserRepository();
 
   UserProvider() {
     setZones();
     getCrematoriums();
+    getDetails();
+  }
+
+  Future<void> getDetails() async {
+    loading = true;
+    notifyListeners();
+    applicationList = await userRepository.fetchApplicationList();
+    applicationListCount = applicationList.length;
+    loading = false;
+    notifyListeners();
+  }
+
+  void requestSelected(String requestId, int index) {
+    selectedRequestId = requestId;
+    selectedRequestIndex = index;
+    imageUrl = applicationList[selectedRequestIndex]['imageUrl'];
+    print(selectedRequestId);
+    notifyListeners();
   }
 
   Future<void> completeUserProfile(UserClass user, String uid) async {
@@ -64,8 +89,7 @@ class UserProvider extends ChangeNotifier {
   void setZones() {
     zonesDropDownList = [];
     zonesStringList.forEach((element) {
-      DropdownMenuItem item = DropdownMenuItem(
-          value: element.toString(), child: Text(element.toString()));
+      DropdownMenuItem item = DropdownMenuItem(value: element.toString(), child: Text(element.toString()));
       zonesDropDownList.add(item);
       notifyListeners();
     });
@@ -132,13 +156,7 @@ class UserProvider extends ChangeNotifier {
       Map crematoriumMap = crematoriumSearchList[selectedCrematorium];
       await uploadImage();
       await userRepository.submitApplication(
-          applicant_name,
-          dead_persons_name,
-          dead_persons_age,
-          selectedGender,
-          cause_of_death,
-          crematoriumMap,
-          imageDownloadUrl);
+          applicant_name, dead_persons_name, dead_persons_age, selectedGender, cause_of_death, crematoriumMap, imageDownloadUrl);
       dead_persons_name = '';
       dead_persons_age = '';
       cause_of_death = '';
