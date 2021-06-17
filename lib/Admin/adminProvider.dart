@@ -23,6 +23,7 @@ class AdminProvider extends ChangeNotifier {
   String selectedRequestId;
   String requestTitle = 'Request';
   String imageUrl;
+  String reasonForRejection = '';
 
   int selectedRequestIndex;
   int requestCount = 0;
@@ -62,6 +63,15 @@ class AdminProvider extends ChangeNotifier {
     selectedRequestIndex = index;
     imageUrl = requestList[selectedRequestIndex]['imageUrl'];
     print(selectedRequestId);
+    notifyListeners();
+  }
+
+  Future<void> rejectApplication() async {
+    print(selectedRequestId + reasonForRejection);
+    await adminRepository.rejectApplication(requestList[selectedRequestIndex]['requestId'], reasonForRejection);
+    reasonForRejection = '';
+    requestList[selectedRequestIndex]['application_status'] = 'rejected';
+    print(requestList[selectedRequestIndex]['requestId']);
     notifyListeners();
   }
 }

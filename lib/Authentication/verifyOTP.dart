@@ -38,21 +38,18 @@ Widget VerifyOTP(BuildContext context, LoginProvider provider) {
   _verify() async {
     FirebaseAuth firebaseAuth = await FirebaseAuth.instance;
 
-    final PhoneCodeSent codeSent =
-        (String verificationId, [int forceResendingToken]) async {
+    final PhoneCodeSent codeSent = (String verificationId, [int forceResendingToken]) async {
       actualCode = verificationId;
 
       print('Code sent to ${provider.number}');
       provider.status = "\nEnter the code sent to " + provider.number;
     };
-    final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
-        (String verificationId) {
+    final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout = (String verificationId) {
       actualCode = verificationId;
 
       provider.status = "\nAuto retrieval time out";
     };
-    final PhoneVerificationFailed verificationFailed =
-        (FirebaseAuthException authException) {
+    final PhoneVerificationFailed verificationFailed = (FirebaseAuthException authException) {
       provider.status = '${authException.message}';
 
       print("Error message: " + provider.status);
@@ -64,15 +61,12 @@ Widget VerifyOTP(BuildContext context, LoginProvider provider) {
         provider.status = 'Something has gone wrong, please try later';
     };
 
-    final PhoneVerificationCompleted verificationCompleted =
-        (PhoneAuthCredential auth) {
+    final PhoneVerificationCompleted verificationCompleted = (PhoneAuthCredential auth) {
       provider.status = 'Auto retrieving verification code';
 
       PhoneAuthCredential _authCredential = auth;
 
-      firebaseAuth
-          .signInWithCredential(_authCredential)
-          .then((UserCredential value) async {
+      firebaseAuth.signInWithCredential(_authCredential).then((UserCredential value) async {
         print(value);
         if (value.user != null) {
           provider.status = 'Authentication successful';
@@ -80,11 +74,7 @@ Widget VerifyOTP(BuildContext context, LoginProvider provider) {
           String role;
           bool profileExist = false;
           bool isProfileCompleted;
-          await FirebaseFirestore.instance
-              .collection('Users')
-              .doc(value.user.uid)
-              .get()
-              .then((value) {
+          await FirebaseFirestore.instance.collection('Users').doc(value.user.uid).get().then((value) {
             if (value.data() == null) {
               profileExist = false;
             } else {
@@ -93,33 +83,21 @@ Widget VerifyOTP(BuildContext context, LoginProvider provider) {
           });
           if (role == 'Admin') {
             if (isProfileCompleted) {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => AdminHomePage()));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AdminHomePage()));
             } else {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CompleteAdminProfile()));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CompleteAdminProfile()));
             }
           } else if (role == 'User') {
             if (isProfileCompleted) {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => UserHomePage()));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => UserHomePage()));
             } else {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CompleteUserProfile()));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CompleteUserProfile()));
             }
           } else if (profileExist == false) {
             FirebaseFirestore.instance
                 .collection('Users')
                 .doc(value.user.uid)
-                .set({
-              'uid': value.user.uid,
-              'mobile': provider.number,
-              'role': ''
-            });
+                .set({'uid': value.user.uid, 'mobile': provider.number, 'role': ''});
             print('Login successful...');
             provider.otpVerified();
             // Navigator.pushReplacement(
@@ -169,8 +147,7 @@ Widget VerifyOTP(BuildContext context, LoginProvider provider) {
         onSubmit: (pin) async {
           try {
             await FirebaseAuth.instance
-                .signInWithCredential(PhoneAuthProvider.credential(
-                    verificationId: actualCode, smsCode: pin))
+                .signInWithCredential(PhoneAuthProvider.credential(verificationId: actualCode, smsCode: pin))
                 .then((value) async {
               if (value.user != null) {
                 print('pass to home');
@@ -219,19 +196,24 @@ Widget VerifyOTP(BuildContext context, LoginProvider provider) {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 0),
-              child: Text(
-                "We have sent a one time verification code to your registered mobile ${provider.number}",
-                textAlign: TextAlign.center,
-                style: normalTextStyle(),
+              child: Column(
+                children: [
+                  Text(
+                    "We have sent a one time verification code to your registered mobile ${provider.number}",
+                    textAlign: TextAlign.center,
+                    style: normalTextStyle(),
+                  ),
+                  Text(
+                    "Make sure that your entered mobile number is in your smartphone.",
+                    textAlign: TextAlign.center,
+                    style: normalTextStyle().copyWith(color: Color(0xFFef5350)),
+                  )
+                ],
               ),
             ),
             FlatButton(
               padding: EdgeInsets.all(15.0),
-              child: Text("Change Number",
-                  style: TextStyle(
-                      color: orangeColor(),
-                      fontSize: 14,
-                      fontWeight: FontWeight.w800)),
+              child: Text("Change Number", style: TextStyle(color: orangeColor(), fontSize: 14, fontWeight: FontWeight.w800)),
               minWidth: MediaQuery.of(context).size.width / 2 - 30,
               color: Colors.transparent,
               shape: RoundedRectangleBorder(
@@ -270,21 +252,14 @@ Widget VerifyOTP(BuildContext context, LoginProvider provider) {
             Spacer(),
             Text(
               "Didn't get the OTP?",
-              style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0XFF767676)),
+              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0XFF767676)),
             ),
             SizedBox(height: 20.0),
             FlatButton(
               padding: EdgeInsets.all(12.0),
               child: Text(
                 "RESEND OTP",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 0.5),
+                style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600, letterSpacing: 0.5),
               ),
               minWidth: MediaQuery.of(context).size.width / 2 - 70,
               color: orangeColor(),

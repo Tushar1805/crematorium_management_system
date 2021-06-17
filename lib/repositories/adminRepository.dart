@@ -53,4 +53,12 @@ class AdminRepository {
               map = element.data();
             }));
   }
+
+  Future<void> rejectApplication(selectedRequestId, reasonForRejection) async {
+    await ref
+        .collection('Applications')
+        .doc(selectedRequestId)
+        .update({'application_status': 'rejected', 'reason_for_rejection': reasonForRejection});
+    print('rejected');
+  }
 }

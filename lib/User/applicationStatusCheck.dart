@@ -198,6 +198,24 @@ class _ApplicationStatusCheckState extends State<ApplicationStatusCheck> {
                         ],
                       ),
                       SizedBox(
+                        height: 20.0,
+                      ),
+                      provider.applicationList[provider.selectedRequestIndex]['reason_for_rejection'] != null
+                          ? Row(
+                              children: [
+                                Text(
+                                  'Reason For Rejection:',
+                                  style: lightBlackTextStyle(),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(provider.applicationList[provider.selectedRequestIndex]['reason_for_rejection'],
+                                    style: normalTextStyle().copyWith(color: Color(0xFFf44336), fontWeight: FontWeight.w600)),
+                              ],
+                            )
+                          : SizedBox(),
+                      SizedBox(
                         height: 30.0,
                       ),
                       InkWell(

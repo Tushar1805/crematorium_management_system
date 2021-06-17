@@ -161,6 +161,7 @@ class UserProvider extends ChangeNotifier {
       dead_persons_age = '';
       cause_of_death = '';
       selectedGender = '';
+      deleteImage();
       loading = false;
       notifyListeners();
       return true;

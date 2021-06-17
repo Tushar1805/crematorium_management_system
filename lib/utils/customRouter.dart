@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:way_to_heaven/Admin/adminHome.dart';
 import 'package:way_to_heaven/Admin/completeProfile.dart';
+import 'package:way_to_heaven/Admin/loading.dart';
 import 'package:way_to_heaven/Authentication/loginPage.dart';
 import 'package:way_to_heaven/Authentication/loginProvider.dart';
 import 'package:way_to_heaven/Authentication/setRole.dart';
@@ -25,10 +26,10 @@ class _CustomRouterState extends State<CustomRouter> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<LoginProvider>(context);
-    User user = Provider.of<User>(context);
 
     Widget Selector(BuildContext context, provider) {
-      switch (States.selectRole) {// Changes to be made
+      switch (provider.state) {
+        // Changes to be made
         case States.loginScreen:
           return LoginPage(context, provider);
           break;
@@ -38,14 +39,12 @@ class _CustomRouterState extends State<CustomRouter> {
         case States.selectRole:
           return SetRole(context, provider);
           break;
+        case States.loading:
+          return loading();
+          break;
       }
     }
 
-    if (user != null) {
-      provider.state = States.selectRole;
-    } else {
-      provider.state = States.loginScreen;
-    }
     return Scaffold(
       body: Selector(context, provider),
     );
