@@ -114,18 +114,40 @@ class _CompleteUserProfileState extends State<CompleteUserProfile> {
   }
 
   Widget _buildGender() {
-    return TextFormField(
-        decoration: formInputDecoration("Enter Gender"),
-        validator: (String value) {
-          if (value.isEmpty) {
-            return 'Gender is Required';
-          }
-          return null;
-        },
-        onSaved: (String value) {
-          gender = value;
-        });
+    return Container(
+      child: DropdownButtonFormField<String>(
+        decoration: formInputDecoration("Select Gender"),
+        items: <String>[
+          'Male',
+          'Female',
+          'Other',
+        ].map((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: new Text(value),
+            onTap: () {
+              gender = value;
+            },
+          );
+        }).toList(),
+        onChanged: (_) {},
+      ),
+    );
   }
+
+  // Widget _buildGender() {
+  //   return TextFormField(
+  //       decoration: formInputDecoration("Enter Gender"),
+  //       validator: (String value) {
+  //         if (value.isEmpty) {
+  //           return 'Gender is Required';
+  //         }
+  //         return null;
+  //       },
+  //       onSaved: (String value) {
+  //         gender = value;
+  //       });
+  // }
 
   void addCompleteProfile() {
     final isValid = _formKey.currentState.validate();
@@ -139,6 +161,7 @@ class _CompleteUserProfileState extends State<CompleteUserProfile> {
         address: address,
         mobile: phone,
         age: age,
+        gender: gender,
       );
 
       final provider = Provider.of<UserProvider>(context, listen: false);

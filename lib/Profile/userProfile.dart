@@ -2,12 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:way_to_heaven/Admin/completeAdminProfileBase.dart';
 import 'package:way_to_heaven/Admin/completeProfile.dart';
 import 'package:way_to_heaven/Authentication/loginProvider.dart';
 import 'package:way_to_heaven/Profile/about.dart';
 import 'package:way_to_heaven/Profile/editProfile.dart';
 import 'package:way_to_heaven/Profile/settings.dart';
 import 'package:way_to_heaven/User/completeProfile.dart';
+import 'package:way_to_heaven/User/completeUserProfileBase.dart';
 import 'package:way_to_heaven/components/constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:way_to_heaven/repositories/loginRepository.dart';
@@ -324,19 +326,19 @@ class _UserProfileState extends State<UserProfile> {
                       ),
                       InkWell(
                         onTap: () {
-                          role = "Admin";
+                          role = 'Admin';
                           if (role == "Admin") {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        CompleteAdminProfile()));
+                                        CompleteAdminProfileBase()));
                           } else if (role == "User") {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        CompleteUserProfile()));
+                                        CompleteUserProfileBase()));
                           }
                         },
                         splashColor: Colors.transparent,

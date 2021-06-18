@@ -20,7 +20,9 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
       age,
       role,
       crematoriumName,
+      crematoriumContact,
       capacity,
+      cremationTime,
       uid;
   TimeOfDay from, till;
   TimeOfDay time1;
@@ -143,6 +145,8 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
           int age = int.tryParse(value);
           if (age == null || age <= 0) {
             return 'Age is Required';
+          } else if (age > 105) {
+            return 'Invalid Age';
           }
           return null;
         },
@@ -165,6 +169,21 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
         });
   }
 
+  Widget _buildCrematoriumContact() {
+    return TextFormField(
+        keyboardType: TextInputType.phone,
+        decoration: formInputDecoration("Enter Crematorium Contact Number"),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return 'Contact Number is Required';
+          }
+          return null;
+        },
+        onSaved: (String value) {
+          crematoriumContact = value;
+        });
+  }
+
   Widget _buildCrematoriumCapacity() {
     return TextFormField(
         keyboardType: TextInputType.number,
@@ -179,6 +198,39 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
         onSaved: (String value) {
           capacity = value;
         });
+  }
+
+  Widget _buildCremationTime() {
+    return Container(
+      child: DropdownButtonFormField<String>(
+        decoration:
+            formInputDecoration("Select Time for one Cremation in hour"),
+        items: <String>[
+          '1',
+          '2',
+          '3',
+          '4',
+          '5',
+          '6',
+          '7',
+          '8',
+          '9',
+          '10',
+          '11',
+          '12'
+        ].map((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: new Text(value + " Hr"),
+            onTap: () {
+              cremationTime = value;
+              print(cremationTime);
+            },
+          );
+        }).toList(),
+        onChanged: (_) {},
+      ),
+    );
   }
 
   Widget _buildTiming() {
@@ -290,29 +342,6 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
     );
   }
 
-  void addCompleteProfile() {
-    final isValid = _formKey.currentState.validate();
-    if (!isValid) {
-      return;
-    } else {
-      final user = AdminClass(
-          name: name,
-          createdTime: DateTime.now(),
-          email: email,
-          address: address,
-          age: age,
-          contact: contact,
-          role: role,
-          crematoriumName: crematoriumName,
-          capacity: capacity,
-          timing: {'from': from, 'till': till});
-
-      final provider = Provider.of<AdminProvider>(context, listen: false);
-      provider.completeAdminProfile(user, uid);
-      Navigator.of(context).pop();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     void showSnackBar(context, value) {
@@ -333,6 +362,31 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
         ..showSnackBar(snackBar);
+    }
+
+    void addCompleteProfile() {
+      final isValid = _formKey.currentState.validate();
+      if (!isValid) {
+        return;
+      } else {
+        final user = AdminClass(
+          name: name,
+          createdTime: DateTime.now(),
+          email: email,
+          address: address,
+          age: age,
+          contact: contact,
+          role: role,
+          crematoriumName: crematoriumName,
+          crematoriumContact: crematoriumContact,
+          capacity: capacity,
+          cremationTime: cremationTime,
+        );
+
+        final provider = Provider.of<AdminProvider>(context, listen: false);
+        provider.completeAdminProfile(user, uid);
+        Navigator.of(context).pop();
+      }
     }
 
     return Scaffold(
@@ -416,8 +470,18 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
                       SizedBox(
                         height: 15,
                       ),
+                      _buildTitle("Crematorium Contact"),
+                      _buildCrematoriumContact(),
+                      SizedBox(
+                        height: 15,
+                      ),
                       _buildTitle("Capacity"),
                       _buildCrematoriumCapacity(),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      _buildTitle("Average Time of cremation"),
+                      _buildCremationTime(),
                       SizedBox(
                         height: 15,
                       ),
@@ -433,6 +497,7 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
                             return;
                           }
                           _formKey.currentState.save();
+                          addCompleteProfile();
                           print(name);
                           print(email);
                           print(address);

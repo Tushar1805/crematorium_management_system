@@ -1,7 +1,7 @@
 import 'package:way_to_heaven/utils/utils.dart';
 
 class UserClass {
-  String name, role, address, mobile, email, age;
+  String name, role, address, mobile, email, age, gender;
   bool isNewUser;
   DateTime createdTime;
 
@@ -12,6 +12,7 @@ class UserClass {
       this.address,
       this.mobile,
       this.age,
+      this.gender,
       this.isNewUser = true});
 
   Map<String, dynamic> toJson() => {
@@ -20,6 +21,7 @@ class UserClass {
         'role': role,
         'address': address,
         'age': age,
+        'gender': gender,
         'newUser': isNewUser
       };
 
@@ -29,6 +31,7 @@ class UserClass {
         role: json['role'],
         address: json['address'],
         age: json['age'],
+        gender: json['gender'],
         isNewUser: json['newUser'],
       );
 }

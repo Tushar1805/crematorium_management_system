@@ -3,7 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:way_to_heaven/utils/utils.dart';
 
 class AdminClass {
-  String name, email, address, age, contact, role, crematoriumName, capacity;
+  String name,
+      email,
+      address,
+      age,
+      contact,
+      role,
+      crematoriumName,
+      crematoriumContact,
+      capacity,
+      cremationTime;
   bool isNewUser;
   DateTime createdTime;
   Map<String, TimeOfDay> timing;
@@ -17,7 +26,9 @@ class AdminClass {
       this.contact,
       this.role,
       this.crematoriumName,
+      this.crematoriumContact,
       this.capacity,
+      this.cremationTime,
       this.timing,
       this.isNewUser = true});
 
@@ -30,6 +41,8 @@ class AdminClass {
         'contact': contact,
         'role': role,
         'crematoriumName': crematoriumName,
+        'crematoriumContact': crematoriumContact,
+        'cremationTime': createdTime,
         'capacity': capacity,
         'newUser': isNewUser,
         'timing': timing,
@@ -44,6 +57,8 @@ class AdminClass {
         contact: json["contact"],
         role: json['role'],
         crematoriumName: json["crematoriumName"],
+        crematoriumContact: json["crematoriumContact"],
+        cremationTime: json['cremationTime'],
         capacity: json["capacity"],
         timing: json["timing"],
         isNewUser: json['newUser'],
