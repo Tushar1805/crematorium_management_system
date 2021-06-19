@@ -406,7 +406,7 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
         loadingPage = true;
       });
       final docTodo = FirebaseFirestore.instance.collection('Users').doc(uid);
-      await docTodo.set(admin.toJson());
+      await docTodo.update(admin.toJson());
       setState(() {
         showSubmitDialog(true);
         loadingPage = false;
