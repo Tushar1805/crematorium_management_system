@@ -13,17 +13,7 @@ class CompleteAdminProfile extends StatefulWidget {
 }
 
 class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
-  String name,
-      email,
-      address,
-      contact,
-      age,
-      role,
-      crematoriumName,
-      crematoriumContact,
-      capacity,
-      cremationTime,
-      uid;
+  String name, email, address, contact, age, role, crematoriumName, crematoriumContact, capacity, cremationTime, uid;
   TimeOfDay from, till;
   TimeOfDay time1;
   TimeOfDay time2;
@@ -203,22 +193,8 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
   Widget _buildCremationTime() {
     return Container(
       child: DropdownButtonFormField<String>(
-        decoration:
-            formInputDecoration("Select Time for one Cremation in hour"),
-        items: <String>[
-          '1',
-          '2',
-          '3',
-          '4',
-          '5',
-          '6',
-          '7',
-          '8',
-          '9',
-          '10',
-          '11',
-          '12'
-        ].map((String value) {
+        decoration: formInputDecoration("Select Time for one Cremation in hour"),
+        items: <String>['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'].map((String value) {
           return DropdownMenuItem<String>(
             value: value,
             child: new Text(value + " Hr"),
@@ -438,84 +414,94 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
                 overscroll.disallowGlow();
               },
               child: SingleChildScrollView(
-                child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _buildTitle("Name"),
-                      _buildName(),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      _buildTitle("Email"),
-                      _buildEmail(),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      // _buildPhone(),
-                      // SizedBox(
-                      //   height: 15,
-                      // ),
-                      _buildTitle("Address"),
-                      _buildAddress(),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      _buildTitle("Age"),
-                      _buildAge(),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      _buildTitle("Crematorium Name"),
-                      _buildCrematoriumName(),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      _buildTitle("Crematorium Contact"),
-                      _buildCrematoriumContact(),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      _buildTitle("Capacity"),
-                      _buildCrematoriumCapacity(),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      _buildTitle("Average Time of cremation"),
-                      _buildCremationTime(),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      _buildTitle("Timing"),
-                      _buildTiming(),
-                      SizedBox(
-                        height: 60,
-                      ),
-                      RaisedButton(
-                        color: redOrangeColor(),
-                        onPressed: () {
-                          if (!_formKey.currentState.validate()) {
-                            return;
-                          }
-                          _formKey.currentState.save();
-                          addCompleteProfile();
-                          print(name);
-                          print(email);
-                          print(address);
-                          print(contact);
-                          print(age);
-                          showSnackBar(context, "Profile Updated Successfully");
-                        },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          child: Center(
-                            child: Text(
-                              "Submit",
-                              style: whiteTextStyle(),
-                            ),
-                          ),
+                child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  _buildTitle("Name"),
+                  _buildName(),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  _buildTitle("Email"),
+                  _buildEmail(),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  // _buildPhone(),
+                  // SizedBox(
+                  //   height: 15,
+                  // ),
+                  _buildTitle("Address"),
+                  _buildAddress(),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  _buildTitle("Age"),
+                  _buildAge(),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  _buildTitle("Crematorium Name"),
+                  _buildCrematoriumName(),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  _buildTitle("Crematorium Contact"),
+                  _buildCrematoriumContact(),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  _buildTitle("Capacity"),
+                  _buildCrematoriumCapacity(),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  _buildTitle("Average Time of cremation"),
+                  _buildCremationTime(),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  _buildTitle("Timing"),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  _buildTiming(),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  FlatButton(
+                    onPressed: () {
+                      if (!_formKey.currentState.validate()) {
+                        return;
+                      }
+                      _formKey.currentState.save();
+                      addCompleteProfile();
+                      print(name);
+                      print(email);
+                      print(address);
+                      print(contact);
+                      print(age);
+                      showSnackBar(context, "Profile Updated Successfully");
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 50.0,
+                      decoration: new BoxDecoration(
+                        gradient: new LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: [redOrangeColor(), redOrangeColor(), orangeColor()]),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(5.0),
                         ),
-                      )
-                    ]),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'SUBMIT',
+                          style: whiteTextStyle().copyWith(fontSize: 15.0, fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ),
+                  ),
+                ]),
               ),
             )),
       ),

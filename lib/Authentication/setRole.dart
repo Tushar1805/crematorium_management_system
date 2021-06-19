@@ -48,6 +48,8 @@ Widget SetRole(BuildContext context, LoginProvider provider) {
             } else {
               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AdminHomePageBase()));
             }
+          } else {
+            provider.roleNotFound();
           }
         });
       }
@@ -56,7 +58,7 @@ Widget SetRole(BuildContext context, LoginProvider provider) {
 
   _checkRole();
 
-  return provider.state == States.loading
+  return provider.loading
       ? loading()
       : Container(
           child: Center(

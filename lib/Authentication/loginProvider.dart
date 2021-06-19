@@ -6,6 +6,7 @@ import 'package:way_to_heaven/repositories/loginRepository.dart';
 enum States { loginScreen, otpVerification, selectRole, loading }
 
 class LoginProvider extends ChangeNotifier {
+  bool loading = false;
   var state;
   String number;
   String status = ' ';
@@ -47,12 +48,13 @@ class LoginProvider extends ChangeNotifier {
   }
 
   void checkRole() {
-    state = States.loading;
+    loading = true;
     notifyListeners();
   }
 
   void roleNotFound() {
     isRoleNotFound = true;
+    loading = false;
     state = States.selectRole;
     notifyListeners();
   }
