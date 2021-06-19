@@ -178,6 +178,7 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
     return TextFormField(
         keyboardType: TextInputType.number,
         decoration: formInputDecoration("Enter Capacity of Crematorium"),
+        maxLength: 3,
         validator: (String value) {
           int capacity = int.tryParse(value);
           if (capacity == null || capacity <= 0) {
