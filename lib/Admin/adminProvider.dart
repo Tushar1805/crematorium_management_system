@@ -51,12 +51,6 @@ class AdminProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> completeAdminProfile(AdminClass admin, String uid) async {
-    final docTodo = FirebaseFirestore.instance.collection('Users').doc(uid);
-
-    await docTodo.set(admin.toJson());
-  }
-
   void requestSelected(String requestId, int index) {
     state = States.requestInfo;
     selectedRequestId = requestId;

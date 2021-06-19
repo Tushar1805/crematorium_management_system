@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:way_to_heaven/Admin/admin.dart';
+import 'package:way_to_heaven/Admin/adminHomePageBase.dart';
 import 'package:way_to_heaven/Admin/adminProvider.dart';
+import 'package:way_to_heaven/Admin/loading.dart';
 import 'package:way_to_heaven/components/constants.dart';
 
 class CompleteAdminProfile extends StatefulWidget {
@@ -321,6 +323,7 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
 
   @override
   Widget build(BuildContext context) {
+    bool loadingPage = false;
     void showSnackBar(context, value) {
       final snackBar = SnackBar(
         duration: const Duration(seconds: 3),
@@ -341,6 +344,75 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
         ..showSnackBar(snackBar);
     }
 
+    void showSubmitDialog(bool isSuccess) {
+      showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Center(
+                  child: Text(
+                isSuccess ? 'Success' : 'Error',
+                style: lightBlackTextStyle().copyWith(fontSize: 18),
+              )),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Text(isSuccess ? 'Profile Updated Successfully!' : 'Something Went Wrong! Try Again...',
+                        style: normalTextStyle().copyWith(color: redOrangeColor())),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Center(
+                  child: FlatButton(
+                    onPressed: () {
+                      if (isSuccess) {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => AdminHomePageBase()));
+                      } else {
+                        Navigator.pop(context);
+                      }
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                      width: MediaQuery.of(context).size.width / 3,
+                      decoration: new BoxDecoration(
+                        gradient: new LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: [redOrangeColor(), redOrangeColor(), orangeColor()]),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(40.0),
+                        ),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'OK',
+                          style: whiteTextStyle().copyWith(fontSize: 15.0, fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            );
+          });
+    }
+
+    Future<void> completeAdminProfile(AdminClass admin, String uid) async {
+      setState(() {
+        loadingPage = true;
+      });
+      final docTodo = FirebaseFirestore.instance.collection('Users').doc(uid);
+      await docTodo.set(admin.toJson());
+      setState(() {
+        showSubmitDialog(true);
+        loadingPage = false;
+      });
+    }
+
     void addCompleteProfile() {
       final isValid = _formKey.currentState.validate();
       if (!isValid) {
@@ -359,10 +431,7 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
           capacity: capacity,
           cremationTime: cremationTime,
         );
-
-        final provider = Provider.of<AdminProvider>(context, listen: false);
-        provider.completeAdminProfile(user, uid);
-        Navigator.of(context).pop();
+        completeAdminProfile(user, uid);
       }
     }
 
@@ -405,107 +474,108 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
           ),
         ),
       ),
-      body: Container(
-        margin: EdgeInsets.all(24),
-        child: Form(
-            key: _formKey,
-            child: NotificationListener<OverscrollIndicatorNotification>(
-              // ignore: missing_return
-              onNotification: (overscroll) {
-                overscroll.disallowGlow();
-              },
-              child: SingleChildScrollView(
-                child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  _buildTitle("Name"),
-                  _buildName(),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  _buildTitle("Email"),
-                  _buildEmail(),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  // _buildPhone(),
-                  // SizedBox(
-                  //   height: 15,
-                  // ),
-                  _buildTitle("Address"),
-                  _buildAddress(),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  _buildTitle("Age"),
-                  _buildAge(),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  _buildTitle("Crematorium Name"),
-                  _buildCrematoriumName(),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  _buildTitle("Crematorium Contact"),
-                  _buildCrematoriumContact(),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  _buildTitle("Capacity"),
-                  _buildCrematoriumCapacity(),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  _buildTitle("Average Time of cremation"),
-                  _buildCremationTime(),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  _buildTitle("Timing"),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  _buildTiming(),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  FlatButton(
-                    onPressed: () {
-                      if (!_formKey.currentState.validate()) {
-                        return;
-                      }
-                      _formKey.currentState.save();
-                      addCompleteProfile();
-                      print(name);
-                      print(email);
-                      print(address);
-                      print(contact);
-                      print(age);
-                      showSnackBar(context, "Profile Updated Successfully");
+      body: loadingPage
+          ? loading()
+          : Container(
+              margin: EdgeInsets.all(24),
+              child: Form(
+                  key: _formKey,
+                  child: NotificationListener<OverscrollIndicatorNotification>(
+                    // ignore: missing_return
+                    onNotification: (overscroll) {
+                      overscroll.disallowGlow();
                     },
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 50.0,
-                      decoration: new BoxDecoration(
-                        gradient: new LinearGradient(
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                            colors: [redOrangeColor(), redOrangeColor(), orangeColor()]),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(5.0),
+                    child: SingleChildScrollView(
+                      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                        _buildTitle("Name"),
+                        _buildName(),
+                        SizedBox(
+                          height: 15,
                         ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'SUBMIT',
-                          style: whiteTextStyle().copyWith(fontSize: 15.0, fontWeight: FontWeight.w600),
+                        _buildTitle("Email"),
+                        _buildEmail(),
+                        SizedBox(
+                          height: 15,
                         ),
-                      ),
+                        // _buildPhone(),
+                        // SizedBox(
+                        //   height: 15,
+                        // ),
+                        _buildTitle("Address"),
+                        _buildAddress(),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        _buildTitle("Age"),
+                        _buildAge(),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        _buildTitle("Crematorium Name"),
+                        _buildCrematoriumName(),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        _buildTitle("Crematorium Contact"),
+                        _buildCrematoriumContact(),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        _buildTitle("Capacity"),
+                        _buildCrematoriumCapacity(),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        _buildTitle("Average Time of cremation"),
+                        _buildCremationTime(),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        _buildTitle("Timing"),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        _buildTiming(),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        FlatButton(
+                          onPressed: () {
+                            if (!_formKey.currentState.validate()) {
+                              return;
+                            }
+                            _formKey.currentState.save();
+                            addCompleteProfile();
+                            print(name);
+                            print(email);
+                            print(address);
+                            print(contact);
+                            print(age);
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 50.0,
+                            decoration: new BoxDecoration(
+                              gradient: new LinearGradient(
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                  colors: [redOrangeColor(), redOrangeColor(), orangeColor()]),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(5.0),
+                              ),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'SUBMIT',
+                                style: whiteTextStyle().copyWith(fontSize: 15.0, fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ]),
                     ),
-                  ),
-                ]),
-              ),
-            )),
-      ),
+                  )),
+            ),
     );
   }
 }

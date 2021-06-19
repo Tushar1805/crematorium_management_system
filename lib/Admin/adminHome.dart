@@ -86,6 +86,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
     final ref = FirebaseFirestore.instance.collection('Users');
     var user = FirebaseAuth.instance.currentUser;
     if (user != null) {
+      print('user not null');
       await ref.doc(user.uid).get().then((value) {
         if (value.data()['crematoriumName'] == null) {
           setState(() {
@@ -93,6 +94,10 @@ class _AdminHomePageState extends State<AdminHomePage> {
           });
           print('exit');
           showCompleteProfileDialog();
+        } else {
+          setState(() {
+            loadingPage = false;
+          });
         }
       });
     }
