@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:date_format/date_format.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:way_to_heaven/Admin/admin.dart';
 import 'package:way_to_heaven/Admin/adminHomePageBase.dart';
@@ -15,7 +18,19 @@ class CompleteAdminProfile extends StatefulWidget {
 }
 
 class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
-  String name, email, address, contact, age, role, crematoriumName, crematoriumContact, capacity, cremationTime, uid;
+  String name,
+      email,
+      address,
+      contact,
+      age,
+      role,
+      crematoriumName,
+      crematoriumContact,
+      capacity,
+      cremationTime,
+      uid;
+  Map<String, dynamic> timing;
+  LatLng currentPostion;
   TimeOfDay from, till;
   TimeOfDay time1;
   TimeOfDay time2;
@@ -52,6 +67,7 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
       setState(() {
         time1 = picked1;
         from = time1;
+        timing = {'openingTime': time1};
       });
     }
   }
@@ -63,6 +79,7 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
       setState(() {
         time2 = picked2;
         till = time2;
+        timing = {'closingTime': time2};
       });
     }
   }
@@ -196,8 +213,22 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
   Widget _buildCremationTime() {
     return Container(
       child: DropdownButtonFormField<String>(
-        decoration: formInputDecoration("Select Time for one Cremation in hour"),
-        items: <String>['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'].map((String value) {
+        decoration:
+            formInputDecoration("Select Time for one Cremation in hour"),
+        items: <String>[
+          '1',
+          '2',
+          '3',
+          '4',
+          '5',
+          '6',
+          '7',
+          '8',
+          '9',
+          '10',
+          '11',
+          '12'
+        ].map((String value) {
           return DropdownMenuItem<String>(
             value: value,
             child: new Text(value + " Hr"),
@@ -217,45 +248,49 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
       child: Row(
         children: [
           Container(
-            width: MediaQuery.of(context).size.width * .41,
+            width: MediaQuery.of(context).size.width * .40,
             child: Row(
               children: [
                 Text(
-                  'From:',
+                  'Open:',
                   style: TextStyle(
                     fontSize: 15,
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(3, 0, 0, 0),
-                  width: MediaQuery.of(context).size.width * 0.3,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(1)),
-                      shape: BoxShape.rectangle,
-                      border: Border.all(
-                        color: lightGray(),
-                        width: 1,
-                      )),
-                  child: Row(children: [
-                    Container(
-                      // color: Colors.red,
-                      width: 35,
-                      child: IconButton(
-                        icon: Icon(Icons.alarm),
-                        onPressed: () {
-                          selectTime1(context);
-                        },
-                        color: gray(),
+                InkWell(
+                  onTap: () {
+                    selectTime1(context);
+                    print(time1);
+                  },
+                  child: Container(
+                    margin: EdgeInsets.fromLTRB(3, 0, 0, 0),
+                    width: MediaQuery.of(context).size.width * 0.25,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(1)),
+                        shape: BoxShape.rectangle,
+                        border: Border.all(
+                          color: lightGray(),
+                          width: 1,
+                        )),
+                    child: Row(children: [
+                      Container(
+                        // color: Colors.red,
+                        width: 35,
+                        child: IconButton(
+                          icon: Icon(Icons.alarm),
+                          onPressed: () {},
+                          color: gray(),
+                        ),
                       ),
-                    ),
-                    Text(
-                      '${time1.hour}:${time1.minute}',
-                      style: TextStyle(
-                        fontSize: 20,
+                      Text(
+                        '${time1.hour}:${time1.minute}',
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
                       ),
-                    ),
-                    SizedBox(width: 10),
-                  ]),
+                      SizedBox(width: 10),
+                    ]),
+                  ),
                 ),
               ],
             ),
@@ -266,41 +301,44 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
             child: Row(
               children: [
                 Text(
-                  'Till:',
+                  'Close:',
                   style: TextStyle(
                     fontSize: 15,
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(3, 0, 0, 0),
-                  width: MediaQuery.of(context).size.width * 0.3,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(1)),
-                      shape: BoxShape.rectangle,
-                      border: Border.all(
-                        color: lightGray(),
-                        width: 1,
-                      )),
-                  child: Row(children: [
-                    Container(
-                        // color: Colors.red,
-                        width: 35,
-                        child: IconButton(
-                          icon: Icon(Icons.alarm),
-                          onPressed: () {
-                            selectTime2(context);
-                            print(time2);
-                          },
-                          color: gray(),
+                InkWell(
+                  onTap: () {
+                    selectTime2(context);
+                    print(time2);
+                  },
+                  child: Container(
+                    margin: EdgeInsets.fromLTRB(3, 0, 0, 0),
+                    width: MediaQuery.of(context).size.width * 0.25,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(1)),
+                        shape: BoxShape.rectangle,
+                        border: Border.all(
+                          color: lightGray(),
+                          width: 1,
                         )),
-                    Text(
-                      '${time2.hour}:${time2.minute}',
-                      style: TextStyle(
-                        fontSize: 20,
+                    child: Row(children: [
+                      Container(
+                          // color: Colors.red,
+                          width: 35,
+                          child: IconButton(
+                            icon: Icon(Icons.alarm),
+                            onPressed: () {},
+                            color: gray(),
+                          )),
+                      Text(
+                        '${time2.hour}:${time2.minute}',
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
                       ),
-                    ),
-                    SizedBox(width: 10),
-                  ]),
+                      SizedBox(width: 10),
+                    ]),
+                  ),
                 ),
               ],
             ),
@@ -359,8 +397,12 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Center(
-                    child: Text(isSuccess ? 'Profile Updated Successfully!' : 'Something Went Wrong! Try Again...',
-                        style: normalTextStyle().copyWith(color: redOrangeColor())),
+                    child: Text(
+                        isSuccess
+                            ? 'Profile Updated Successfully!'
+                            : 'Something Went Wrong! Try Again...',
+                        style: normalTextStyle()
+                            .copyWith(color: redOrangeColor())),
                   ),
                 ),
                 SizedBox(
@@ -370,19 +412,27 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
                   child: FlatButton(
                     onPressed: () {
                       if (isSuccess) {
-                        Navigator.push(context, MaterialPageRoute(builder: (_) => AdminHomePageBase()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => AdminHomePageBase()));
                       } else {
                         Navigator.pop(context);
                       }
                     },
                     child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                       width: MediaQuery.of(context).size.width / 3,
                       decoration: new BoxDecoration(
                         gradient: new LinearGradient(
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,
-                            colors: [redOrangeColor(), redOrangeColor(), orangeColor()]),
+                            colors: [
+                              redOrangeColor(),
+                              redOrangeColor(),
+                              orangeColor()
+                            ]),
                         borderRadius: BorderRadius.all(
                           Radius.circular(40.0),
                         ),
@@ -390,7 +440,8 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
                       child: Center(
                         child: Text(
                           'OK',
-                          style: whiteTextStyle().copyWith(fontSize: 15.0, fontWeight: FontWeight.w600),
+                          style: whiteTextStyle().copyWith(
+                              fontSize: 15.0, fontWeight: FontWeight.w600),
                         ),
                       ),
                     ),
@@ -430,9 +481,20 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
           crematoriumContact: crematoriumContact,
           capacity: capacity,
           cremationTime: cremationTime,
+          timing: timing,
+          location: currentPostion,
         );
         completeAdminProfile(user, uid);
       }
+    }
+
+    void _getAdminLocation() async {
+      var position = await GeolocatorPlatform.instance
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+
+      setState(() {
+        currentPostion = LatLng(position.latitude, position.longitude);
+      });
     }
 
     return Scaffold(
@@ -486,93 +548,103 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
                       overscroll.disallowGlow();
                     },
                     child: SingleChildScrollView(
-                      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                        _buildTitle("Name"),
-                        _buildName(),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        _buildTitle("Email"),
-                        _buildEmail(),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        // _buildPhone(),
-                        // SizedBox(
-                        //   height: 15,
-                        // ),
-                        _buildTitle("Address"),
-                        _buildAddress(),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        _buildTitle("Age"),
-                        _buildAge(),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        _buildTitle("Crematorium Name"),
-                        _buildCrematoriumName(),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        _buildTitle("Crematorium Contact"),
-                        _buildCrematoriumContact(),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        _buildTitle("Capacity"),
-                        _buildCrematoriumCapacity(),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        _buildTitle("Average Time of cremation"),
-                        _buildCremationTime(),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        _buildTitle("Timing"),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        _buildTiming(),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        FlatButton(
-                          onPressed: () {
-                            if (!_formKey.currentState.validate()) {
-                              return;
-                            }
-                            _formKey.currentState.save();
-                            addCompleteProfile();
-                            print(name);
-                            print(email);
-                            print(address);
-                            print(contact);
-                            print(age);
-                          },
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 50.0,
-                            decoration: new BoxDecoration(
-                              gradient: new LinearGradient(
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment.centerRight,
-                                  colors: [redOrangeColor(), redOrangeColor(), orangeColor()]),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(5.0),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _buildTitle("Name"),
+                            _buildName(),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            _buildTitle("Email"),
+                            _buildEmail(),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            // _buildPhone(),
+                            // SizedBox(
+                            //   height: 15,
+                            // ),
+                            _buildTitle("Address"),
+                            _buildAddress(),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            _buildTitle("Age"),
+                            _buildAge(),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            _buildTitle("Crematorium Name"),
+                            _buildCrematoriumName(),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            _buildTitle("Crematorium Contact"),
+                            _buildCrematoriumContact(),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            _buildTitle("Capacity"),
+                            _buildCrematoriumCapacity(),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            _buildTitle("Average Time of cremation"),
+                            _buildCremationTime(),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            _buildTitle("Timing"),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            _buildTiming(),
+                            SizedBox(
+                              height: 30,
+                            ),
+                            FlatButton(
+                              onPressed: () {
+                                if (!_formKey.currentState.validate()) {
+                                  return;
+                                }
+                                _formKey.currentState.save();
+                                addCompleteProfile();
+                                print(name);
+                                print(email);
+                                print(address);
+                                print(contact);
+                                print(age);
+                                showSnackBar(
+                                    context, "Profile Updated Successfully");
+                              },
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: 50.0,
+                                decoration: new BoxDecoration(
+                                  gradient: new LinearGradient(
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
+                                      colors: [
+                                        redOrangeColor(),
+                                        redOrangeColor(),
+                                        orangeColor()
+                                      ]),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(5.0),
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'SUBMIT',
+                                    style: whiteTextStyle().copyWith(
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ),
                               ),
                             ),
-                            child: Center(
-                              child: Text(
-                                'SUBMIT',
-                                style: whiteTextStyle().copyWith(fontSize: 15.0, fontWeight: FontWeight.w600),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ]),
+                          ]),
                     ),
                   )),
             ),

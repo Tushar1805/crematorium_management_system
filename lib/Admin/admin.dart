@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:way_to_heaven/utils/utils.dart';
 
 class AdminClass {
@@ -15,7 +16,8 @@ class AdminClass {
       cremationTime;
   bool isNewUser;
   DateTime createdTime;
-  Map<String, TimeOfDay> timing;
+  Map<String, dynamic> timing;
+  LatLng location;
 
   AdminClass(
       {this.name,
@@ -30,7 +32,8 @@ class AdminClass {
       this.capacity,
       this.cremationTime,
       this.timing,
-      this.isNewUser = true});
+      this.location,
+      this.isNewUser = false});
 
   Map<String, dynamic> toJson() => {
         'name': name,
@@ -45,7 +48,8 @@ class AdminClass {
         'cremationTime': createdTime,
         'capacity': capacity,
         'newUser': isNewUser,
-        'timing': timing,
+        'timing': timing.toString(),
+        'location': location,
       };
 
   static AdminClass fromJson(Map<String, dynamic> json) => AdminClass(
@@ -61,6 +65,7 @@ class AdminClass {
         cremationTime: json['cremationTime'],
         capacity: json["capacity"],
         timing: json["timing"],
+        location: json['location'],
         isNewUser: json['newUser'],
       );
 }
