@@ -29,7 +29,7 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
       capacity,
       cremationTime,
       uid;
-  Map<String, dynamic> timing;
+  Map<String, dynamic> timing = {};
   LatLng currentPostion;
   TimeOfDay from, till;
   TimeOfDay time1;
@@ -67,7 +67,7 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
       setState(() {
         time1 = picked1;
         from = time1;
-        timing = {'openingTime': time1};
+        timing['opening_time'] = time1.toString();
       });
     }
   }
@@ -79,7 +79,7 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
       setState(() {
         time2 = picked2;
         till = time2;
-        timing = {'closingTime': time2};
+        timing['closing_time'] = time2.toString();
       });
     }
   }
@@ -452,16 +452,59 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
           });
     }
 
-    Future<void> completeAdminProfile(AdminClass admin, String uid) async {
+    Future<void> completeAdminProfile(String uid) async {
       setState(() {
         loadingPage = true;
       });
+
+      TimeOfDay t1 = time1;
+      TimeOfDay t2 = time2;
+
+      double _doubleYourTime = t1.hour.toDouble() + (t1.minute.toDouble() / 60);
+      double _doubleNowTime = t2.hour.toDouble() + (t2.minute.toDouble() / 60);
+
+      double _timeDiff = _doubleYourTime - _doubleNowTime;
+
+      int _hr = _timeDiff.truncate();
+      double _minute = (_timeDiff - _timeDiff.truncate()) * 60;
+
+      int cTime = int.parse(cremationTime);
+
+      Map<String, dynamic> map = {};
+
+      for (var i = 1; i <= (_hr.abs() / cTime).floor(); i++) {
+        map[i.toString()] = {
+          'booked': '2',
+          'cremations': [
+            {'applicationId': 'kdsjhdkajhdkjhd'},
+            {'applicationId': 'kdsjhdkajhdkjhd'}
+          ]
+        };
+      }
+
+      print('Here your Happy $_hr Hour and also $_minute min');
       final docTodo = FirebaseFirestore.instance.collection('Users').doc(uid);
-      await docTodo.update(admin.toJson());
-      setState(() {
-        showSubmitDialog(true);
-        loadingPage = false;
+      print(timing);
+      await docTodo.update({
+        'name': name,
+        'createdTime': DateTime.now(),
+        'email': email,
+        'address': address,
+        'age': age,
+        'contact': contact,
+        'role': role,
+        'crematoriumName': crematoriumName,
+        'crematoriumContact': crematoriumContact,
+        'capacity': capacity,
+        'cremationTime': cremationTime,
+        'timing': timing,
+        'location': currentPostion,
+        'slots': map
       });
+      // setState(() {
+      //   showSubmitDialog(true);
+      //   loadingPage = false;
+      // });
     }
 
     void addCompleteProfile() {
@@ -469,22 +512,22 @@ class _CompleteAdminProfileState extends State<CompleteAdminProfile> {
       if (!isValid) {
         return;
       } else {
-        final user = AdminClass(
-          name: name,
-          createdTime: DateTime.now(),
-          email: email,
-          address: address,
-          age: age,
-          contact: contact,
-          role: role,
-          crematoriumName: crematoriumName,
-          crematoriumContact: crematoriumContact,
-          capacity: capacity,
-          cremationTime: cremationTime,
-          timing: timing,
-          location: currentPostion,
-        );
-        completeAdminProfile(user, uid);
+        // final user = AdminClass(
+        //   name: name,
+        //   createdTime: DateTime.now(),
+        //   email: email,
+        //   address: address,
+        //   age: age,
+        //   contact: contact,
+        //   role: role,
+        //   crematoriumName: crematoriumName,
+        //   crematoriumContact: crematoriumContact,
+        //   capacity: capacity,
+        //   cremationTime: cremationTime,
+        //   timing: timing,
+        //   location: currentPostion,
+        // );
+        completeAdminProfile(uid);
       }
     }
 

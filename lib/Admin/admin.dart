@@ -48,7 +48,7 @@ class AdminClass {
         'cremationTime': createdTime,
         'capacity': capacity,
         'newUser': isNewUser,
-        'timing': timing.toString(),
+        'timing': timing,
         'location': location,
       };
 

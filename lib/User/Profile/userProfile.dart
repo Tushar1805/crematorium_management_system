@@ -28,7 +28,7 @@ class _UserProfileState extends State<UserProfile> {
   void initState() {
     super.initState();
     getUserInfo();
-    uid = LoginRepository().getUserUid().toString();
+    uid = auth.currentUser.uid;
   }
 
   Future<void> getUserInfo() async {
@@ -326,7 +326,6 @@ class _UserProfileState extends State<UserProfile> {
                       ),
                       InkWell(
                         onTap: () {
-                          role = 'Admin';
                           if (role == "Admin") {
                             Navigator.push(
                                 context,
