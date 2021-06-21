@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
+import 'package:way_to_heaven/Admin/Profile/adminProfileBase.dart';
 import 'package:way_to_heaven/Admin/adminProvider.dart';
 import 'package:way_to_heaven/Admin/completeProfile.dart';
 import 'package:way_to_heaven/Admin/loading.dart';
@@ -50,7 +51,10 @@ class _AdminHomePageState extends State<AdminHomePage> {
               Center(
                 child: FlatButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (_) => CompleteAdminProfile()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => CompleteAdminProfile()));
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -59,7 +63,11 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       gradient: new LinearGradient(
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,
-                          colors: [redOrangeColor(), redOrangeColor(), orangeColor()]),
+                          colors: [
+                            redOrangeColor(),
+                            redOrangeColor(),
+                            orangeColor()
+                          ]),
                       borderRadius: BorderRadius.all(
                         Radius.circular(40.0),
                       ),
@@ -67,7 +75,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     child: Center(
                       child: Text(
                         'OK',
-                        style: whiteTextStyle().copyWith(fontSize: 15.0, fontWeight: FontWeight.w600),
+                        style: whiteTextStyle().copyWith(
+                            fontSize: 15.0, fontWeight: FontWeight.w600),
                       ),
                     ),
                   ),
@@ -128,18 +137,29 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Row(
-                        children: [
-                          Image.asset(
-                            'assets/icons/user.png',
-                            height: 35,
+                      Material(
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AdminProfileBase()));
+                          },
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                'assets/icons/user.png',
+                                height: 35,
+                              ),
+                              SizedBox(width: 15),
+                              Text(
+                                "Admin",
+                                style: lightBlackTextStyle()
+                                    .copyWith(fontSize: 17),
+                              )
+                            ],
                           ),
-                          SizedBox(width: 15),
-                          Text(
-                            "Admin",
-                            style: lightBlackTextStyle().copyWith(fontSize: 17),
-                          )
-                        ],
+                        ),
                       ),
                       Icon(
                         Icons.notifications_none_rounded,
@@ -158,7 +178,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     backwardsCompatibility: false,
                     systemOverlayStyle: SystemUiOverlayStyle(
                       statusBarColor: Colors.white, // status bar color
-                      statusBarBrightness: Brightness.light, //status bar brigtness
+                      statusBarBrightness:
+                          Brightness.light, //status bar brigtness
                     ),
                     bottom: TabBar(
                       tabs: [
@@ -174,7 +195,9 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                         padding: const EdgeInsets.all(3.0),
                                         child: Text(
                                           provider.requestCount.toString(),
-                                          style: whiteTextStyle().copyWith(color: redOrangeColor(), fontSize: 13.0),
+                                          style: whiteTextStyle().copyWith(
+                                              color: redOrangeColor(),
+                                              fontSize: 13.0),
                                         ),
                                       ),
                                     )
@@ -194,7 +217,9 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                         padding: const EdgeInsets.all(3.0),
                                         child: Text(
                                           provider.currentCount.toString(),
-                                          style: whiteTextStyle().copyWith(color: redOrangeColor(), fontSize: 13.0),
+                                          style: whiteTextStyle().copyWith(
+                                              color: redOrangeColor(),
+                                              fontSize: 13.0),
                                         ),
                                       ),
                                     )
@@ -214,7 +239,9 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                         padding: const EdgeInsets.all(3.0),
                                         child: Text(
                                           provider.upcomingCount.toString(),
-                                          style: whiteTextStyle().copyWith(color: redOrangeColor(), fontSize: 13.0),
+                                          style: whiteTextStyle().copyWith(
+                                              color: redOrangeColor(),
+                                              fontSize: 13.0),
                                         ),
                                       ),
                                     )
@@ -226,7 +253,10 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       onTap: (index) {
                         print(index);
                       },
-                      labelStyle: normalTextStyle().copyWith(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
+                      labelStyle: normalTextStyle().copyWith(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500),
                       indicatorPadding: EdgeInsets.only(bottom: 2, top: 0),
                       indicator: UnderlineTabIndicator(
                           borderSide: BorderSide(
@@ -254,14 +284,22 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                       return Card(
                                         elevation: 0.0,
                                         child: Padding(
-                                          padding: const EdgeInsets.only(left: 20.0, top: 10.0, bottom: 10.0),
+                                          padding: const EdgeInsets.only(
+                                              left: 20.0,
+                                              top: 10.0,
+                                              bottom: 10.0),
                                           child: Column(
                                             children: [
                                               Row(
-                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
                                                 children: [
-                                                  Text(provider.requestList[index]['applicant_name'],
-                                                      style: darkBlackTextStyle()),
+                                                  Text(
+                                                      provider.requestList[
+                                                              index]
+                                                          ['applicant_name'],
+                                                      style:
+                                                          darkBlackTextStyle()),
                                                   Spacer(),
                                                   Text(
                                                       ' ${DateTime.parse(provider.requestList[index]['application_time'].toDate().toString()).hour} :  ${DateTime.parse(provider.requestList[index]['application_time'].toDate().toString()).minute}'),
@@ -270,49 +308,95 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                                   )
                                                 ],
                                               ),
-                                              Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                                                Text("cause Of Death:", style: normalTextStyle()),
-                                                SizedBox(
-                                                  width: 5.0,
-                                                ),
-                                                Text(provider.requestList[index]['cause_of_death'], style: lightBlackTextStyle()),
-                                                Spacer(),
-                                                FlatButton(
-                                                  onPressed: () {
-                                                    provider.requestSelected(provider.requestList[index]['requestId'], index);
-                                                    Navigator.push(
-                                                        context, MaterialPageRoute(builder: (context) => RequestPage(provider)));
-                                                  },
-                                                  child: Container(
-                                                    width: MediaQuery.of(context).size.width / 5,
-                                                    height: 30.0,
-                                                    decoration: new BoxDecoration(
-                                                      border: Border.all(color: redOrangeColor()),
-                                                      borderRadius: BorderRadius.all(
-                                                        Radius.circular(2.0),
-                                                      ),
+                                              Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Text("cause Of Death:",
+                                                        style:
+                                                            normalTextStyle()),
+                                                    SizedBox(
+                                                      width: 5.0,
                                                     ),
-                                                    child: Center(
-                                                      child: Text(
-                                                        'DETAILS',
-                                                        style: whiteTextStyle().copyWith(
-                                                            color: redOrangeColor(), fontSize: 13.0, fontWeight: FontWeight.w600),
+                                                    Text(
+                                                        provider.requestList[
+                                                                index]
+                                                            ['cause_of_death'],
+                                                        style:
+                                                            lightBlackTextStyle()),
+                                                    Spacer(),
+                                                    FlatButton(
+                                                      onPressed: () {
+                                                        provider.requestSelected(
+                                                            provider.requestList[
+                                                                    index]
+                                                                ['requestId'],
+                                                            index);
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) =>
+                                                                    RequestPage(
+                                                                        provider)));
+                                                      },
+                                                      child: Container(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            5,
+                                                        height: 30.0,
+                                                        decoration:
+                                                            new BoxDecoration(
+                                                          border: Border.all(
+                                                              color:
+                                                                  redOrangeColor()),
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                            Radius.circular(
+                                                                2.0),
+                                                          ),
+                                                        ),
+                                                        child: Center(
+                                                          child: Text(
+                                                            'DETAILS',
+                                                            style: whiteTextStyle()
+                                                                .copyWith(
+                                                                    color:
+                                                                        redOrangeColor(),
+                                                                    fontSize:
+                                                                        13.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600),
+                                                          ),
+                                                        ),
                                                       ),
-                                                    ),
-                                                  ),
-                                                )
-                                              ])
+                                                    )
+                                                  ])
                                             ],
                                           ),
                                         ),
                                       );
                                     })
-                            : Center(child: Text('You don\'t have any request\'s yet.')),
+                            : Center(
+                                child: Text(
+                                    'You don\'t have any request\'s yet.')),
                       ),
                       Container(
+<<<<<<< HEAD
                           color: Color(0xFFeeeef0), child: Center(child: Text("Current Tab", style: lightBlackTextStyle()))),
                       Container(
                           color: Color(0xFFeeeef0), child: Center(child: Text("Upcoming Tab", style: lightBlackTextStyle())))
+=======
+                          child: Center(
+                              child: Text("Current Tab",
+                                  style: lightBlackTextStyle()))),
+                      Container(
+                          child: Center(
+                              child: Text("Upcoming Tab",
+                                  style: lightBlackTextStyle())))
+>>>>>>> 3b1ac61bd77fed806b8fcdaef8d478bc06c30810
                     ],
                   ),
                 ),
