@@ -252,7 +252,7 @@ class _RequestPageState extends State<RequestPage> {
                               ),
                             ),
                             SizedBox(
-                              height: 20.0,
+                              height: 10.0,
                             ),
                           ],
                         ),
@@ -266,7 +266,7 @@ class _RequestPageState extends State<RequestPage> {
                                 child: Row(
                                   children: [
                                     Text(
-                                      'Time To Be Alloted:',
+                                      'Time  Slot  To  Be  Alloted:',
                                       style: lightBlackTextStyle(),
                                     ),
                                   ],

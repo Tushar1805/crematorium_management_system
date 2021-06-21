@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AdminRepository {
-  String adminId = 'jCb6F1p3eH4Ft7pxVvfb';
+  String adminId = FirebaseAuth.instance.currentUser.uid;
   FirebaseFirestore ref = FirebaseFirestore.instance;
 //
 //

@@ -34,6 +34,7 @@ Widget requestInfo(AdminProvider provider, BuildContext context) {
 
   return SingleChildScrollView(
     child: Container(
+      color: Colors.white,
       height: MediaQuery.of(context).size.height - 93,
       width: MediaQuery.of(context).size.width,
       child: Padding(

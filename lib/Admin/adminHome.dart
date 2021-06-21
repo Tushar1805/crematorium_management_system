@@ -309,8 +309,10 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                     })
                             : Center(child: Text('You don\'t have any request\'s yet.')),
                       ),
-                      Container(child: Center(child: Text("Current Tab", style: lightBlackTextStyle()))),
-                      Container(child: Center(child: Text("Upcoming Tab", style: lightBlackTextStyle())))
+                      Container(
+                          color: Color(0xFFeeeef0), child: Center(child: Text("Current Tab", style: lightBlackTextStyle()))),
+                      Container(
+                          color: Color(0xFFeeeef0), child: Center(child: Text("Upcoming Tab", style: lightBlackTextStyle())))
                     ],
                   ),
                 ),
