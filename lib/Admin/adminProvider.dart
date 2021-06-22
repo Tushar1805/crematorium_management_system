@@ -52,8 +52,16 @@ class AdminProvider extends ChangeNotifier {
     loading = true;
     notifyListeners();
     adminMap = await adminRepository.getAdminDetails();
-    requestList = await adminRepository.fetchRequestList();
+    List<Map> requests = await adminRepository.fetchRequestList();
+    requests.forEach((element) {
+      if (element['application_status'] == 'Under Review') {
+        requestList.add(element);
+      } else if (element['application_status'] == 'Approved') {
+        upcomingList.add(element);
+      }
+    });
     requestCount = requestList.length;
+    upcomingCount = upcomingList.length;
     setSlots();
     loading = false;
     notifyListeners();
@@ -76,20 +84,16 @@ class AdminProvider extends ChangeNotifier {
 
     int t1 = op_time;
     int t2 = (op_time + cremationTime);
-    String ts1 =
-        (t1 % 12 == 0 ? 12 : t1 % 12).toString() + ((t1 >= 12) ? 'PM' : 'AM');
-    String ts2 =
-        (t2 % 12 == 0 ? 12 : t2 % 12).toString() + ((t2 >= 12) ? 'PM' : 'AM');
+    String ts1 = (t1 % 12 == 0 ? 12 : t1 % 12).toString() + ((t1 >= 12) ? 'PM' : 'AM');
+    String ts2 = (t2 % 12 == 0 ? 12 : t2 % 12).toString() + ((t2 >= 12) ? 'PM' : 'AM');
     slotsStringList.add(ts1 + ' - ' + ts2);
 
     int num = adminMap['slots'].length;
     for (var i = 1; i < num; i++) {
       t1 = t2;
       t2 = (t1 + cremationTime);
-      ts1 =
-          (t1 % 12 == 0 ? 12 : t1 % 12).toString() + ((t1 > 12) ? 'PM' : 'AM');
-      ts2 =
-          (t2 % 12 == 0 ? 12 : t2 % 12).toString() + ((t2 > 12) ? 'PM' : 'AM');
+      ts1 = (t1 % 12 == 0 ? 12 : t1 % 12).toString() + ((t1 > 12) ? 'PM' : 'AM');
+      ts2 = (t2 % 12 == 0 ? 12 : t2 % 12).toString() + ((t2 > 12) ? 'PM' : 'AM');
       slotsStringList.add(ts1 + ' - ' + ts2);
     }
     notifyListeners();
@@ -111,10 +115,18 @@ class AdminProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void upcomingRequestSelected(String requestId, int index) {
+    state = States.requestInfo;
+    selectedRequestId = requestId;
+    selectedRequestIndex = index;
+    imageUrl = upcomingList[selectedRequestIndex]['imageUrl'];
+    print(selectedRequestId);
+    notifyListeners();
+  }
+
   Future<void> rejectApplication() async {
     print(selectedRequestId + reasonForRejection);
-    await adminRepository.rejectApplication(
-        requestList[selectedRequestIndex]['requestId'], reasonForRejection);
+    await adminRepository.rejectApplication(requestList[selectedRequestIndex]['requestId'], reasonForRejection);
     reasonForRejection = '';
     requestList[selectedRequestIndex]['application_status'] = 'rejected';
     print(requestList[selectedRequestIndex]['requestId']);

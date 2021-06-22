@@ -14,14 +14,14 @@ import 'package:date_format/date_format.dart';
 import 'package:intl/intl.dart';
 import 'package:way_to_heaven/repositories/adminRepository.dart';
 
-class RequestPage extends StatefulWidget {
+class UpcomingRequestPage extends StatefulWidget {
   AdminProvider provider;
-  RequestPage(@required this.provider);
+  UpcomingRequestPage(@required this.provider);
   @override
-  _RequestPageState createState() => _RequestPageState();
+  _UpcomingRequestPageState createState() => _UpcomingRequestPageState();
 }
 
-class _RequestPageState extends State<RequestPage> {
+class _UpcomingRequestPageState extends State<UpcomingRequestPage> {
   bool loadingPage = false;
   TimeOfDay time1 = TimeOfDay.now();
   TimeOfDay time2 = TimeOfDay.now();
@@ -201,7 +201,7 @@ class _RequestPageState extends State<RequestPage> {
                                 SizedBox(
                                   width: 5,
                                 ),
-                                Text(provider.requestList[provider.selectedRequestIndex]['applicant_name'],
+                                Text(provider.upcomingList[provider.selectedRequestIndex]['applicant_name'],
                                     style: normalTextStyle()),
                               ],
                             ),
@@ -217,7 +217,7 @@ class _RequestPageState extends State<RequestPage> {
                                 SizedBox(
                                   width: 5,
                                 ),
-                                Text(provider.requestList[provider.selectedRequestIndex]['dead_persons_name'],
+                                Text(provider.upcomingList[provider.selectedRequestIndex]['dead_persons_name'],
                                     style: normalTextStyle()),
                               ],
                             ),
@@ -233,7 +233,7 @@ class _RequestPageState extends State<RequestPage> {
                                 SizedBox(
                                   width: 5,
                                 ),
-                                Text(provider.requestList[provider.selectedRequestIndex]['dead_persons_age'],
+                                Text(provider.upcomingList[provider.selectedRequestIndex]['dead_persons_age'],
                                     style: normalTextStyle()),
                               ],
                             ),
@@ -249,7 +249,7 @@ class _RequestPageState extends State<RequestPage> {
                                 SizedBox(
                                   width: 5,
                                 ),
-                                Text(provider.requestList[provider.selectedRequestIndex]['selectedGender'],
+                                Text(provider.upcomingList[provider.selectedRequestIndex]['selectedGender'],
                                     style: normalTextStyle()),
                               ],
                             ),
@@ -265,7 +265,7 @@ class _RequestPageState extends State<RequestPage> {
                                 SizedBox(
                                   width: 5,
                                 ),
-                                Text(provider.requestList[provider.selectedRequestIndex]['cause_of_death'],
+                                Text(provider.upcomingList[provider.selectedRequestIndex]['cause_of_death'],
                                     style: normalTextStyle()),
                               ],
                             ),
@@ -282,7 +282,23 @@ class _RequestPageState extends State<RequestPage> {
                                   width: 5,
                                 ),
                                 Text(
-                                    ' ${DateTime.parse(provider.requestList[provider.selectedRequestIndex]['application_time'].toDate().toString()).hour} :  ${DateTime.parse(provider.requestList[provider.selectedRequestIndex]['application_time'].toDate().toString()).minute}',
+                                    ' ${DateTime.parse(provider.upcomingList[provider.selectedRequestIndex]['application_time'].toDate().toString()).hour} :  ${DateTime.parse(provider.upcomingList[provider.selectedRequestIndex]['application_time'].toDate().toString()).minute}',
+                                    style: normalTextStyle()),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20.0,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'Time Slot Alloted:',
+                                  style: lightBlackTextStyle(),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(provider.upcomingList[provider.selectedRequestIndex]['time_slot_alloted'],
                                     style: normalTextStyle()),
                               ],
                             ),
@@ -321,8 +337,8 @@ class _RequestPageState extends State<RequestPage> {
                         ),
                       ),
                     ),
-                    provider.requestList[provider.selectedRequestIndex]['application_status'] != 'rejected' &&
-                            provider.requestList[provider.selectedRequestIndex]['application_status'] != 'Approved'
+                    provider.upcomingList[provider.selectedRequestIndex]['application_status'] != 'rejected' &&
+                            provider.upcomingList[provider.selectedRequestIndex]['application_status'] != 'Approved'
                         ? Column(
                             children: [
                               Padding(
@@ -366,7 +382,7 @@ class _RequestPageState extends State<RequestPage> {
                     SizedBox(
                       height: 30.0,
                     ),
-                    provider.requestList[provider.selectedRequestIndex]['application_status'] == 'rejected'
+                    provider.upcomingList[provider.selectedRequestIndex]['application_status'] == 'rejected'
                         ? Container(
                             width: MediaQuery.of(context).size.width / 2 - 40,
                             height: 50.0,
@@ -383,7 +399,7 @@ class _RequestPageState extends State<RequestPage> {
                               ),
                             ),
                           )
-                        : provider.requestList[provider.selectedRequestIndex]['application_status'] == 'Approved'
+                        : provider.upcomingList[provider.selectedRequestIndex]['application_status'] == 'Approved'
                             ? Container(
                                 width: MediaQuery.of(context).size.width / 2 - 40,
                                 height: 50.0,
@@ -416,7 +432,8 @@ class _RequestPageState extends State<RequestPage> {
                                         print(adminMap['slots']);
                                         if (adminMap['slots'][slotIndex.toString()].length < int.parse(adminMap['capacity'])) {
                                           Map map = {};
-                                          map['applicationId'] = provider.requestList[provider.selectedRequestIndex]['requestId'];
+                                          map['applicationId'] =
+                                              provider.upcomingList[provider.selectedRequestIndex]['requestId'];
                                           map['selectedSlot'] = selectedSlot;
                                           adminMap['slots'][slotIndex.toString()].add(map);
                                           final docTodo = FirebaseFirestore.instance.collection('Users').doc(uid);
@@ -426,7 +443,7 @@ class _RequestPageState extends State<RequestPage> {
 
                                           await ref
                                               .collection('Applications')
-                                              .doc(provider.requestList[provider.selectedRequestIndex]['requestId'])
+                                              .doc(provider.upcomingList[provider.selectedRequestIndex]['requestId'])
                                               .update({'application_status': 'Approved', 'time_slot_alloted': selectedSlot});
                                           print('aproved');
                                           showSubmitDialog(true);
@@ -446,7 +463,7 @@ class _RequestPageState extends State<RequestPage> {
                                         AdminRepository adminRepository = new AdminRepository();
                                         Map mapData = {};
                                         Map adminMapNew = await adminRepository.getAdminDetails();
-                                        map['applicationId'] = provider.requestList[provider.selectedRequestIndex]['requestId'];
+                                        map['applicationId'] = provider.upcomingList[provider.selectedRequestIndex]['requestId'];
                                         map['selectedSlot'] = selectedSlot;
                                         adminMapNew['slots'][slotIndex.toString()].add(mapData);
                                         final docTodo2 = FirebaseFirestore.instance.collection('Users').doc(uid);
@@ -456,7 +473,7 @@ class _RequestPageState extends State<RequestPage> {
 
                                         await ref
                                             .collection('Applications')
-                                            .doc(provider.requestList[provider.selectedRequestIndex]['requestId'])
+                                            .doc(provider.upcomingList[provider.selectedRequestIndex]['requestId'])
                                             .update({'application_status': 'Approved', 'time_slot_alloted': selectedSlot});
                                         print('aproved');
 
