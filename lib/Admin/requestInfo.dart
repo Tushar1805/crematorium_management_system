@@ -146,7 +146,7 @@ Widget requestInfo(AdminProvider provider, BuildContext context) {
                           width: 5,
                         ),
                         Text(
-                            ' ${DateTime.parse(provider.requestList[provider.selectedRequestIndex]['application_time'].toDate().toString()).hour} :  ${DateTime.parse(provider.requestList[provider.selectedRequestIndex]['application_time'].toDate().toString()).minute}',
+                            ' ${DateTime.parse(provider.requestList[provider.selectedRequestIndex]['application_time'].toDate().toString()).hour} :  ${DateTime.parse(provider.requestList[provider.selectedRequestIndex]['application_time'].toDate().toString()).minute} ${(DateTime.parse(provider.requestList[provider.selectedRequestIndex]['application_time']).hour > 12 ? 'PM' : 'AM')}',
                             style: normalTextStyle()),
                       ],
                     ),
@@ -196,99 +196,22 @@ Widget requestInfo(AdminProvider provider, BuildContext context) {
                 ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width * .41,
-                  child: Row(
-                    children: [
-                      Text(
-                        'From:',
-                        style: TextStyle(
-                          fontSize: 15,
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(3, 0, 0, 0),
-                        width: MediaQuery.of(context).size.width * 0.3,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(1)),
-                            shape: BoxShape.rectangle,
-                            border: Border.all(
-                              color: lightGray(),
-                              width: 1,
-                            )),
-                        child: Row(children: [
-                          Container(
-                            // color: Colors.red,
-                            width: 35,
-                            child: IconButton(
-                              icon: Icon(Icons.alarm),
-                              onPressed: () {
-                                selectTime1(context);
-                              },
-                              color: gray(),
-                            ),
-                          ),
-                          Text(
-                            time1 != null ? '${time1.hour}:${time1.minute}' : '',
-                            style: TextStyle(
-                              fontSize: 20,
-                            ),
-                          ),
-                          SizedBox(width: 10),
-                        ]),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(width: 10),
-                Container(
-                  width: MediaQuery.of(context).size.width * .4,
-                  child: Row(
-                    children: [
-                      Text(
-                        'Till:',
-                        style: TextStyle(
-                          fontSize: 15,
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(3, 0, 0, 0),
-                        width: MediaQuery.of(context).size.width * 0.3,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(1)),
-                            shape: BoxShape.rectangle,
-                            border: Border.all(
-                              color: lightGray(),
-                              width: 1,
-                            )),
-                        child: Row(children: [
-                          Container(
-                              // color: Colors.red,
-                              width: 35,
-                              child: IconButton(
-                                icon: Icon(Icons.alarm),
-                                onPressed: () {
-                                  selectTime2(context);
-                                  print(time2);
-                                },
-                                color: gray(),
-                              )),
-                          Text(
-                            time2 != null ? '${time2.hour}:${time2.minute}' : '',
-                            style: TextStyle(
-                              fontSize: 20,
-                            ),
-                          ),
-                          SizedBox(width: 10),
-                        ]),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+            Container(
+              child: DropdownButtonFormField<String>(
+                decoration: formInputDecoration("Select Time for one Cremation in hour"),
+                items: <String>['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'].map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: new Text(value + " Hr"),
+                    onTap: () {
+                      String cremationTime;
+                      cremationTime = value;
+                      print(cremationTime);
+                    },
+                  );
+                }).toList(),
+                onChanged: (_) {},
+              ),
             ),
             Spacer(),
             Row(

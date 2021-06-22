@@ -129,8 +129,7 @@ class _ApplicationState extends State<Application> {
                             SizedBox(
                               width: 5,
                             ),
-                            Text(provider.crematoriumSearchList[provider.selectedCrematorium]['address'],
-                                style: normalTextStyle()),
+                            Text(provider.crematoriumSearchList[provider.selectedCrematorium]['zone'], style: normalTextStyle()),
                           ],
                         ),
                         SizedBox(
@@ -145,7 +144,10 @@ class _ApplicationState extends State<Application> {
                             SizedBox(
                               width: 5,
                             ),
-                            Text(provider.crematoriumSearchList[provider.selectedCrematorium]['timing'],
+                            Text(
+                                provider.crematoriumSearchList[provider.selectedCrematorium]['timing']['opening_time'] +
+                                    '-' +
+                                    provider.crematoriumSearchList[provider.selectedCrematorium]['timing']['closing_time'],
                                 style: normalTextStyle()),
                           ],
                         ),

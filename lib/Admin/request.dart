@@ -275,130 +275,26 @@ class _RequestPageState extends State<RequestPage> {
                               SizedBox(
                                 height: 20.0,
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    width: MediaQuery.of(context).size.width * .41,
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          'From:',
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.fromLTRB(3, 0, 0, 0),
-                                          width: MediaQuery.of(context).size.width * 0.3,
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(Radius.circular(1)),
-                                              shape: BoxShape.rectangle,
-                                              border: Border.all(
-                                                color: lightGray(),
-                                                width: 1,
-                                              )),
-                                          child: Row(children: [
-                                            Container(
-                                              // color: Colors.red,
-                                              width: 35,
-                                              child: IconButton(
-                                                icon: Icon(Icons.alarm),
-                                                onPressed: () async {
-                                                  picked1 = await showTimePicker(
-                                                    context: context,
-                                                    initialTime: time1,
-                                                  );
-
-                                                  if (picked1 != null) {
-                                                    setState(() {
-                                                      time1 = picked1;
-                                                      from = time1;
-                                                      selectedTime1 = picked1;
-                                                      _hour = selectedTime1.hour.toString();
-                                                      _minute = selectedTime1.minute.toString();
-                                                      _time = _hour + ' : ' + _minute;
-                                                      _time1Controller.text = _time;
-                                                      _time1Controller.text = formatDate(
-                                                          DateTime(2019, 08, 1, selectedTime1.hour, selectedTime1.minute),
-                                                          [hh, ':', nn, " ", am]).toString();
-                                                    });
-                                                  }
-                                                },
-                                                color: gray(),
-                                              ),
-                                            ),
-                                            Text(
-                                              '${_time1Controller.text} ',
-                                              style: TextStyle(
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                            SizedBox(width: 10),
-                                          ]),
-                                        ),
-                                      ],
-                                    ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                                child: Container(
+                                  child: DropdownButtonFormField<String>(
+                                    decoration: formInputDecoration("Select Time Slot"),
+                                    items: <String>['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+                                        .map((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: new Text(value + " Hr"),
+                                        onTap: () {
+                                          String cremationTime;
+                                          cremationTime = value;
+                                          print(cremationTime);
+                                        },
+                                      );
+                                    }).toList(),
+                                    onChanged: (_) {},
                                   ),
-                                  SizedBox(width: 10),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width * .4,
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          'Till:',
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.fromLTRB(3, 0, 0, 0),
-                                          width: MediaQuery.of(context).size.width * 0.3,
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(Radius.circular(1)),
-                                              shape: BoxShape.rectangle,
-                                              border: Border.all(
-                                                color: lightGray(),
-                                                width: 1,
-                                              )),
-                                          child: Row(children: [
-                                            Container(
-                                                // color: Colors.red,
-                                                width: 35,
-                                                child: IconButton(
-                                                  icon: Icon(Icons.alarm),
-                                                  onPressed: () async {
-                                                    picked2 = await showTimePicker(context: context, initialTime: time2);
-                                                    if (picked2 != null) {
-                                                      setState(() {
-                                                        time2 = picked2;
-                                                        from = time2;
-                                                        selectedTime2 = picked2;
-                                                        _hour = selectedTime2.hour.toString();
-                                                        _minute = selectedTime2.minute.toString();
-                                                        _time = _hour + ' : ' + _minute;
-                                                        _time2Controller.text = _time;
-                                                        _time2Controller.text = formatDate(
-                                                            DateTime(2019, 08, 1, selectedTime2.hour, selectedTime2.minute),
-                                                            [hh, ':', nn, " ", am]).toString();
-                                                      });
-                                                    }
-                                                  },
-                                                  color: gray(),
-                                                )),
-                                            Text(
-                                              '${_time2Controller.text} ',
-                                              style: TextStyle(
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                            SizedBox(width: 10),
-                                          ]),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
                             ],
                           )

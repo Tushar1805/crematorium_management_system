@@ -73,7 +73,7 @@ Widget VerifyOTP(BuildContext context, LoginProvider provider) {
 
           String role;
           bool profileExist = false;
-          bool isProfileCompleted;
+          bool isProfileCompleted = true;
           await FirebaseFirestore.instance.collection('Users').doc(value.user.uid).get().then((value) {
             if (value.data() == null) {
               profileExist = false;

@@ -272,7 +272,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                                       style: darkBlackTextStyle()),
                                                   Spacer(),
                                                   Text(
-                                                      ' ${DateTime.parse(provider.requestList[index]['application_time'].toDate().toString()).hour} :  ${DateTime.parse(provider.requestList[index]['application_time'].toDate().toString()).minute}'),
+                                                      ' ${DateTime.parse(provider.requestList[index]['application_time'].toDate().toString()).hour % 12} :  ${DateTime.parse(provider.requestList[index]['application_time'].toDate().toString()).minute} ${(DateTime.parse(provider.requestList[index]['application_time'].toDate().toString()).hour > 12 ? 'PM' : 'AM')}'),
                                                   SizedBox(
                                                     width: 20.0,
                                                   )

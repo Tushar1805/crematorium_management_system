@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:way_to_heaven/Admin/completeAdminProfileBase.dart';
+import 'package:way_to_heaven/Authentication/loginPage.dart';
 import 'package:way_to_heaven/Authentication/loginProvider.dart';
 import 'package:way_to_heaven/User/Profile/about.dart';
 import 'package:way_to_heaven/User/Profile/editProfile.dart';
@@ -11,6 +12,7 @@ import 'package:way_to_heaven/User/completeUserProfileBase.dart';
 import 'package:way_to_heaven/components/constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:way_to_heaven/repositories/loginRepository.dart';
+import 'package:way_to_heaven/utils/customRouterBase.dart';
 
 class AdminProfile extends StatefulWidget {
   @override
@@ -56,8 +58,7 @@ class _AdminProfileState extends State<AdminProfile> {
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.only(
-                  left: 20.0, right: 20.0, top: 50.0, bottom: 30.0),
+              padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 50.0, bottom: 30.0),
               width: MediaQuery.of(context).size.width,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -79,32 +80,24 @@ class _AdminProfileState extends State<AdminProfile> {
                           children: [
                             Text(
                               "Tushar",
-                              style: darkBlackTextStyle().copyWith(
-                                  fontSize: 17, fontWeight: FontWeight.w900),
+                              style: darkBlackTextStyle().copyWith(fontSize: 17, fontWeight: FontWeight.w900),
                             ),
-                            SizedBox(
-                              width: 80.0,
-                            ),
-                            FlatButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              EditProfile(provider)));
-                                },
-                                splashColor: Colors.transparent,
-                                child: Text("EDIT PROFILE",
-                                    style: orangeTextStyle()
-                                        .copyWith(fontSize: 13)))
+                            // SizedBox(
+                            //   width: 80.0,
+                            // ),
+                            // FlatButton(
+                            //     onPressed: () {
+                            //       Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfile(provider)));
+                            //     },
+                            //     splashColor: Colors.transparent,
+                            //     child: Text("EDIT PROFILE", style: orangeTextStyle().copyWith(fontSize: 13)))
                           ],
                         ),
                         Row(
                           children: [
                             Text(
                               "Email ID ",
-                              style:
-                                  lightBlackTextStyle().copyWith(fontSize: 12),
+                              style: lightBlackTextStyle().copyWith(fontSize: 12),
                             ),
                             SizedBox(
                               width: 5,
@@ -120,8 +113,7 @@ class _AdminProfileState extends State<AdminProfile> {
                           children: [
                             Text(
                               "MOB. ",
-                              style:
-                                  lightBlackTextStyle().copyWith(fontSize: 12),
+                              style: lightBlackTextStyle().copyWith(fontSize: 12),
                             ),
                             SizedBox(
                               width: 5,
@@ -163,10 +155,7 @@ class _AdminProfileState extends State<AdminProfile> {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SettingsPage()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage()));
                         },
                         splashColor: Colors.transparent,
                         child: Row(
@@ -221,8 +210,7 @@ class _AdminProfileState extends State<AdminProfile> {
                             SizedBox(
                               width: 20,
                             ),
-                            Text("Edit Crematorium Details",
-                                style: lightBlackTextStyle()),
+                            Text("Edit Crematorium Details", style: lightBlackTextStyle()),
                             Spacer(),
                             SvgPicture.asset(
                               "Icons/greater.svg",
@@ -298,8 +286,7 @@ class _AdminProfileState extends State<AdminProfile> {
                             SizedBox(
                               width: 20,
                             ),
-                            Text("Download Acknowledgement",
-                                style: lightBlackTextStyle()),
+                            Text("Download Acknowledgement", style: lightBlackTextStyle()),
                             Spacer(),
                             SvgPicture.asset(
                               "Icons/greater.svg",
@@ -322,11 +309,7 @@ class _AdminProfileState extends State<AdminProfile> {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      CompleteAdminProfileBase()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => CompleteAdminProfileBase()));
                         },
                         splashColor: Colors.transparent,
                         child: Row(
@@ -343,8 +326,7 @@ class _AdminProfileState extends State<AdminProfile> {
                             SizedBox(
                               width: 20,
                             ),
-                            Text("Complete Profile",
-                                style: lightBlackTextStyle()),
+                            Text("Edit Profile", style: lightBlackTextStyle()),
                             Spacer(),
                             SvgPicture.asset(
                               "Icons/greater.svg",
@@ -386,10 +368,7 @@ class _AdminProfileState extends State<AdminProfile> {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AboutUs()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => AboutUs()));
                         },
                         splashColor: Colors.transparent,
                         child: Row(
@@ -482,8 +461,7 @@ class _AdminProfileState extends State<AdminProfile> {
                             SizedBox(
                               width: 20,
                             ),
-                            Text("Terms And Services",
-                                style: lightBlackTextStyle()),
+                            Text("Terms And Services", style: lightBlackTextStyle()),
                             Spacer(),
                             SvgPicture.asset(
                               "Icons/greater.svg",
@@ -505,7 +483,10 @@ class _AdminProfileState extends State<AdminProfile> {
                         height: 25,
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () async {
+                          await FirebaseAuth.instance.signOut();
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => CustomRouterBase()));
+                        },
                         splashColor: Colors.transparent,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,

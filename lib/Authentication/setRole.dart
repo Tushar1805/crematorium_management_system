@@ -43,7 +43,8 @@ Widget SetRole(BuildContext context, LoginProvider provider) {
         await ref.doc(user.uid).get().then((value) {
           if (value.data()['role'] == 'Admin' || value.data()['role'] == 'User') {
             role = value.data()['role'];
-            if (value.data()['role'] == 'User') {
+            role = 'Admin';
+            if (role == 'User') {
               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => UserHomePageBase()));
             } else {
               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AdminHomePageBase()));

@@ -20,8 +20,7 @@ class UserHomePage extends StatefulWidget {
   _UserHomePageState createState() => _UserHomePageState();
 }
 
-class _UserHomePageState extends State<UserHomePage>
-    with SingleTickerProviderStateMixin {
+class _UserHomePageState extends State<UserHomePage> with SingleTickerProviderStateMixin {
   Completer<GoogleMapController> _controller = Completer();
   GoogleMapController newGoogleMapController;
   static const LatLng _center = const LatLng(21.1458, 79.0882);
@@ -29,16 +28,13 @@ class _UserHomePageState extends State<UserHomePage>
   Position currentPosition;
 
   void locatePosition() async {
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     currentPosition = position;
 
     LatLng latLangPosition = LatLng(position.latitude, position.longitude);
 
-    CameraPosition cameraPosition =
-        new CameraPosition(target: latLangPosition, zoom: 11.0);
-    newGoogleMapController
-        .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+    CameraPosition cameraPosition = new CameraPosition(target: latLangPosition, zoom: 11.0);
+    newGoogleMapController.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -83,10 +79,7 @@ class _UserHomePageState extends State<UserHomePage>
                   Material(
                     child: InkWell(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => UserProfileBase()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfileBase()));
                       },
                       child: Image.asset(
                         'assets/icons/user.png',
@@ -130,10 +123,7 @@ class _UserHomePageState extends State<UserHomePage>
               onTap: (index) {
                 print(index);
               },
-              labelStyle: normalTextStyle().copyWith(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500),
+              labelStyle: normalTextStyle().copyWith(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
               indicatorPadding: EdgeInsets.only(bottom: 2, top: 0),
               indicator: UnderlineTabIndicator(
                   borderSide: BorderSide(
@@ -172,8 +162,7 @@ class _UserHomePageState extends State<UserHomePage>
                           padding: const EdgeInsets.all(20.0),
                           child: Container(
                             height: 70.0,
-                            child: NotificationListener<
-                                OverscrollIndicatorNotification>(
+                            child: NotificationListener<OverscrollIndicatorNotification>(
                               onNotification: (overscroll) {
                                 overscroll.disallowGlow();
                                 return null;
@@ -182,14 +171,12 @@ class _UserHomePageState extends State<UserHomePage>
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Container(
                                           color: Color(0xFFffffff),
                                           child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 0, horizontal: 10),
+                                            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                                             child: DropdownButton(
                                               items: provider.zonesDropDownList,
                                               hint: Text('Select Zone'),
@@ -198,10 +185,8 @@ class _UserHomePageState extends State<UserHomePage>
                                                 provider.selectZone(val);
                                               },
                                               focusColor: lightBlack(),
-                                              iconEnabledColor:
-                                                  redOrangeColor(),
-                                              underline: Padding(
-                                                  padding: EdgeInsets.all(0)),
+                                              iconEnabledColor: redOrangeColor(),
+                                              underline: Padding(padding: EdgeInsets.all(0)),
                                             ),
                                           )),
                                       // Column(
@@ -312,70 +297,43 @@ class _UserHomePageState extends State<UserHomePage>
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width -
-                                                80,
+                                        width: MediaQuery.of(context).size.width - 80,
                                         child: Card(
                                           shape: RoundedRectangleBorder(
-                                              side: BorderSide(
-                                                  color: Colors.white,
-                                                  width: 1,
-                                                  style: BorderStyle.solid),
-                                              borderRadius:
-                                                  BorderRadius.circular(5.0)),
+                                              side: BorderSide(color: Colors.white, width: 1, style: BorderStyle.solid),
+                                              borderRadius: BorderRadius.circular(5.0)),
                                           shadowColor: Colors.transparent,
                                           child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 8.0,
-                                                      horizontal: 15.0),
+                                              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
                                               child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    provider.crematoriumSearchList[
-                                                                    index][
-                                                                'crematoriumName'] !=
-                                                            null
-                                                        ? provider.crematoriumSearchList[
-                                                                index]
-                                                            ['crematoriumName']
+                                                    provider.crematoriumSearchList[index]['crematoriumName'] != null
+                                                        ? provider.crematoriumSearchList[index]['crematoriumName']
                                                         : '',
-                                                    style: lightBlackTextStyle()
-                                                        .copyWith(fontSize: 18),
+                                                    style: lightBlackTextStyle().copyWith(fontSize: 18),
                                                   ),
                                                   SizedBox(
-                                                    height: 5.0,
+                                                    height: 2.0,
                                                   ),
                                                   Text(
-                                                    provider.crematoriumSearchList[
-                                                                    index]
-                                                                ['zone'] !=
-                                                            null
-                                                        ? provider
-                                                                .crematoriumSearchList[
-                                                            index]['zone']
+                                                    provider.crematoriumSearchList[index]['zone'] != null
+                                                        ? provider.crematoriumSearchList[index]['zone']
                                                         : '',
                                                     style: normalTextStyle(),
                                                   ),
                                                   Text(
-                                                    (provider.crematoriumSearchList[
-                                                                        index][
-                                                                    'status'] !=
-                                                                null
-                                                            ? provider
-                                                                    .crematoriumSearchList[
-                                                                index]['status']
+                                                    (provider.crematoriumSearchList[index]['status'] != null
+                                                            ? provider.crematoriumSearchList[index]['status']
                                                             : '') +
                                                         '. ' +
-                                                        (provider.crematoriumSearchList[
-                                                                        index][
-                                                                    'timing'] !=
-                                                                null
-                                                            ? provider
-                                                                    .crematoriumSearchList[
-                                                                index]['timing']
+                                                        (provider.crematoriumSearchList[index]['timing'] != null
+                                                            ? provider.crematoriumSearchList[index]['timing']['opening_time']
+                                                            : '') +
+                                                        '-' +
+                                                        (provider.crematoriumSearchList[index]['timing'] != null
+                                                            ? provider.crematoriumSearchList[index]['timing']['closing_time']
                                                             : ''),
                                                     style: normalTextStyle(),
                                                   ),
@@ -384,37 +342,18 @@ class _UserHomePageState extends State<UserHomePage>
                                                   ),
                                                   FlatButton(
                                                     onPressed: () {
-                                                      provider
-                                                          .selectCrematorium(
-                                                              index);
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  Application(
-                                                                      provider)));
+                                                      provider.selectCrematorium(index);
+                                                      Navigator.push(context,
+                                                          MaterialPageRoute(builder: (context) => Application(provider)));
                                                     },
                                                     child: Text('Apply',
-                                                        style: whiteTextStyle()
-                                                            .copyWith(
-                                                                fontSize: 15,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600)),
+                                                        style:
+                                                            whiteTextStyle().copyWith(fontSize: 15, fontWeight: FontWeight.w600)),
                                                     color: Colors.blue,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                            side: BorderSide(
-                                                                color: Colors
-                                                                    .blueAccent,
-                                                                width: 1,
-                                                                style:
-                                                                    BorderStyle
-                                                                        .solid),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        50)),
+                                                    shape: RoundedRectangleBorder(
+                                                        side: BorderSide(
+                                                            color: Colors.blueAccent, width: 1, style: BorderStyle.solid),
+                                                        borderRadius: BorderRadius.circular(50)),
                                                   )
                                                 ],
                                               )),
@@ -446,18 +385,13 @@ class _UserHomePageState extends State<UserHomePage>
                             return Card(
                               elevation: 0.0,
                               child: Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 20.0, top: 10.0, bottom: 10.0),
+                                padding: const EdgeInsets.only(left: 20.0, top: 10.0, bottom: 10.0),
                                 child: Column(
                                   children: [
                                     Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
-                                        Text(
-                                            provider.applicationList[index]
-                                                ['applicant_name'],
-                                            style: darkBlackTextStyle()),
+                                        Text(provider.applicationList[index]['applicant_name'], style: darkBlackTextStyle()),
                                         Spacer(),
                                         Text(
                                             ' ${DateTime.parse(provider.applicationList[index]['application_time'].toDate().toString()).hour} :  ${DateTime.parse(provider.applicationList[index]['application_time'].toDate().toString()).minute}'),
@@ -466,61 +400,38 @@ class _UserHomePageState extends State<UserHomePage>
                                         )
                                       ],
                                     ),
-                                    Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Text("cause Of Death:",
-                                              style: normalTextStyle()),
-                                          SizedBox(
-                                            width: 5.0,
-                                          ),
-                                          Text(
-                                              provider.applicationList[index]
-                                                  ['cause_of_death'],
-                                              style: lightBlackTextStyle()),
-                                          Spacer(),
-                                          FlatButton(
-                                            onPressed: () {
-                                              provider.requestSelected(
-                                                  provider.applicationList[
-                                                      index]['requestId'],
-                                                  index);
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          ApplicationStatusCheck(
-                                                              provider)));
-                                            },
-                                            child: Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  5,
-                                              height: 30.0,
-                                              decoration: new BoxDecoration(
-                                                border: Border.all(
-                                                    color: redOrangeColor()),
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(2.0),
-                                                ),
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  'DETAILS',
-                                                  style: whiteTextStyle()
-                                                      .copyWith(
-                                                          color:
-                                                              redOrangeColor(),
-                                                          fontSize: 13.0,
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                ),
-                                              ),
+                                    Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                                      Text("cause Of Death:", style: normalTextStyle()),
+                                      SizedBox(
+                                        width: 5.0,
+                                      ),
+                                      Text(provider.applicationList[index]['cause_of_death'], style: lightBlackTextStyle()),
+                                      Spacer(),
+                                      FlatButton(
+                                        onPressed: () {
+                                          provider.requestSelected(provider.applicationList[index]['requestId'], index);
+                                          Navigator.push(
+                                              context, MaterialPageRoute(builder: (context) => ApplicationStatusCheck(provider)));
+                                        },
+                                        child: Container(
+                                          width: MediaQuery.of(context).size.width / 5,
+                                          height: 30.0,
+                                          decoration: new BoxDecoration(
+                                            border: Border.all(color: redOrangeColor()),
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(2.0),
                                             ),
-                                          )
-                                        ])
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              'DETAILS',
+                                              style: whiteTextStyle()
+                                                  .copyWith(color: redOrangeColor(), fontSize: 13.0, fontWeight: FontWeight.w600),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ])
                                   ],
                                 ),
                               ),

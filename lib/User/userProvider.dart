@@ -14,7 +14,7 @@ class UserProvider extends ChangeNotifier {
 
   // Application
 
-  String applicant_name = 'Rajesh Thakur';
+  String applicant_name = '';
   String dead_persons_name;
   String dead_persons_age;
   String selectedGender;
@@ -59,6 +59,8 @@ class UserProvider extends ChangeNotifier {
   Future<void> getDetails() async {
     loading = true;
     notifyListeners();
+    Map userMap = await userRepository.getUserDetails();
+    applicant_name = userMap['name'];
     applicationList = await userRepository.fetchApplicationList();
     applicationListCount = applicationList.length;
     loading = false;
