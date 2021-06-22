@@ -41,13 +41,15 @@ Widget SetRole(BuildContext context, LoginProvider provider) {
       if (!provider.isRoleNotFound) {
         provider.checkRole();
         await ref.doc(user.uid).get().then((value) {
-          if (value.data()['role'] == 'Admin' || value.data()['role'] == 'User') {
+          if (value.data()['role'] == 'Admin' ||
+              value.data()['role'] == 'User') {
             role = value.data()['role'];
-            role = 'Admin';
             if (role == 'User') {
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => UserHomePageBase()));
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => UserHomePageBase()));
             } else {
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AdminHomePageBase()));
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => AdminHomePageBase()));
             }
           } else {
             provider.roleNotFound();
@@ -68,7 +70,8 @@ Widget SetRole(BuildContext context, LoginProvider provider) {
               children: [
                 Container(
                   padding: EdgeInsets.only(bottom: 5.0),
-                  child: Text("Register as", style: lightBlackTextStyle().copyWith(fontSize: 20)),
+                  child: Text("Register as",
+                      style: lightBlackTextStyle().copyWith(fontSize: 20)),
                   decoration: bottomBorder(),
                 ),
                 SizedBox(
@@ -90,11 +93,15 @@ Widget SetRole(BuildContext context, LoginProvider provider) {
                         decoration: topBottomGradient(),
                       ),
                       onTap: () async {
-                        final ref = FirebaseFirestore.instance.collection('Users');
+                        final ref =
+                            FirebaseFirestore.instance.collection('Users');
                         var user = FirebaseAuth.instance.currentUser;
                         provider.checkRole();
                         await ref.doc(user.uid).update({'role': 'Admin'});
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AdminHomePageBase()));
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AdminHomePageBase()));
                       },
                     ),
                     SizedBox(
@@ -113,11 +120,15 @@ Widget SetRole(BuildContext context, LoginProvider provider) {
                         decoration: topBottomGradient(),
                       ),
                       onTap: () async {
-                        final ref = FirebaseFirestore.instance.collection('Users');
+                        final ref =
+                            FirebaseFirestore.instance.collection('Users');
                         var user = FirebaseAuth.instance.currentUser;
                         provider.checkRole();
                         await ref.doc(user.uid).update({'role': 'User'});
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => UserHomePageBase()));
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => UserHomePageBase()));
                       },
                     ),
                   ],

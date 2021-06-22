@@ -10,9 +10,11 @@ import 'package:way_to_heaven/User/Profile/editProfile.dart';
 import 'package:way_to_heaven/User/Profile/settings.dart';
 import 'package:way_to_heaven/User/completeProfile.dart';
 import 'package:way_to_heaven/User/completeUserProfileBase.dart';
+import 'package:way_to_heaven/User/userProvider.dart';
 import 'package:way_to_heaven/components/constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:way_to_heaven/repositories/loginRepository.dart';
+import 'package:way_to_heaven/utils/customRouterBase.dart';
 
 class UserProfile extends StatefulWidget {
   @override
@@ -32,14 +34,10 @@ class _UserProfileState extends State<UserProfile> {
   }
 
   Future<void> getUserInfo() async {
-    // final User user = auth.currentUser;
-    // await user?.reload();
-    // final uid = user.uid;
-    FirebaseFirestore.instance
-        .collection("Users")
-        .doc("SctfxC3ITbPPGrHLHhuh5HqjWwD2")
-        .get()
-        .then(
+    final User user = auth.currentUser;
+    await user?.reload();
+    final uid = user.uid;
+    FirebaseFirestore.instance.collection("Users").doc(uid).get().then(
       (value) {
         setState(() {
           role = (value["role"].toString());
@@ -53,7 +51,7 @@ class _UserProfileState extends State<UserProfile> {
 
   @override
   Widget build(BuildContext context) {
-    LoginProvider provider = Provider.of<LoginProvider>(context);
+    UserProvider provider = Provider.of<UserProvider>(context);
     return Scaffold(
       backgroundColor: Color(0xfff5f5f9),
       body: SingleChildScrollView(
@@ -82,25 +80,25 @@ class _UserProfileState extends State<UserProfile> {
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Text(
-                              "Tushar",
+                              provider.userMap['name'] ?? 'User',
                               style: darkBlackTextStyle().copyWith(
                                   fontSize: 17, fontWeight: FontWeight.w900),
                             ),
-                            SizedBox(
-                              width: 80.0,
-                            ),
-                            FlatButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              EditProfile(provider)));
-                                },
-                                splashColor: Colors.transparent,
-                                child: Text("EDIT PROFILE",
-                                    style: orangeTextStyle()
-                                        .copyWith(fontSize: 13)))
+                            // SizedBox(
+                            //   width: 80.0,
+                            // ),
+                            // FlatButton(
+                            //     onPressed: () {
+                            //       Navigator.push(
+                            //           context,
+                            //           MaterialPageRoute(
+                            //               builder: (context) =>
+                            //                   EditProfile(provider)));
+                            //     },
+                            //     splashColor: Colors.transparent,
+                            //     child: Text("EDIT PROFILE",
+                            //         style: orangeTextStyle()
+                            //             .copyWith(fontSize: 13)))
                           ],
                         ),
                         Row(
@@ -114,7 +112,7 @@ class _UserProfileState extends State<UserProfile> {
                               width: 5,
                             ),
                             Text(
-                              "tusharkalbhande18@gmail.com",
+                              provider.userMap['email'] ?? 'email',
                               style: normalTextStyle().copyWith(fontSize: 13),
                             ),
                           ],
@@ -131,7 +129,7 @@ class _UserProfileState extends State<UserProfile> {
                               width: 5,
                             ),
                             Text(
-                              "9579982823",
+                              provider.userMap['mobile'] ?? 'mob',
                               style: normalTextStyle().copyWith(fontSize: 13),
                             ),
                             SizedBox(
@@ -355,8 +353,7 @@ class _UserProfileState extends State<UserProfile> {
                             SizedBox(
                               width: 20,
                             ),
-                            Text("Complete Profile",
-                                style: lightBlackTextStyle()),
+                            Text("Edit Profile", style: lightBlackTextStyle()),
                             Spacer(),
                             SvgPicture.asset(
                               "Icons/greater.svg",
@@ -517,7 +514,13 @@ class _UserProfileState extends State<UserProfile> {
                         height: 25,
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () async {
+                          await FirebaseAuth.instance.signOut();
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => CustomRouterBase()));
+                        },
                         splashColor: Colors.transparent,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,

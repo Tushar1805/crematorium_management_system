@@ -3,7 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:way_to_heaven/Admin/loading.dart';
 import 'package:way_to_heaven/User/user.dart';
+import 'package:way_to_heaven/User/userHomePageBase.dart';
 import 'package:way_to_heaven/User/userProvider.dart';
 import 'package:way_to_heaven/components/constants.dart';
 
@@ -15,6 +17,8 @@ class CompleteUserProfile extends StatefulWidget {
 class _CompleteUserProfileState extends State<CompleteUserProfile> {
   String name, email, address, phone, age, gender, uid, role;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  bool loadingPage = false;
 
   void initState() {
     super.initState();
@@ -149,7 +153,85 @@ class _CompleteUserProfileState extends State<CompleteUserProfile> {
   //       });
   // }
 
+  void showSubmitDialog(bool isSuccess) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Center(
+                child: Text(
+              isSuccess ? 'Success' : 'Error',
+              style: lightBlackTextStyle().copyWith(fontSize: 18),
+            )),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Text(
+                      isSuccess
+                          ? 'Profile Updated Successfully!'
+                          : 'Something Went Wrong! Try Again...',
+                      style:
+                          normalTextStyle().copyWith(color: redOrangeColor())),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Center(
+                child: FlatButton(
+                  onPressed: () {
+                    if (isSuccess) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => UserHomePageBase()));
+                    } else {
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    width: MediaQuery.of(context).size.width / 3,
+                    decoration: new BoxDecoration(
+                      gradient: new LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [
+                            redOrangeColor(),
+                            redOrangeColor(),
+                            orangeColor()
+                          ]),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(40.0),
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'OK',
+                        style: whiteTextStyle().copyWith(
+                            fontSize: 15.0, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          );
+        });
+  }
+
+  Future<void> completeUserProfile(UserClass user, String uid) async {
+    final docTodo = FirebaseFirestore.instance.collection('Users').doc(uid);
+
+    await docTodo.update(user.toJson());
+  }
+
   void addCompleteProfile() {
+    setState(() {
+      loadingPage = true;
+    });
     final isValid = _formKey.currentState.validate();
     if (!isValid) {
       return;
@@ -157,6 +239,7 @@ class _CompleteUserProfileState extends State<CompleteUserProfile> {
       final user = UserClass(
         name: name,
         createdTime: DateTime.now(),
+        email: email,
         role: role,
         address: address,
         mobile: phone,
@@ -164,9 +247,11 @@ class _CompleteUserProfileState extends State<CompleteUserProfile> {
         gender: gender,
       );
 
-      final provider = Provider.of<UserProvider>(context, listen: false);
-      provider.completeUserProfile(user, uid);
-      Navigator.of(context).pop();
+      completeUserProfile(user, uid);
+      setState(() {
+        showSubmitDialog(true);
+        loadingPage = false;
+      });
     }
   }
 
@@ -231,66 +316,83 @@ class _CompleteUserProfileState extends State<CompleteUserProfile> {
           ),
         ),
       ),
-      body: Container(
-          margin: EdgeInsets.all(24),
-          child: Form(
-            key: _formKey,
-            child: SingleChildScrollView(
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _buildName(),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    _buildEmail(),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    // _buildPhone(),
-                    // SizedBox(
-                    //   height: 15,
-                    // ),
-                    _buildAddress(),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    _buildAge(),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    _buildGender(),
-                    SizedBox(
-                      height: 60,
-                    ),
-                    RaisedButton(
-                      color: redOrangeColor(),
-                      onPressed: () {
-                        if (!_formKey.currentState.validate()) {
-                          return;
-                        }
-                        _formKey.currentState.save();
-                        addCompleteProfile();
-                        print(name);
-                        print(email);
-                        print(address);
-                        print(phone);
-                        print(age);
-                        showSnackBar(context, "Profile Updated Successfully");
-                      },
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        child: Center(
-                          child: Text(
-                            "Submit",
-                            style: whiteTextStyle(),
+      body: loadingPage
+          ? loading()
+          : Container(
+              margin: EdgeInsets.all(24),
+              child: Form(
+                key: _formKey,
+                child: SingleChildScrollView(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _buildName(),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        _buildEmail(),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        // _buildPhone(),
+                        // SizedBox(
+                        //   height: 15,
+                        // ),
+                        _buildAddress(),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        _buildAge(),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        _buildGender(),
+                        SizedBox(
+                          height: 60,
+                        ),
+                        FlatButton(
+                          onPressed: () {
+                            if (!_formKey.currentState.validate()) {
+                              return;
+                            }
+                            _formKey.currentState.save();
+                            addCompleteProfile();
+                            print(name);
+                            print(email);
+                            print(address);
+                            print(age);
+                            // showSnackBar(
+                            //     context, "Profile Updated Successfully");
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 50.0,
+                            decoration: new BoxDecoration(
+                              gradient: new LinearGradient(
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                  colors: [
+                                    redOrangeColor(),
+                                    redOrangeColor(),
+                                    orangeColor()
+                                  ]),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(5.0),
+                              ),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'SUBMIT',
+                                style: whiteTextStyle().copyWith(
+                                    fontSize: 15.0,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    )
-                  ]),
-            ),
-          )),
+                      ]),
+                ),
+              )),
     );
   }
 }

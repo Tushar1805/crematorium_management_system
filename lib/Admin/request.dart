@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:way_to_heaven/Admin/adminProvider.dart';
@@ -18,13 +19,15 @@ class RequestPage extends StatefulWidget {
 }
 
 class _RequestPageState extends State<RequestPage> {
+  bool loadingPage = false;
   TimeOfDay time1 = TimeOfDay.now();
   TimeOfDay time2 = TimeOfDay.now();
   TimeOfDay from, till;
   TimeOfDay picked1;
   TimeOfDay picked2;
 
-  String _hour, _minute, _time;
+  String _hour, _minute, _time, selectedSlot;
+  int slotIndex;
   TimeOfDay selectedTime1 = TimeOfDay(hour: 00, minute: 00);
   TimeOfDay selectedTime2 = TimeOfDay(hour: 00, minute: 00);
   TextEditingController _time1Controller = TextEditingController();
@@ -48,7 +51,8 @@ class _RequestPageState extends State<RequestPage> {
                 child: TextField(
                   autocorrect: true,
                   autofocus: false,
-                  decoration: loginInputDecoration().copyWith(hintText: 'Reason For Rejection'),
+                  decoration: loginInputDecoration()
+                      .copyWith(hintText: 'Reason For Rejection'),
                   maxLines: 3,
                   maxLength: 100,
                   onChanged: (value) {
@@ -73,7 +77,11 @@ class _RequestPageState extends State<RequestPage> {
                       gradient: new LinearGradient(
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,
-                          colors: [redOrangeColor(), redOrangeColor(), orangeColor()]),
+                          colors: [
+                            redOrangeColor(),
+                            redOrangeColor(),
+                            orangeColor()
+                          ]),
                       borderRadius: BorderRadius.all(
                         Radius.circular(40.0),
                       ),
@@ -81,7 +89,8 @@ class _RequestPageState extends State<RequestPage> {
                     child: Center(
                       child: Text(
                         'SUBMIT',
-                        style: whiteTextStyle().copyWith(fontSize: 15.0, fontWeight: FontWeight.w600),
+                        style: whiteTextStyle().copyWith(
+                            fontSize: 15.0, fontWeight: FontWeight.w600),
                       ),
                     ),
                   ),
@@ -94,17 +103,17 @@ class _RequestPageState extends State<RequestPage> {
 
   @override
   Widget build(BuildContext context) {
-    Widget Selector(BuildContext context, provider) {
+    Widget Selector(BuildContext context, AdminProvider provider) {
       switch (provider.state) {
         // Changes to be made
         case States.loading:
           return loading();
           break;
         case States.requestInfo:
-          return SingleChildScrollView(
-            child: Container(
-              height: MediaQuery.of(context).size.height - 93,
-              width: MediaQuery.of(context).size.width,
+          return Container(
+            height: MediaQuery.of(context).size.height - 71,
+            width: MediaQuery.of(context).size.width,
+            child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -124,7 +133,8 @@ class _RequestPageState extends State<RequestPage> {
                               children: [
                                 CircleAvatar(
                                   radius: MediaQuery.of(context).size.width / 7,
-                                  backgroundImage: AssetImage('assets/icons/user.png'),
+                                  backgroundImage:
+                                      AssetImage('assets/icons/user.png'),
                                 ),
                               ],
                             ),
@@ -138,7 +148,10 @@ class _RequestPageState extends State<RequestPage> {
                                 SizedBox(
                                   width: 5,
                                 ),
-                                Text(provider.requestList[provider.selectedRequestIndex]['applicant_name'],
+                                Text(
+                                    provider.requestList[
+                                            provider.selectedRequestIndex]
+                                        ['applicant_name'],
                                     style: normalTextStyle()),
                               ],
                             ),
@@ -154,7 +167,10 @@ class _RequestPageState extends State<RequestPage> {
                                 SizedBox(
                                   width: 5,
                                 ),
-                                Text(provider.requestList[provider.selectedRequestIndex]['dead_persons_name'],
+                                Text(
+                                    provider.requestList[
+                                            provider.selectedRequestIndex]
+                                        ['dead_persons_name'],
                                     style: normalTextStyle()),
                               ],
                             ),
@@ -170,7 +186,10 @@ class _RequestPageState extends State<RequestPage> {
                                 SizedBox(
                                   width: 5,
                                 ),
-                                Text(provider.requestList[provider.selectedRequestIndex]['dead_persons_age'],
+                                Text(
+                                    provider.requestList[
+                                            provider.selectedRequestIndex]
+                                        ['dead_persons_age'],
                                     style: normalTextStyle()),
                               ],
                             ),
@@ -186,7 +205,10 @@ class _RequestPageState extends State<RequestPage> {
                                 SizedBox(
                                   width: 5,
                                 ),
-                                Text(provider.requestList[provider.selectedRequestIndex]['selectedGender'],
+                                Text(
+                                    provider.requestList[
+                                            provider.selectedRequestIndex]
+                                        ['selectedGender'],
                                     style: normalTextStyle()),
                               ],
                             ),
@@ -202,7 +224,10 @@ class _RequestPageState extends State<RequestPage> {
                                 SizedBox(
                                   width: 5,
                                 ),
-                                Text(provider.requestList[provider.selectedRequestIndex]['cause_of_death'],
+                                Text(
+                                    provider.requestList[
+                                            provider.selectedRequestIndex]
+                                        ['cause_of_death'],
                                     style: normalTextStyle()),
                               ],
                             ),
@@ -228,7 +253,11 @@ class _RequestPageState extends State<RequestPage> {
                             ),
                             InkWell(
                               onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (_) => ViewProofOfDeath(provider)));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) =>
+                                            ViewProofOfDeath(provider)));
                               },
                               child: Container(
                                 decoration: new BoxDecoration(
@@ -238,13 +267,15 @@ class _RequestPageState extends State<RequestPage> {
                                   ),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 30.0, vertical: 15.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Text(
                                         'View Proof Of Death',
-                                        style: whiteTextStyle().copyWith(fontSize: 14.0),
+                                        style: whiteTextStyle()
+                                            .copyWith(fontSize: 14.0),
                                       )
                                     ],
                                   ),
@@ -258,11 +289,14 @@ class _RequestPageState extends State<RequestPage> {
                         ),
                       ),
                     ),
-                    provider.requestList[provider.selectedRequestIndex]['application_status'] != 'rejected'
+                    provider.requestList[provider.selectedRequestIndex]
+                                ['application_status'] !=
+                            'rejected'
                         ? Column(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0),
                                 child: Row(
                                   children: [
                                     Text(
@@ -276,19 +310,25 @@ class _RequestPageState extends State<RequestPage> {
                                 height: 20.0,
                               ),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0),
                                 child: Container(
                                   child: DropdownButtonFormField<String>(
-                                    decoration: formInputDecoration("Select Time Slot"),
-                                    items: <String>['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+                                    decoration:
+                                        formInputDecoration("Select Time Slot"),
+                                    items: provider.slotsStringList
                                         .map((String value) {
                                       return DropdownMenuItem<String>(
                                         value: value,
-                                        child: new Text(value + " Hr"),
+                                        child: new Text(value),
                                         onTap: () {
-                                          String cremationTime;
-                                          cremationTime = value;
-                                          print(cremationTime);
+                                          selectedSlot = value;
+                                          slotIndex = provider.slotsStringList
+                                              .indexOf(value);
+
+                                          print(selectedSlot +
+                                              ' ' +
+                                              slotIndex.toString());
                                         },
                                       );
                                     }).toList(),
@@ -299,8 +339,12 @@ class _RequestPageState extends State<RequestPage> {
                             ],
                           )
                         : SizedBox(),
-                    Spacer(),
-                    provider.requestList[provider.selectedRequestIndex]['application_status'] == 'rejected'
+                    SizedBox(
+                      height: 30.0,
+                    ),
+                    provider.requestList[provider.selectedRequestIndex]
+                                ['application_status'] ==
+                            'rejected'
                         ? Container(
                             width: MediaQuery.of(context).size.width / 2 - 40,
                             height: 50.0,
@@ -313,7 +357,9 @@ class _RequestPageState extends State<RequestPage> {
                             child: Center(
                               child: Text(
                                 'REJECTED',
-                                style: whiteTextStyle().copyWith(fontSize: 15.0, fontWeight: FontWeight.w600),
+                                style: whiteTextStyle().copyWith(
+                                    fontSize: 15.0,
+                                    fontWeight: FontWeight.w600),
                               ),
                             ),
                           )
@@ -321,11 +367,30 @@ class _RequestPageState extends State<RequestPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               FlatButton(
-                                onPressed: () {
-                                  //  Navigator.push(context, MaterialPageRoute(builder: (context) => ApplyForCremation(provider) ));
+                                onPressed: () async {
+                                  setState(() {
+                                    loadingPage = true;
+                                  });
+                                  FirebaseFirestore ref =
+                                      FirebaseFirestore.instance;
+
+                                  await ref
+                                      .collection('Applications')
+                                      .doc(provider.requestList[provider
+                                          .selectedRequestIndex]['requestId'])
+                                      .update({
+                                    'application_status': 'Approved',
+                                    'time_slot_alloted': selectedSlot
+                                  });
+                                  print('aproved');
+
+                                  setState(() {
+                                    loadingPage = false;
+                                  });
                                 },
                                 child: Container(
-                                  width: MediaQuery.of(context).size.width / 2 - 40,
+                                  width: MediaQuery.of(context).size.width / 2 -
+                                      40,
                                   height: 50.0,
                                   decoration: new BoxDecoration(
                                     color: Color(0xFF00cc66),
@@ -336,7 +401,9 @@ class _RequestPageState extends State<RequestPage> {
                                   child: Center(
                                     child: Text(
                                       'APROVE',
-                                      style: whiteTextStyle().copyWith(fontSize: 15.0, fontWeight: FontWeight.w600),
+                                      style: whiteTextStyle().copyWith(
+                                          fontSize: 15.0,
+                                          fontWeight: FontWeight.w600),
                                     ),
                                   ),
                                 ),
@@ -347,7 +414,8 @@ class _RequestPageState extends State<RequestPage> {
                                   //  Navigator.push(context, MaterialPageRoute(builder: (context) => ApplyForCremation(provider) ));
                                 },
                                 child: Container(
-                                  width: MediaQuery.of(context).size.width / 2 - 40,
+                                  width: MediaQuery.of(context).size.width / 2 -
+                                      40,
                                   height: 50.0,
                                   decoration: new BoxDecoration(
                                     color: redOrangeColor(),
@@ -358,13 +426,18 @@ class _RequestPageState extends State<RequestPage> {
                                   child: Center(
                                     child: Text(
                                       'REJECT',
-                                      style: whiteTextStyle().copyWith(fontSize: 15.0, fontWeight: FontWeight.w600),
+                                      style: whiteTextStyle().copyWith(
+                                          fontSize: 15.0,
+                                          fontWeight: FontWeight.w600),
                                     ),
                                   ),
                                 ),
                               ),
                             ],
                           ),
+                    SizedBox(
+                      height: 30.0,
+                    ),
                   ], //  Naviga
                 ),
               ),
@@ -414,6 +487,6 @@ class _RequestPageState extends State<RequestPage> {
             ),
           ),
         ),
-        body: Selector(context, provider));
+        body: loadingPage ? loading() : Selector(context, provider));
   }
 }

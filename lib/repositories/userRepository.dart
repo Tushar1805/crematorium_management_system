@@ -7,7 +7,11 @@ class UserRepository {
 
   Future<List<Map>> getCrematoriums() async {
     List<Map<dynamic, dynamic>> mapList = [];
-    await ref.collection('Users').where('role', isEqualTo: 'Admin').get().then((value) {
+    await ref
+        .collection('Users')
+        .where('role', isEqualTo: 'Admin')
+        .get()
+        .then((value) {
       value.docs.forEach((element) {
         Map map = {};
         map = element.data();
@@ -31,9 +35,17 @@ class UserRepository {
     return map;
   }
 
-  Future<void> submitApplication(String applicant_name, String dead_persons_name, String dead_persons_age, String selectedGender,
-      String cause_of_death, Map crematoriumMap, String imageUrl) async {
+  Future<void> submitApplication(
+      String applicant_name,
+      String dead_persons_name,
+      String dead_persons_age,
+      String selectedGender,
+      String cause_of_death,
+      Map crematoriumMap,
+      String imageUrl) async {
+    String uid = FirebaseAuth.instance.currentUser.uid;
     Map<String, dynamic> map = {};
+    map['userId'] = uid;
     map['applicant_name'] = applicant_name;
     map['dead_persons_name'] = dead_persons_name;
     map['dead_persons_age'] = dead_persons_age;
@@ -49,11 +61,12 @@ class UserRepository {
   }
 
   Future<List<Map>> fetchApplicationList() async {
+    String uid = FirebaseAuth.instance.currentUser.uid;
     List<Map> list = [];
     await ref
         .collection('Applications')
         .orderBy('application_time', descending: true)
-        // .where('crematoriumId', isEqualTo: adminId)
+        .where('userId', isEqualTo: uid)
         .get()
         .then((value) => value.docs.forEach((element) {
               Map map = {};

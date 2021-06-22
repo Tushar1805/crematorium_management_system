@@ -9,6 +9,7 @@ class UserClass {
       {this.name,
       this.createdTime,
       this.role,
+      this.email,
       this.address,
       this.mobile,
       this.age,
@@ -18,6 +19,7 @@ class UserClass {
   Map<String, dynamic> toJson() => {
         'name': name,
         'createdTime': DateTime.now(),
+        'email': email,
         'role': role,
         'address': address,
         'age': age,

@@ -74,7 +74,8 @@ class _ApplicationStatusCheckState extends State<ApplicationStatusCheck> {
                         children: [
                           CircleAvatar(
                             radius: MediaQuery.of(context).size.width / 7,
-                            backgroundImage: AssetImage('assets/icons/user.png'),
+                            backgroundImage:
+                                AssetImage('assets/icons/user.png'),
                           ),
                         ],
                       ),
@@ -88,7 +89,9 @@ class _ApplicationStatusCheckState extends State<ApplicationStatusCheck> {
                           SizedBox(
                             width: 5,
                           ),
-                          Text(provider.applicationList[provider.selectedRequestIndex]['applicant_name'],
+                          Text(
+                              provider.applicationList[provider
+                                  .selectedRequestIndex]['applicant_name'],
                               style: normalTextStyle()),
                         ],
                       ),
@@ -104,7 +107,9 @@ class _ApplicationStatusCheckState extends State<ApplicationStatusCheck> {
                           SizedBox(
                             width: 5,
                           ),
-                          Text(provider.applicationList[provider.selectedRequestIndex]['dead_persons_name'],
+                          Text(
+                              provider.applicationList[provider
+                                  .selectedRequestIndex]['dead_persons_name'],
                               style: normalTextStyle()),
                         ],
                       ),
@@ -120,7 +125,9 @@ class _ApplicationStatusCheckState extends State<ApplicationStatusCheck> {
                           SizedBox(
                             width: 5,
                           ),
-                          Text(provider.applicationList[provider.selectedRequestIndex]['dead_persons_age'],
+                          Text(
+                              provider.applicationList[provider
+                                  .selectedRequestIndex]['dead_persons_age'],
                               style: normalTextStyle()),
                         ],
                       ),
@@ -136,7 +143,9 @@ class _ApplicationStatusCheckState extends State<ApplicationStatusCheck> {
                           SizedBox(
                             width: 5,
                           ),
-                          Text(provider.applicationList[provider.selectedRequestIndex]['selectedGender'],
+                          Text(
+                              provider.applicationList[provider
+                                  .selectedRequestIndex]['selectedGender'],
                               style: normalTextStyle()),
                         ],
                       ),
@@ -152,7 +161,9 @@ class _ApplicationStatusCheckState extends State<ApplicationStatusCheck> {
                           SizedBox(
                             width: 5,
                           ),
-                          Text(provider.applicationList[provider.selectedRequestIndex]['cause_of_death'],
+                          Text(
+                              provider.applicationList[provider
+                                  .selectedRequestIndex]['cause_of_death'],
                               style: normalTextStyle()),
                         ],
                       ),
@@ -185,22 +196,30 @@ class _ApplicationStatusCheckState extends State<ApplicationStatusCheck> {
                           SizedBox(
                             width: 5,
                           ),
-                          Text(provider.applicationList[provider.selectedRequestIndex]['application_status'],
+                          Text(
+                              provider.applicationList[provider
+                                  .selectedRequestIndex]['application_status'],
                               style: normalTextStyle().copyWith(
-                                  color:
-                                      provider.applicationList[provider.selectedRequestIndex]['application_status'] == 'approved'
-                                          ? Color(0xFF00cc66)
-                                          : provider.applicationList[provider.selectedRequestIndex]['application_status'] ==
-                                                  'rejected'
-                                              ? Color(0xFFff0000)
-                                              : Colors.amber,
+                                  color: provider.applicationList[
+                                                  provider.selectedRequestIndex]
+                                              ['application_status'] ==
+                                          'Approved'
+                                      ? Color(0xFF00cc66)
+                                      : provider.applicationList[provider
+                                                      .selectedRequestIndex]
+                                                  ['application_status'] ==
+                                              'rejected'
+                                          ? Color(0xFFff0000)
+                                          : Colors.amber,
                                   fontWeight: FontWeight.w600)),
                         ],
                       ),
                       SizedBox(
                         height: 20.0,
                       ),
-                      provider.applicationList[provider.selectedRequestIndex]['reason_for_rejection'] != null
+                      provider.applicationList[provider.selectedRequestIndex]
+                                  ['reason_for_rejection'] !=
+                              null
                           ? Row(
                               children: [
                                 Text(
@@ -210,8 +229,13 @@ class _ApplicationStatusCheckState extends State<ApplicationStatusCheck> {
                                 SizedBox(
                                   width: 5,
                                 ),
-                                Text(provider.applicationList[provider.selectedRequestIndex]['reason_for_rejection'],
-                                    style: normalTextStyle().copyWith(color: Color(0xFFf44336), fontWeight: FontWeight.w600)),
+                                Text(
+                                    provider.applicationList[
+                                            provider.selectedRequestIndex]
+                                        ['reason_for_rejection'],
+                                    style: normalTextStyle().copyWith(
+                                        color: Color(0xFFf44336),
+                                        fontWeight: FontWeight.w600)),
                               ],
                             )
                           : SizedBox(),
@@ -220,7 +244,10 @@ class _ApplicationStatusCheckState extends State<ApplicationStatusCheck> {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (_) => ViewProofOfDeath(provider)));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => ViewProofOfDeath(provider)));
                         },
                         child: Container(
                           decoration: new BoxDecoration(
@@ -230,13 +257,15 @@ class _ApplicationStatusCheckState extends State<ApplicationStatusCheck> {
                             ),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 30.0, vertical: 15.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(
                                   'View Proof Of Death',
-                                  style: whiteTextStyle().copyWith(fontSize: 14.0),
+                                  style:
+                                      whiteTextStyle().copyWith(fontSize: 14.0),
                                 )
                               ],
                             ),

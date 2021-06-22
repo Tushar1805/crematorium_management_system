@@ -14,7 +14,7 @@ class UserProvider extends ChangeNotifier {
 
   // Application
 
-  String applicant_name = '';
+  String applicant_name = ' ';
   String dead_persons_name;
   String dead_persons_age;
   String selectedGender;
@@ -48,6 +48,8 @@ class UserProvider extends ChangeNotifier {
   List<Map> crematoriumSearchList = [];
   List<Map> applicationList = [];
 
+  Map userMap = {};
+
   UserRepository userRepository = new UserRepository();
 
   UserProvider() {
@@ -59,7 +61,7 @@ class UserProvider extends ChangeNotifier {
   Future<void> getDetails() async {
     loading = true;
     notifyListeners();
-    Map userMap = await userRepository.getUserDetails();
+    userMap = await userRepository.getUserDetails();
     applicant_name = userMap['name'];
     applicationList = await userRepository.fetchApplicationList();
     applicationListCount = applicationList.length;
@@ -91,7 +93,8 @@ class UserProvider extends ChangeNotifier {
   void setZones() {
     zonesDropDownList = [];
     zonesStringList.forEach((element) {
-      DropdownMenuItem item = DropdownMenuItem(value: element.toString(), child: Text(element.toString()));
+      DropdownMenuItem item = DropdownMenuItem(
+          value: element.toString(), child: Text(element.toString()));
       zonesDropDownList.add(item);
       notifyListeners();
     });
@@ -158,7 +161,13 @@ class UserProvider extends ChangeNotifier {
       Map crematoriumMap = crematoriumSearchList[selectedCrematorium];
       await uploadImage();
       await userRepository.submitApplication(
-          applicant_name, dead_persons_name, dead_persons_age, selectedGender, cause_of_death, crematoriumMap, imageDownloadUrl);
+          applicant_name,
+          dead_persons_name,
+          dead_persons_age,
+          selectedGender,
+          cause_of_death,
+          crematoriumMap,
+          imageDownloadUrl);
       dead_persons_name = '';
       dead_persons_age = '';
       cause_of_death = '';
