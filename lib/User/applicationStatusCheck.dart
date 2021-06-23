@@ -218,8 +218,12 @@ class _ApplicationStatusCheckState extends State<ApplicationStatusCheck> {
                         height: 20.0,
                       ),
                       provider.applicationList[provider.selectedRequestIndex]
-                                  ['reason_for_rejection'] !=
-                              null
+                                      ['reason_for_rejection'] !=
+                                  null &&
+                              provider.applicationList[
+                                          provider.selectedRequestIndex]
+                                      ['reason_for_rejection'] ==
+                                  'rejected'
                           ? Row(
                               children: [
                                 Text(

@@ -78,7 +78,8 @@ class _ApplicationState extends State<Application> {
                           children: [
                             CircleAvatar(
                               radius: MediaQuery.of(context).size.width / 4,
-                              backgroundImage: AssetImage('assets/icons/image_placeholder.png'),
+                              backgroundImage: AssetImage(
+                                  'assets/icons/image_placeholder.png'),
                             ),
                             // Container(
                             //     width: MediaQuery.of(context).size.width / 2,
@@ -90,6 +91,7 @@ class _ApplicationState extends State<Application> {
                         ),
                         SizedBox(height: 20.0),
                         Row(
+                          mainAxisSize: MainAxisSize.max,
                           children: [
                             Text(
                               'Crematorium Name:',
@@ -98,8 +100,17 @@ class _ApplicationState extends State<Application> {
                             SizedBox(
                               width: 5,
                             ),
-                            Text(provider.crematoriumSearchList[provider.selectedCrematorium]['crematoriumName'],
-                                style: normalTextStyle()),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width / 2 - 5,
+                              child: Text(
+                                provider.crematoriumSearchList[provider
+                                    .selectedCrematorium]['crematoriumName'],
+                                style: normalTextStyle(),
+                                overflow: TextOverflow.fade,
+                                maxLines: 1,
+                                softWrap: false,
+                              ),
+                            ),
                           ],
                         ),
                         SizedBox(
@@ -114,7 +125,10 @@ class _ApplicationState extends State<Application> {
                             SizedBox(
                               width: 5,
                             ),
-                            Text(provider.crematoriumSearchList[provider.selectedCrematorium]['zone'], style: normalTextStyle()),
+                            Text(
+                                provider.crematoriumSearchList[
+                                    provider.selectedCrematorium]['zone'],
+                                style: normalTextStyle()),
                           ],
                         ),
                         SizedBox(
@@ -129,7 +143,10 @@ class _ApplicationState extends State<Application> {
                             SizedBox(
                               width: 5,
                             ),
-                            Text(provider.crematoriumSearchList[provider.selectedCrematorium]['zone'], style: normalTextStyle()),
+                            Text(
+                                provider.crematoriumSearchList[
+                                    provider.selectedCrematorium]['zone'],
+                                style: normalTextStyle()),
                           ],
                         ),
                         SizedBox(
@@ -145,9 +162,13 @@ class _ApplicationState extends State<Application> {
                               width: 5,
                             ),
                             Text(
-                                provider.crematoriumSearchList[provider.selectedCrematorium]['timing']['opening_time'] +
+                                provider.crematoriumSearchList[
+                                            provider.selectedCrematorium]
+                                        ['timing']['opening_time'] +
                                     '-' +
-                                    provider.crematoriumSearchList[provider.selectedCrematorium]['timing']['closing_time'],
+                                    provider.crematoriumSearchList[
+                                            provider.selectedCrematorium]
+                                        ['timing']['closing_time'],
                                 style: normalTextStyle()),
                           ],
                         ),
@@ -163,7 +184,9 @@ class _ApplicationState extends State<Application> {
                             SizedBox(
                               width: 5,
                             ),
-                            Text(provider.crematoriumSearchList[provider.selectedCrematorium]['crematoriumContact'],
+                            Text(
+                                provider.crematoriumSearchList[provider
+                                    .selectedCrematorium]['crematoriumContact'],
                                 style: normalTextStyle()),
                           ],
                         ),
@@ -179,7 +202,10 @@ class _ApplicationState extends State<Application> {
                             SizedBox(
                               width: 5,
                             ),
-                            Text(provider.crematoriumSearchList[provider.selectedCrematorium]['capacity'].toString(),
+                            Text(
+                                provider.crematoriumSearchList[provider
+                                        .selectedCrematorium]['capacity']
+                                    .toString(),
                                 style: normalTextStyle()),
                           ],
                         ),
@@ -195,7 +221,9 @@ class _ApplicationState extends State<Application> {
                             SizedBox(
                               width: 5,
                             ),
-                            Text(provider.crematoriumSearchList[provider.selectedCrematorium]['status'],
+                            Text(
+                                provider.crematoriumSearchList[
+                                    provider.selectedCrematorium]['status'],
                                 style: normalTextStyle()),
                           ],
                         ),
@@ -206,7 +234,10 @@ class _ApplicationState extends State<Application> {
                 Spacer(),
                 FlatButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => ApplyForCremation(provider)));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ApplyForCremation(provider)));
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width,
@@ -215,7 +246,11 @@ class _ApplicationState extends State<Application> {
                       gradient: new LinearGradient(
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,
-                          colors: [redOrangeColor(), redOrangeColor(), orangeColor()]),
+                          colors: [
+                            redOrangeColor(),
+                            redOrangeColor(),
+                            orangeColor()
+                          ]),
                       borderRadius: BorderRadius.all(
                         Radius.circular(5.0),
                       ),
@@ -223,7 +258,8 @@ class _ApplicationState extends State<Application> {
                     child: Center(
                       child: Text(
                         'APPLY',
-                        style: whiteTextStyle().copyWith(fontSize: 15.0, fontWeight: FontWeight.w600),
+                        style: whiteTextStyle().copyWith(
+                            fontSize: 15.0, fontWeight: FontWeight.w600),
                       ),
                     ),
                   ),

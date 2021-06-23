@@ -435,6 +435,9 @@ class _UserHomePageState extends State<UserHomePage>
                                                         : '',
                                                     style: lightBlackTextStyle()
                                                         .copyWith(fontSize: 18),
+                                                    overflow: TextOverflow.fade,
+                                                    maxLines: 1,
+                                                    softWrap: false,
                                                   ),
                                                   SizedBox(
                                                     height: 2.0,

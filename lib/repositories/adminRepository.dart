@@ -19,7 +19,6 @@ class AdminRepository {
     String uid = FirebaseAuth.instance.currentUser.uid;
     await ref.collection('Users').doc(uid).get().then((value) {
       map = value.data();
-      print(value.data());
     });
     //  print(mapList);
     return map;
@@ -38,7 +37,6 @@ class AdminRepository {
               map['requestId'] = element.id;
               list.add(map);
             }));
-    print(list);
     return list;
   }
 
@@ -68,10 +66,10 @@ class AdminRepository {
   }
 
   Future<void> rejectApplication(selectedRequestId, reasonForRejection) async {
-    await ref
-        .collection('Applications')
-        .doc(selectedRequestId)
-        .update({'application_status': 'rejected', 'reason_for_rejection': reasonForRejection});
+    await ref.collection('Applications').doc(selectedRequestId).update({
+      'application_status': 'rejected',
+      'reason_for_rejection': reasonForRejection
+    });
     print('rejected');
   }
 }

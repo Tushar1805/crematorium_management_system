@@ -54,7 +54,8 @@ class _RequestPageState extends State<RequestPage> {
                 child: TextField(
                   autocorrect: true,
                   autofocus: false,
-                  decoration: loginInputDecoration().copyWith(hintText: 'Reason For Rejection'),
+                  decoration: loginInputDecoration()
+                      .copyWith(hintText: 'Reason For Rejection'),
                   maxLines: 3,
                   maxLength: 100,
                   onChanged: (value) {
@@ -79,7 +80,11 @@ class _RequestPageState extends State<RequestPage> {
                       gradient: new LinearGradient(
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,
-                          colors: [redOrangeColor(), redOrangeColor(), orangeColor()]),
+                          colors: [
+                            redOrangeColor(),
+                            redOrangeColor(),
+                            orangeColor()
+                          ]),
                       borderRadius: BorderRadius.all(
                         Radius.circular(40.0),
                       ),
@@ -87,7 +92,8 @@ class _RequestPageState extends State<RequestPage> {
                     child: Center(
                       child: Text(
                         'SUBMIT',
-                        style: whiteTextStyle().copyWith(fontSize: 15.0, fontWeight: FontWeight.w600),
+                        style: whiteTextStyle().copyWith(
+                            fontSize: 15.0, fontWeight: FontWeight.w600),
                       ),
                     ),
                   ),
@@ -113,8 +119,12 @@ class _RequestPageState extends State<RequestPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Center(
-                  child: Text(isSuccess ? 'Application Submited Successfully!' : 'Slot is full!',
-                      style: normalTextStyle().copyWith(color: redOrangeColor())),
+                  child: Text(
+                      isSuccess
+                          ? 'Application Submited Successfully!'
+                          : 'Slot is full!',
+                      style:
+                          normalTextStyle().copyWith(color: redOrangeColor())),
                 ),
               ),
               SizedBox(
@@ -124,7 +134,10 @@ class _RequestPageState extends State<RequestPage> {
                 child: FlatButton(
                   onPressed: () {
                     if (isSuccess) {
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => AdminHomePageBase()));
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => AdminHomePageBase()));
                     } else {
                       Navigator.pop(context);
                     }
@@ -136,7 +149,11 @@ class _RequestPageState extends State<RequestPage> {
                       gradient: new LinearGradient(
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,
-                          colors: [redOrangeColor(), redOrangeColor(), orangeColor()]),
+                          colors: [
+                            redOrangeColor(),
+                            redOrangeColor(),
+                            orangeColor()
+                          ]),
                       borderRadius: BorderRadius.all(
                         Radius.circular(40.0),
                       ),
@@ -144,7 +161,8 @@ class _RequestPageState extends State<RequestPage> {
                     child: Center(
                       child: Text(
                         'OK',
-                        style: whiteTextStyle().copyWith(fontSize: 15.0, fontWeight: FontWeight.w600),
+                        style: whiteTextStyle().copyWith(
+                            fontSize: 15.0, fontWeight: FontWeight.w600),
                       ),
                     ),
                   ),
@@ -187,7 +205,8 @@ class _RequestPageState extends State<RequestPage> {
                               children: [
                                 CircleAvatar(
                                   radius: MediaQuery.of(context).size.width / 7,
-                                  backgroundImage: AssetImage('assets/icons/user.png'),
+                                  backgroundImage:
+                                      AssetImage('assets/icons/user.png'),
                                 ),
                               ],
                             ),
@@ -201,7 +220,10 @@ class _RequestPageState extends State<RequestPage> {
                                 SizedBox(
                                   width: 5,
                                 ),
-                                Text(provider.requestList[provider.selectedRequestIndex]['applicant_name'],
+                                Text(
+                                    provider.requestList[
+                                            provider.selectedRequestIndex]
+                                        ['applicant_name'],
                                     style: normalTextStyle()),
                               ],
                             ),
@@ -217,7 +239,10 @@ class _RequestPageState extends State<RequestPage> {
                                 SizedBox(
                                   width: 5,
                                 ),
-                                Text(provider.requestList[provider.selectedRequestIndex]['dead_persons_name'],
+                                Text(
+                                    provider.requestList[
+                                            provider.selectedRequestIndex]
+                                        ['dead_persons_name'],
                                     style: normalTextStyle()),
                               ],
                             ),
@@ -233,7 +258,10 @@ class _RequestPageState extends State<RequestPage> {
                                 SizedBox(
                                   width: 5,
                                 ),
-                                Text(provider.requestList[provider.selectedRequestIndex]['dead_persons_age'],
+                                Text(
+                                    provider.requestList[
+                                            provider.selectedRequestIndex]
+                                        ['dead_persons_age'],
                                     style: normalTextStyle()),
                               ],
                             ),
@@ -249,7 +277,10 @@ class _RequestPageState extends State<RequestPage> {
                                 SizedBox(
                                   width: 5,
                                 ),
-                                Text(provider.requestList[provider.selectedRequestIndex]['selectedGender'],
+                                Text(
+                                    provider.requestList[
+                                            provider.selectedRequestIndex]
+                                        ['selectedGender'],
                                     style: normalTextStyle()),
                               ],
                             ),
@@ -265,7 +296,10 @@ class _RequestPageState extends State<RequestPage> {
                                 SizedBox(
                                   width: 5,
                                 ),
-                                Text(provider.requestList[provider.selectedRequestIndex]['cause_of_death'],
+                                Text(
+                                    provider.requestList[
+                                            provider.selectedRequestIndex]
+                                        ['cause_of_death'],
                                     style: normalTextStyle()),
                               ],
                             ),
@@ -291,7 +325,11 @@ class _RequestPageState extends State<RequestPage> {
                             ),
                             InkWell(
                               onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (_) => ViewProofOfDeath(provider)));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) =>
+                                            ViewProofOfDeath(provider)));
                               },
                               child: Container(
                                 decoration: new BoxDecoration(
@@ -301,13 +339,15 @@ class _RequestPageState extends State<RequestPage> {
                                   ),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 30.0, vertical: 15.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Text(
                                         'View Proof Of Death',
-                                        style: whiteTextStyle().copyWith(fontSize: 14.0),
+                                        style: whiteTextStyle()
+                                            .copyWith(fontSize: 14.0),
                                       )
                                     ],
                                   ),
@@ -321,12 +361,17 @@ class _RequestPageState extends State<RequestPage> {
                         ),
                       ),
                     ),
-                    provider.requestList[provider.selectedRequestIndex]['application_status'] != 'rejected' &&
-                            provider.requestList[provider.selectedRequestIndex]['application_status'] != 'Approved'
+                    provider.requestList[provider.selectedRequestIndex]
+                                    ['application_status'] !=
+                                'rejected' &&
+                            provider.requestList[provider.selectedRequestIndex]
+                                    ['application_status'] !=
+                                'Approved'
                         ? Column(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0),
                                 child: Row(
                                   children: [
                                     Text(
@@ -340,19 +385,26 @@ class _RequestPageState extends State<RequestPage> {
                                 height: 20.0,
                               ),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0),
                                 child: Container(
                                   child: DropdownButtonFormField<String>(
-                                    decoration: formInputDecoration("Select Time Slot"),
-                                    items: provider.slotsStringList.map((String value) {
+                                    decoration:
+                                        formInputDecoration("Select Time Slot"),
+                                    items: provider.slotsStringList
+                                        .map((String value) {
                                       return DropdownMenuItem<String>(
                                         value: value,
                                         child: new Text(value),
                                         onTap: () {
                                           selectedSlot = value;
-                                          slotIndex = provider.slotsStringList.indexOf(value) + 1;
+                                          slotIndex = provider.slotsStringList
+                                                  .indexOf(value) +
+                                              1;
 
-                                          print(selectedSlot + ' ' + slotIndex.toString());
+                                          print(selectedSlot +
+                                              ' ' +
+                                              slotIndex.toString());
                                         },
                                       );
                                     }).toList(),
@@ -366,7 +418,9 @@ class _RequestPageState extends State<RequestPage> {
                     SizedBox(
                       height: 30.0,
                     ),
-                    provider.requestList[provider.selectedRequestIndex]['application_status'] == 'rejected'
+                    provider.requestList[provider.selectedRequestIndex]
+                                ['application_status'] ==
+                            'rejected'
                         ? Container(
                             width: MediaQuery.of(context).size.width / 2 - 40,
                             height: 50.0,
@@ -379,13 +433,18 @@ class _RequestPageState extends State<RequestPage> {
                             child: Center(
                               child: Text(
                                 'REJECTED',
-                                style: whiteTextStyle().copyWith(fontSize: 15.0, fontWeight: FontWeight.w600),
+                                style: whiteTextStyle().copyWith(
+                                    fontSize: 15.0,
+                                    fontWeight: FontWeight.w600),
                               ),
                             ),
                           )
-                        : provider.requestList[provider.selectedRequestIndex]['application_status'] == 'Approved'
+                        : provider.requestList[provider.selectedRequestIndex]
+                                    ['application_status'] ==
+                                'Approved'
                             ? Container(
-                                width: MediaQuery.of(context).size.width / 2 - 40,
+                                width:
+                                    MediaQuery.of(context).size.width / 2 - 40,
                                 height: 50.0,
                                 decoration: new BoxDecoration(
                                   color: Color(0xFF00cc66),
@@ -396,7 +455,9 @@ class _RequestPageState extends State<RequestPage> {
                                 child: Center(
                                   child: Text(
                                     'Approved',
-                                    style: whiteTextStyle().copyWith(fontSize: 15.0, fontWeight: FontWeight.w600),
+                                    style: whiteTextStyle().copyWith(
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                 ),
                               )
@@ -408,26 +469,49 @@ class _RequestPageState extends State<RequestPage> {
                                       setState(() {
                                         loadingPage = true;
                                       });
-                                      String uid = FirebaseAuth.instance.currentUser.uid;
+                                      String uid =
+                                          FirebaseAuth.instance.currentUser.uid;
                                       DateTime todaysDate = DateTime.now();
                                       Map adminMap = provider.adminMap;
 
-                                      if (todaysDate.day == adminMap['currentDate'].toDate().day) {
+                                      if (todaysDate.day ==
+                                          adminMap['currentDate']
+                                              .toDate()
+                                              .day) {
                                         print(adminMap['slots']);
-                                        if (adminMap['slots'][slotIndex.toString()].length < int.parse(adminMap['capacity'])) {
+                                        if (adminMap['slots']
+                                                    [slotIndex.toString()]
+                                                .length <
+                                            int.parse(adminMap['capacity'])) {
                                           Map map = {};
-                                          map['applicationId'] = provider.requestList[provider.selectedRequestIndex]['requestId'];
+                                          map['applicationId'] = provider
+                                                      .requestList[
+                                                  provider.selectedRequestIndex]
+                                              ['requestId'];
                                           map['selectedSlot'] = selectedSlot;
-                                          adminMap['slots'][slotIndex.toString()].add(map);
-                                          final docTodo = FirebaseFirestore.instance.collection('Users').doc(uid);
+                                          adminMap['slots']
+                                                  [slotIndex.toString()]
+                                              .add(map);
+                                          adminMap['currentDate'] =
+                                              DateTime.now();
+                                          final docTodo = FirebaseFirestore
+                                              .instance
+                                              .collection('Users')
+                                              .doc(uid);
                                           await docTodo.set(adminMap);
 
-                                          FirebaseFirestore ref = FirebaseFirestore.instance;
+                                          FirebaseFirestore ref =
+                                              FirebaseFirestore.instance;
 
                                           await ref
                                               .collection('Applications')
-                                              .doc(provider.requestList[provider.selectedRequestIndex]['requestId'])
-                                              .update({'application_status': 'Approved', 'time_slot_alloted': selectedSlot});
+                                              .doc(provider.requestList[provider
+                                                      .selectedRequestIndex]
+                                                  ['requestId'])
+                                              .update({
+                                            'application_status': 'Approved',
+                                            'time_slot_alloted': selectedSlot
+                                          });
                                           print('aproved');
                                           showSubmitDialog(true);
                                         } else {
@@ -437,27 +521,50 @@ class _RequestPageState extends State<RequestPage> {
                                       } else {
                                         Map<String, dynamic> map = {};
 
-                                        for (var i = 1; i <= adminMap['slots'].length; i++) {
-                                          map[i.toString()] = {'cremations': []};
+                                        for (var i = 1;
+                                            i <= adminMap['slots'].length;
+                                            i++) {
+                                          map[i.toString()] = [];
                                         }
 
-                                        final docTodo = FirebaseFirestore.instance.collection('Users').doc(uid);
+                                        final docTodo = FirebaseFirestore
+                                            .instance
+                                            .collection('Users')
+                                            .doc(uid);
                                         await docTodo.update({'slots': map});
-                                        AdminRepository adminRepository = new AdminRepository();
+                                        AdminRepository adminRepository =
+                                            new AdminRepository();
                                         Map mapData = {};
-                                        Map adminMapNew = await adminRepository.getAdminDetails();
-                                        map['applicationId'] = provider.requestList[provider.selectedRequestIndex]['requestId'];
-                                        map['selectedSlot'] = selectedSlot;
-                                        adminMapNew['slots'][slotIndex.toString()].add(mapData);
-                                        final docTodo2 = FirebaseFirestore.instance.collection('Users').doc(uid);
-                                        await docTodo2.set(adminMap);
+                                        Map adminMapNew = await adminRepository
+                                            .getAdminDetails();
+                                        mapData['applicationId'] = provider
+                                                    .requestList[
+                                                provider.selectedRequestIndex]
+                                            ['requestId'];
+                                        mapData['selectedSlot'] = selectedSlot;
+                                        adminMapNew['slots']
+                                                [slotIndex.toString()]
+                                            .add(mapData);
+                                        adminMapNew['currentDate'] =
+                                            DateTime.now();
+                                        final docTodo2 = FirebaseFirestore
+                                            .instance
+                                            .collection('Users')
+                                            .doc(uid);
+                                        await docTodo2.set(adminMapNew);
 
-                                        FirebaseFirestore ref = FirebaseFirestore.instance;
+                                        FirebaseFirestore ref =
+                                            FirebaseFirestore.instance;
 
                                         await ref
                                             .collection('Applications')
-                                            .doc(provider.requestList[provider.selectedRequestIndex]['requestId'])
-                                            .update({'application_status': 'Approved', 'time_slot_alloted': selectedSlot});
+                                            .doc(provider.requestList[provider
+                                                    .selectedRequestIndex]
+                                                ['requestId'])
+                                            .update({
+                                          'application_status': 'Approved',
+                                          'time_slot_alloted': selectedSlot
+                                        });
                                         print('aproved');
 
                                         showSubmitDialog(true);
@@ -468,7 +575,9 @@ class _RequestPageState extends State<RequestPage> {
                                       });
                                     },
                                     child: Container(
-                                      width: MediaQuery.of(context).size.width / 2 - 40,
+                                      width: MediaQuery.of(context).size.width /
+                                              2 -
+                                          40,
                                       height: 50.0,
                                       decoration: new BoxDecoration(
                                         color: Color(0xFF00cc66),
@@ -479,7 +588,9 @@ class _RequestPageState extends State<RequestPage> {
                                       child: Center(
                                         child: Text(
                                           'APROVE',
-                                          style: whiteTextStyle().copyWith(fontSize: 15.0, fontWeight: FontWeight.w600),
+                                          style: whiteTextStyle().copyWith(
+                                              fontSize: 15.0,
+                                              fontWeight: FontWeight.w600),
                                         ),
                                       ),
                                     ),
@@ -490,7 +601,9 @@ class _RequestPageState extends State<RequestPage> {
                                       //  Navigator.push(context, MaterialPageRoute(builder: (context) => ApplyForCremation(provider) ));
                                     },
                                     child: Container(
-                                      width: MediaQuery.of(context).size.width / 2 - 40,
+                                      width: MediaQuery.of(context).size.width /
+                                              2 -
+                                          40,
                                       height: 50.0,
                                       decoration: new BoxDecoration(
                                         color: redOrangeColor(),
@@ -501,7 +614,9 @@ class _RequestPageState extends State<RequestPage> {
                                       child: Center(
                                         child: Text(
                                           'REJECT',
-                                          style: whiteTextStyle().copyWith(fontSize: 15.0, fontWeight: FontWeight.w600),
+                                          style: whiteTextStyle().copyWith(
+                                              fontSize: 15.0,
+                                              fontWeight: FontWeight.w600),
                                         ),
                                       ),
                                     ),
