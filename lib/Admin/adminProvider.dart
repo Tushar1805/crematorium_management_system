@@ -72,41 +72,45 @@ class AdminProvider extends ChangeNotifier {
     int num = adminMap['slots'].length;
     int currentSlot;
     int i;
-    for (i = 1; i <= num; i++) {
+    if (currentHour >= t1 && currentHour < t2) {
+      i = 1;
+      currentSlot = i;
+    }
+    for (i = 2; i <= num; i++) {
       t1 = t2;
       t2 = (t1 + cremationTime);
-      if (currentHour >= t1 && currentHour <= t2) {
+      if (currentHour >= t1 && currentHour < t2) {
         currentSlot = i;
         break;
       }
     }
-    print(currentSlot);
-    adminMap['slots'][currentSlot.toString()].forEach((element) {
-      requests.forEach((request) {
-        if (request['requestId'] == element['applicationId'] &&
-            request['application_status'] == 'Approved') {
-          currentList.add(request);
-        }
-      });
-    });
-
-    for (var i = currentSlot + 1; i <= num; i++) {
-      adminMap['slots'][i.toString()].forEach((element) {
+    try {
+      adminMap['slots'][currentSlot.toString()].forEach((element) {
         requests.forEach((request) {
-          if (request['requestId'] == element['applicationId'] &&
-              request['application_status'] == 'Approved') {
-            upcomingList.add(request);
+          if (request['requestId'] == element['applicationId'] && request['application_status'] == 'Approved') {
+            currentList.add(request);
           }
         });
       });
-    }
 
-    requests.forEach((element) {
-      if (element['application_status'] == 'Under Review' &&
-          element['application_time'].toDate().day == date.day) {
-        requestList.add(element);
+      for (var i = currentSlot + 1; i <= num; i++) {
+        adminMap['slots'][i.toString()].forEach((element) {
+          requests.forEach((request) {
+            if (request['requestId'] == element['applicationId'] && request['application_status'] == 'Approved') {
+              upcomingList.add(request);
+            }
+          });
+        });
       }
-    });
+
+      requests.forEach((element) {
+        if (element['application_status'] == 'Under Review' && element['application_time'].toDate().day == date.day) {
+          requestList.add(element);
+        }
+      });
+    } catch (Exception) {}
+    print(currentSlot);
+
     currentCount = currentList.length;
     requestCount = requestList.length;
     upcomingCount = upcomingList.length;
@@ -142,12 +146,11 @@ class AdminProvider extends ChangeNotifier {
 
     newApplications.forEach((element) async {
       if (element['application_status'] == 'Closed') {
-        await ref
-            .collection('Applications')
-            .doc(element['application_id'])
-            .set(element);
+        await ref.collection('Applications').doc(element['application_id']).set(element);
       }
     });
+
+    notifyListeners();
   }
 
   void setSlots() {
@@ -167,20 +170,16 @@ class AdminProvider extends ChangeNotifier {
 
     int t1 = op_time;
     int t2 = (op_time + cremationTime);
-    String ts1 =
-        (t1 % 12 == 0 ? 12 : t1 % 12).toString() + ((t1 >= 12) ? 'PM' : 'AM');
-    String ts2 =
-        (t2 % 12 == 0 ? 12 : t2 % 12).toString() + ((t2 >= 12) ? 'PM' : 'AM');
+    String ts1 = (t1 % 12 == 0 ? 12 : t1 % 12).toString() + ((t1 >= 12) ? 'PM' : 'AM');
+    String ts2 = (t2 % 12 == 0 ? 12 : t2 % 12).toString() + ((t2 >= 12) ? 'PM' : 'AM');
     slotsStringList.add(ts1 + ' - ' + ts2);
 
     int num = adminMap['slots'].length;
     for (var i = 1; i < num; i++) {
       t1 = t2;
       t2 = (t1 + cremationTime);
-      ts1 =
-          (t1 % 12 == 0 ? 12 : t1 % 12).toString() + ((t1 > 12) ? 'PM' : 'AM');
-      ts2 =
-          (t2 % 12 == 0 ? 12 : t2 % 12).toString() + ((t2 > 12) ? 'PM' : 'AM');
+      ts1 = (t1 % 12 == 0 ? 12 : t1 % 12).toString() + ((t1 > 12) ? 'PM' : 'AM');
+      ts2 = (t2 % 12 == 0 ? 12 : t2 % 12).toString() + ((t2 > 12) ? 'PM' : 'AM');
       slotsStringList.add(ts1 + ' - ' + ts2);
     }
     notifyListeners();
@@ -211,10 +210,18 @@ class AdminProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void currentRequestSelected(String requestId, int index) {
+    state = States.requestInfo;
+    selectedRequestId = requestId;
+    selectedRequestIndex = index;
+    imageUrl = currentList[selectedRequestIndex]['imageUrl'];
+    print(selectedRequestId);
+    notifyListeners();
+  }
+
   Future<void> rejectApplication() async {
     print(selectedRequestId + reasonForRejection);
-    await adminRepository.rejectApplication(
-        requestList[selectedRequestIndex]['requestId'], reasonForRejection);
+    await adminRepository.rejectApplication(requestList[selectedRequestIndex]['requestId'], reasonForRejection);
     reasonForRejection = '';
     requestList[selectedRequestIndex]['application_status'] = 'rejected';
     print(requestList[selectedRequestIndex]['requestId']);

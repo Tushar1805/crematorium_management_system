@@ -14,14 +14,14 @@ import 'package:date_format/date_format.dart';
 import 'package:intl/intl.dart';
 import 'package:way_to_heaven/repositories/adminRepository.dart';
 
-class RequestPage extends StatefulWidget {
+class CurrentRequestPage extends StatefulWidget {
   AdminProvider provider;
-  RequestPage(@required this.provider);
+  CurrentRequestPage(@required this.provider);
   @override
-  _RequestPageState createState() => _RequestPageState();
+  _CurrentRequestPageState createState() => _CurrentRequestPageState();
 }
 
-class _RequestPageState extends State<RequestPage> {
+class _CurrentRequestPageState extends State<CurrentRequestPage> {
   bool loadingPage = false;
   TimeOfDay time1 = TimeOfDay.now();
   TimeOfDay time2 = TimeOfDay.now();
@@ -70,7 +70,7 @@ class _RequestPageState extends State<RequestPage> {
                   onPressed: () {
                     provider.rejectApplication();
                     sleep(Duration(seconds: 2));
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => AdminHomePageBase()));
+                    Navigator.pop(context);
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -201,7 +201,7 @@ class _RequestPageState extends State<RequestPage> {
                                 SizedBox(
                                   width: 5,
                                 ),
-                                Text(provider.requestList[provider.selectedRequestIndex]['applicant_name'],
+                                Text(provider.currentList[provider.selectedRequestIndex]['applicant_name'],
                                     style: normalTextStyle()),
                               ],
                             ),
@@ -217,7 +217,7 @@ class _RequestPageState extends State<RequestPage> {
                                 SizedBox(
                                   width: 5,
                                 ),
-                                Text(provider.requestList[provider.selectedRequestIndex]['dead_persons_name'],
+                                Text(provider.currentList[provider.selectedRequestIndex]['dead_persons_name'],
                                     style: normalTextStyle()),
                               ],
                             ),
@@ -233,7 +233,7 @@ class _RequestPageState extends State<RequestPage> {
                                 SizedBox(
                                   width: 5,
                                 ),
-                                Text(provider.requestList[provider.selectedRequestIndex]['dead_persons_age'],
+                                Text(provider.currentList[provider.selectedRequestIndex]['dead_persons_age'],
                                     style: normalTextStyle()),
                               ],
                             ),
@@ -249,7 +249,7 @@ class _RequestPageState extends State<RequestPage> {
                                 SizedBox(
                                   width: 5,
                                 ),
-                                Text(provider.requestList[provider.selectedRequestIndex]['selectedGender'],
+                                Text(provider.currentList[provider.selectedRequestIndex]['selectedGender'],
                                     style: normalTextStyle()),
                               ],
                             ),
@@ -265,7 +265,7 @@ class _RequestPageState extends State<RequestPage> {
                                 SizedBox(
                                   width: 5,
                                 ),
-                                Text(provider.requestList[provider.selectedRequestIndex]['cause_of_death'],
+                                Text(provider.currentList[provider.selectedRequestIndex]['cause_of_death'],
                                     style: normalTextStyle()),
                               ],
                             ),
@@ -282,7 +282,23 @@ class _RequestPageState extends State<RequestPage> {
                                   width: 5,
                                 ),
                                 Text(
-                                    ' ${DateTime.parse(provider.requestList[provider.selectedRequestIndex]['application_time'].toDate().toString()).hour} :  ${DateTime.parse(provider.requestList[provider.selectedRequestIndex]['application_time'].toDate().toString()).minute}',
+                                    ' ${DateTime.parse(provider.currentList[provider.selectedRequestIndex]['application_time'].toDate().toString()).hour} :  ${DateTime.parse(provider.currentList[provider.selectedRequestIndex]['application_time'].toDate().toString()).minute}',
+                                    style: normalTextStyle()),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20.0,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'Time Slot Alloted:',
+                                  style: lightBlackTextStyle(),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(provider.currentList[provider.selectedRequestIndex]['time_slot_alloted'],
                                     style: normalTextStyle()),
                               ],
                             ),
@@ -321,8 +337,8 @@ class _RequestPageState extends State<RequestPage> {
                         ),
                       ),
                     ),
-                    provider.requestList[provider.selectedRequestIndex]['application_status'] != 'rejected' &&
-                            provider.requestList[provider.selectedRequestIndex]['application_status'] != 'Approved'
+                    provider.currentList[provider.selectedRequestIndex]['application_status'] != 'rejected' &&
+                            provider.currentList[provider.selectedRequestIndex]['application_status'] != 'Approved'
                         ? Column(
                             children: [
                               Padding(
@@ -366,7 +382,7 @@ class _RequestPageState extends State<RequestPage> {
                     SizedBox(
                       height: 30.0,
                     ),
-                    provider.requestList[provider.selectedRequestIndex]['application_status'] == 'rejected'
+                    provider.currentList[provider.selectedRequestIndex]['application_status'] == 'rejected'
                         ? Container(
                             width: MediaQuery.of(context).size.width / 2 - 40,
                             height: 50.0,
@@ -383,7 +399,7 @@ class _RequestPageState extends State<RequestPage> {
                               ),
                             ),
                           )
-                        : provider.requestList[provider.selectedRequestIndex]['application_status'] == 'Approved'
+                        : provider.currentList[provider.selectedRequestIndex]['application_status'] == 'Approved'
                             ? Container(
                                 width: MediaQuery.of(context).size.width / 2 - 40,
                                 height: 50.0,
@@ -416,10 +432,9 @@ class _RequestPageState extends State<RequestPage> {
                                         print(adminMap['slots']);
                                         if (adminMap['slots'][slotIndex.toString()].length < int.parse(adminMap['capacity'])) {
                                           Map map = {};
-                                          map['applicationId'] = provider.requestList[provider.selectedRequestIndex]['requestId'];
+                                          map['applicationId'] = provider.currentList[provider.selectedRequestIndex]['requestId'];
                                           map['selectedSlot'] = selectedSlot;
                                           adminMap['slots'][slotIndex.toString()].add(map);
-                                          adminMap['currentDate'] = DateTime.now();
                                           final docTodo = FirebaseFirestore.instance.collection('Users').doc(uid);
                                           await docTodo.set(adminMap);
 
@@ -427,7 +442,7 @@ class _RequestPageState extends State<RequestPage> {
 
                                           await ref
                                               .collection('Applications')
-                                              .doc(provider.requestList[provider.selectedRequestIndex]['requestId'])
+                                              .doc(provider.currentList[provider.selectedRequestIndex]['requestId'])
                                               .update({'application_status': 'Approved', 'time_slot_alloted': selectedSlot});
                                           print('aproved');
                                           showSubmitDialog(true);
@@ -439,7 +454,7 @@ class _RequestPageState extends State<RequestPage> {
                                         Map<String, dynamic> map = {};
 
                                         for (var i = 1; i <= adminMap['slots'].length; i++) {
-                                          map[i.toString()] = [];
+                                          map[i.toString()] = {'cremations': []};
                                         }
 
                                         final docTodo = FirebaseFirestore.instance.collection('Users').doc(uid);
@@ -447,19 +462,17 @@ class _RequestPageState extends State<RequestPage> {
                                         AdminRepository adminRepository = new AdminRepository();
                                         Map mapData = {};
                                         Map adminMapNew = await adminRepository.getAdminDetails();
-                                        mapData['applicationId'] =
-                                            provider.requestList[provider.selectedRequestIndex]['requestId'];
-                                        mapData['selectedSlot'] = selectedSlot;
+                                        map['applicationId'] = provider.currentList[provider.selectedRequestIndex]['requestId'];
+                                        map['selectedSlot'] = selectedSlot;
                                         adminMapNew['slots'][slotIndex.toString()].add(mapData);
-                                        adminMapNew['currentDate'] = DateTime.now();
                                         final docTodo2 = FirebaseFirestore.instance.collection('Users').doc(uid);
-                                        await docTodo2.set(adminMapNew);
+                                        await docTodo2.set(adminMap);
 
                                         FirebaseFirestore ref = FirebaseFirestore.instance;
 
                                         await ref
                                             .collection('Applications')
-                                            .doc(provider.requestList[provider.selectedRequestIndex]['requestId'])
+                                            .doc(provider.currentList[provider.selectedRequestIndex]['requestId'])
                                             .update({'application_status': 'Approved', 'time_slot_alloted': selectedSlot});
                                         print('aproved');
 

@@ -28,7 +28,7 @@ class AdminRepository {
     List<Map> list = [];
     await ref
         .collection('Applications')
-        .orderBy('application_time', descending: true)
+        .orderBy('application_time')
         .where('crematoriumId', isEqualTo: adminId)
         .get()
         .then((value) => value.docs.forEach((element) {
@@ -66,10 +66,10 @@ class AdminRepository {
   }
 
   Future<void> rejectApplication(selectedRequestId, reasonForRejection) async {
-    await ref.collection('Applications').doc(selectedRequestId).update({
-      'application_status': 'rejected',
-      'reason_for_rejection': reasonForRejection
-    });
+    await ref
+        .collection('Applications')
+        .doc(selectedRequestId)
+        .update({'application_status': 'rejected', 'reason_for_rejection': reasonForRejection});
     print('rejected');
   }
 }

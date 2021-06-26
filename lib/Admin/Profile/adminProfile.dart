@@ -59,8 +59,7 @@ class _AdminProfileState extends State<AdminProfile> {
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.only(
-                  left: 20.0, right: 20.0, top: 50.0, bottom: 30.0),
+              padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 50.0, bottom: 30.0),
               width: MediaQuery.of(context).size.width,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -82,8 +81,7 @@ class _AdminProfileState extends State<AdminProfile> {
                           children: [
                             Text(
                               provider.adminMap['name'] ?? 'Admin',
-                              style: darkBlackTextStyle().copyWith(
-                                  fontSize: 17, fontWeight: FontWeight.w900),
+                              style: darkBlackTextStyle().copyWith(fontSize: 17, fontWeight: FontWeight.w900),
                             ),
                             // SizedBox(
                             //   width: 80.0,
@@ -103,8 +101,7 @@ class _AdminProfileState extends State<AdminProfile> {
                           children: [
                             Text(
                               "Email ID ",
-                              style:
-                                  lightBlackTextStyle().copyWith(fontSize: 12),
+                              style: lightBlackTextStyle().copyWith(fontSize: 12),
                             ),
                             SizedBox(
                               width: 5,
@@ -120,8 +117,7 @@ class _AdminProfileState extends State<AdminProfile> {
                           children: [
                             Text(
                               "MOB. ",
-                              style:
-                                  lightBlackTextStyle().copyWith(fontSize: 12),
+                              style: lightBlackTextStyle().copyWith(fontSize: 12),
                             ),
                             SizedBox(
                               width: 5,
@@ -161,172 +157,168 @@ class _AdminProfileState extends State<AdminProfile> {
                       SizedBox(
                         height: 20,
                       ),
+                      // InkWell(
+                      //   onTap: () {
+                      //     Navigator.push(
+                      //         context,
+                      //         MaterialPageRoute(
+                      //             builder: (context) => SettingsPage()));
+                      //   },
+                      //   splashColor: Colors.transparent,
+                      //   child: Row(
+                      //     children: [
+                      //       SizedBox(
+                      //         width: 20,
+                      //       ),
+                      //       Image.asset(
+                      //         "Icons/gear.png",
+                      //         height: 15,
+                      //         width: 15,
+                      //         color: Colors.grey,
+                      //       ),
+                      //       SizedBox(
+                      //         width: 20,
+                      //       ),
+                      //       Text("Settings", style: lightBlackTextStyle()),
+                      //       Spacer(),
+                      //       SvgPicture.asset(
+                      //         "Icons/greater.svg",
+                      //         height: 15,
+                      //         width: 15,
+                      //         color: Colors.grey,
+                      //       ),
+                      //       SizedBox(
+                      //         width: 20,
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      // SizedBox(
+                      //   height: 25,
+                      // ),
+                      // Divider(height: 1),
+                      // SizedBox(
+                      //   height: 25,
+                      // ),
+                      // InkWell(
+                      //   onTap: () {},
+                      //   splashColor: Colors.transparent,
+                      //   child: Row(
+                      //     children: [
+                      //       SizedBox(
+                      //         width: 20,
+                      //       ),
+                      //       Image.asset(
+                      //         "Icons/cremation.png",
+                      //         height: 15,
+                      //         width: 15,
+                      //         color: Colors.grey,
+                      //       ),
+                      //       SizedBox(
+                      //         width: 20,
+                      //       ),
+                      //       Text("Edit Crematorium Details",
+                      //           style: lightBlackTextStyle()),
+                      //       Spacer(),
+                      //       SvgPicture.asset(
+                      //         "Icons/greater.svg",
+                      //         height: 15,
+                      //         width: 15,
+                      //         color: Colors.grey,
+                      //       ),
+                      //       SizedBox(
+                      //         width: 20,
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      // SizedBox(
+                      //   height: 25,
+                      // ),
+                      // Divider(height: 1),
+                      // SizedBox(
+                      //   height: 25,
+                      // ),
+                      // InkWell(
+                      //   onTap: () {},
+                      //   splashColor: Colors.transparent,
+                      //   child: Row(
+                      //     children: [
+                      //       SizedBox(
+                      //         width: 20,
+                      //       ),
+                      //       Image.asset(
+                      //         'Icons/report.png',
+                      //         height: 15,
+                      //         width: 15,
+                      //         color: Colors.grey,
+                      //       ),
+                      //       SizedBox(
+                      //         width: 20,
+                      //       ),
+                      //       Text("History", style: lightBlackTextStyle()),
+                      //       Spacer(),
+                      //       SvgPicture.asset(
+                      //         "Icons/greater.svg",
+                      //         height: 15,
+                      //         width: 15,
+                      //         color: Colors.grey,
+                      //       ),
+                      //       SizedBox(
+                      //         width: 20,
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      // SizedBox(
+                      //   height: 25,
+                      // ),
+                      // Divider(height: 1),
+                      // SizedBox(
+                      //   height: 25,
+                      // ),
+                      // InkWell(
+                      //   onTap: () {},
+                      //   splashColor: Colors.transparent,
+                      //   child: Row(
+                      //     children: [
+                      //       SizedBox(
+                      //         width: 20,
+                      //       ),
+                      //       Image.asset(
+                      //         'Icons/download.png',
+                      //         height: 15,
+                      //         width: 15,
+                      //         color: Colors.grey,
+                      //       ),
+                      //       SizedBox(
+                      //         width: 20,
+                      //       ),
+                      //       Text("Download Acknowledgement",
+                      //           style: lightBlackTextStyle()),
+                      //       Spacer(),
+                      //       SvgPicture.asset(
+                      //         "Icons/greater.svg",
+                      //         height: 15,
+                      //         width: 15,
+                      //         color: Colors.grey,
+                      //       ),
+                      //       SizedBox(
+                      //         width: 20,
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      // SizedBox(
+                      //   height: 25,
+                      // ),
+                      // Divider(height: 1),
+                      // SizedBox(
+                      //   height: 25,
+                      // ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SettingsPage()));
-                        },
-                        splashColor: Colors.transparent,
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Image.asset(
-                              "Icons/gear.png",
-                              height: 15,
-                              width: 15,
-                              color: Colors.grey,
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Text("Settings", style: lightBlackTextStyle()),
-                            Spacer(),
-                            SvgPicture.asset(
-                              "Icons/greater.svg",
-                              height: 15,
-                              width: 15,
-                              color: Colors.grey,
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      Divider(height: 1),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      InkWell(
-                        onTap: () {},
-                        splashColor: Colors.transparent,
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Image.asset(
-                              "Icons/cremation.png",
-                              height: 15,
-                              width: 15,
-                              color: Colors.grey,
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Text("Edit Crematorium Details",
-                                style: lightBlackTextStyle()),
-                            Spacer(),
-                            SvgPicture.asset(
-                              "Icons/greater.svg",
-                              height: 15,
-                              width: 15,
-                              color: Colors.grey,
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      Divider(height: 1),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      InkWell(
-                        onTap: () {},
-                        splashColor: Colors.transparent,
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Image.asset(
-                              'Icons/report.png',
-                              height: 15,
-                              width: 15,
-                              color: Colors.grey,
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Text("History", style: lightBlackTextStyle()),
-                            Spacer(),
-                            SvgPicture.asset(
-                              "Icons/greater.svg",
-                              height: 15,
-                              width: 15,
-                              color: Colors.grey,
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      Divider(height: 1),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      InkWell(
-                        onTap: () {},
-                        splashColor: Colors.transparent,
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Image.asset(
-                              'Icons/download.png',
-                              height: 15,
-                              width: 15,
-                              color: Colors.grey,
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Text("Download Acknowledgement",
-                                style: lightBlackTextStyle()),
-                            Spacer(),
-                            SvgPicture.asset(
-                              "Icons/greater.svg",
-                              height: 15,
-                              width: 15,
-                              color: Colors.grey,
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      Divider(height: 1),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      CompleteAdminProfileBase()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => CompleteAdminProfileBase()));
                         },
                         splashColor: Colors.transparent,
                         child: Row(
@@ -385,10 +377,7 @@ class _AdminProfileState extends State<AdminProfile> {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AboutUs()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => AboutUs()));
                         },
                         splashColor: Colors.transparent,
                         child: Row(
@@ -481,8 +470,7 @@ class _AdminProfileState extends State<AdminProfile> {
                             SizedBox(
                               width: 20,
                             ),
-                            Text("Terms And Services",
-                                style: lightBlackTextStyle()),
+                            Text("Terms And Services", style: lightBlackTextStyle()),
                             Spacer(),
                             SvgPicture.asset(
                               "Icons/greater.svg",
@@ -506,10 +494,7 @@ class _AdminProfileState extends State<AdminProfile> {
                       InkWell(
                         onTap: () async {
                           await FirebaseAuth.instance.signOut();
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => CustomRouterBase()));
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => CustomRouterBase()));
                         },
                         splashColor: Colors.transparent,
                         child: Row(
