@@ -169,28 +169,28 @@ class _UserHomePageState extends State<UserHomePage>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Row(
-                children: [
-                  Material(
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => UserProfileBase()));
-                      },
-                      child: Image.asset(
+              Material(
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => UserProfileBase()));
+                  },
+                  child: Row(
+                    children: [
+                      Image.asset(
                         'assets/icons/user.png',
                         height: 35,
                       ),
-                    ),
+                      SizedBox(width: 15),
+                      Text(
+                        provider.applicant_name ?? 'User',
+                        style: lightBlackTextStyle().copyWith(fontSize: 17),
+                      )
+                    ],
                   ),
-                  SizedBox(width: 15),
-                  Text(
-                    provider.applicant_name ?? 'User',
-                    style: lightBlackTextStyle().copyWith(fontSize: 17),
-                  )
-                ],
+                ),
               ),
               Icon(
                 Icons.notifications_none_rounded,
