@@ -187,6 +187,35 @@ class _ApplicationStatusCheckState extends State<ApplicationStatusCheck> {
                       SizedBox(
                         height: 20.0,
                       ),
+                      provider.applicationList[provider.selectedRequestIndex]
+                                  ['time_slot_alloted'] !=
+                              null
+                          ? Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Slot Alloted:',
+                                      style: lightBlackTextStyle(),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                        provider.applicationList[
+                                                provider.selectedRequestIndex]
+                                            ['time_slot_alloted'],
+                                        style: normalTextStyle()),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 20.0,
+                                ),
+                              ],
+                            )
+                          : SizedBox(
+                              height: 0.0,
+                            ),
                       Row(
                         children: [
                           Text(
@@ -218,12 +247,8 @@ class _ApplicationStatusCheckState extends State<ApplicationStatusCheck> {
                         height: 20.0,
                       ),
                       provider.applicationList[provider.selectedRequestIndex]
-                                      ['reason_for_rejection'] !=
-                                  null &&
-                              provider.applicationList[
-                                          provider.selectedRequestIndex]
-                                      ['reason_for_rejection'] ==
-                                  'rejected'
+                                  ['reason_for_rejection'] !=
+                              null
                           ? Row(
                               children: [
                                 Text(
