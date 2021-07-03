@@ -37,21 +37,24 @@ Widget SetRole(BuildContext context, LoginProvider provider) {
   Future<void> _checkRole() async {
     final ref = FirebaseFirestore.instance.collection('Users');
     var user = FirebaseAuth.instance.currentUser;
+    print('check1');
     if (user != null) {
+      print('check2');
       if (!provider.isRoleNotFound) {
+        print('check3');
         provider.checkRole();
         await ref.doc(user.uid).get().then((value) {
-          if (value.data()['role'] == 'Admin' ||
-              value.data()['role'] == 'User') {
+          print('check4');
+          if (value.data()['role'] == 'Admin' || value.data()['role'] == 'User') {
             role = value.data()['role'];
+            print('check5');
             if (role == 'User') {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => UserHomePageBase()));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => UserHomePageBase()));
             } else {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => AdminHomePageBase()));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AdminHomePageBase()));
             }
           } else {
+            print('check6');
             provider.roleNotFound();
           }
         });
@@ -59,7 +62,10 @@ Widget SetRole(BuildContext context, LoginProvider provider) {
     }
   }
 
-  _checkRole();
+  if (!provider.isRoleNotFound) {
+    print('check7');
+    _checkRole();
+  }
 
   return provider.loading
       ? loading()
@@ -70,8 +76,7 @@ Widget SetRole(BuildContext context, LoginProvider provider) {
               children: [
                 Container(
                   padding: EdgeInsets.only(bottom: 5.0),
-                  child: Text("Register as",
-                      style: lightBlackTextStyle().copyWith(fontSize: 20)),
+                  child: Text("Register as", style: lightBlackTextStyle().copyWith(fontSize: 20)),
                   decoration: bottomBorder(),
                 ),
                 SizedBox(
@@ -93,15 +98,11 @@ Widget SetRole(BuildContext context, LoginProvider provider) {
                         decoration: topBottomGradient(),
                       ),
                       onTap: () async {
-                        final ref =
-                            FirebaseFirestore.instance.collection('Users');
+                        final ref = FirebaseFirestore.instance.collection('Users');
                         var user = FirebaseAuth.instance.currentUser;
                         provider.checkRole();
                         await ref.doc(user.uid).update({'role': 'Admin'});
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AdminHomePageBase()));
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AdminHomePageBase()));
                       },
                     ),
                     SizedBox(
@@ -120,15 +121,11 @@ Widget SetRole(BuildContext context, LoginProvider provider) {
                         decoration: topBottomGradient(),
                       ),
                       onTap: () async {
-                        final ref =
-                            FirebaseFirestore.instance.collection('Users');
+                        final ref = FirebaseFirestore.instance.collection('Users');
                         var user = FirebaseAuth.instance.currentUser;
                         provider.checkRole();
                         await ref.doc(user.uid).update({'role': 'User'});
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => UserHomePageBase()));
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => UserHomePageBase()));
                       },
                     ),
                   ],
